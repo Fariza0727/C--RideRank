@@ -1,0 +1,146 @@
+﻿@model List<RR.Dto.UserRequestsLiteDto>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section styles{
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Requests List</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" width="100%" id="userRequestDataTable">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th style="font-size: 13px;">Request No</th>
+                                    <th style="font-size: 13px;">UserName</th>
+                                    <th style="font-size: 13px;">Team</th>
+                                    <th style="font-size: 13px;">Title</th>
+                                    <th style="font-size: 13px;">Message</th>
+                                    <th style="font-size: 13px;">Status</th>
+                                    <th style="font-size: 13px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+
+        $(function () {
+            updateStatus = function (elm, id) {
+            swal({
+                title: "Are you sure?",
+                text: "You Want To change status!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            }).then((willDelete) => {
+                if (willDelete) {
+                    $.post("@Url.Action("UpdateStatus", "UserRequests")",{Id: id })
+                        .done(function (result) {
+                            if (result.status) {
+                                table.ajax.reload(false);
+                                    swal("Success", {
+                                        icon: "success",
+                                    });
+                                }
+                            else {
+                                swal("Not Updated, Something Went Wrong!",
+                                    {
+                                        icon: "warning",
+                                    });
+                                console.log(result.message)
+                                } })
+                        .fail(function (jqXHR, textStatus, errorThrown) {
+                            console.log(errorThrown);
+                        });;
+                    } else {
+                   swal("Status is not updated!");
+                }
+            });
+            }
+
+
+            $('.dataTables_filter input').attr('placeholder', 'Search...').hide();
+            var table = $("#userRequestDataTable").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "order": [[0, "desc"]],
+                "columnDefs": [
+                    { "targets": [6], "orderable": false }
+                ],
+                "ajax": {
+                    "url": '/UserRequests/GetAllRequests',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+
+                    { "data": "requestNo", "name": "requestNo", "autoWidth": false },
+                    { "data": "userName", "name": "userName", "autoWidth": false },
+                    {
+                        data: "teamBrand", name: "teamBrand",
+                        "render": function (data, type, row, meta) {
+                            return '<div class="team"><img src="' + row.teamIcon+'"/>'+data+'</div>';
+                        },
+
+                    },
+                    { "data": "title", "name": "title", "autoWidth": false },
+                    { "data": "requestMessage", "name": "requestMessage", "autoWidth": false },
+                    {
+                        data: "isApproved", name: "isApproved",
+                        "render": function (data, type, row, meta) {
+                            if (data) {
+                                return '<label class="label label-success">Approved</label>';
+                            }
+                            return '<label class="label label-warning">Under Reviwed</label>';
+                        },
+
+                    },
+                    {
+                        data: "id", name: "id",
+                        "render": function (data, type, row, meta) {
+                            return '<button onclick="updateStatus(this,'+data+')" class="btn btn-sm btn-primary">UpdateStatus</button>';
+                        },
+
+                    },
+                   
+                ],
+                dom: "Bfrtip",
+                "pageLength": 10
+            });
+
+           
+
+            $('.search-input').on('keyup change', function () {
+                var index = $(this).attr('data-column'),
+                    val = $(this).val();
+                table.columns(index).search(val.trim()).draw();
+            });
+
+
+        });
+       
+
+    </script>
+}
+

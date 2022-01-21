@@ -1,0 +1,130 @@
+﻿@model IEnumerable<RR.Dto.ChatUsersLiteDto>
+@using System.Security.Claims;
+@{
+    var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+}
+
+@*<div>
+        <input type="button" id="joinGroup" value="Join Private Group" />
+    </div>
+    <textarea name="message" id="message"></textarea>
+    <select id="group">
+        <option value="All">Everyone</option>
+        <option value="Myself">Myself</option>
+        <option value="PrivateGroup">Private Group</option>
+    </select>
+    <input type="button" id="sendButton" value="Send Message" />
+
+
+    <div id="messages"></div>*@
+
+<div class="container-fluid cus-container">
+    <div class="row flex-nowrap align-items-start m-flex-wrap">
+        <div id="cus-tab-link" class="cus-tab-link d-lg-none">
+            <a href="#" id="project-list" class="cus-tab-item active"><i class="project-icon"></i>Chat</a>
+            <a href="#" id="connection-list" class="cus-tab-item"><i class="connection-icon"></i> Connection</a>
+        </div>
+        <div class="dashboard-content">
+            <div class="message-box">
+                <input type="hidden" name="userId" value="@userId" id="userId" />
+                <div id="chatMessagesComponent">
+                    @await Component.InvokeAsync("UserChatsMessageComponent")
+                </div>
+                <div class="message-reply">
+                    <textarea class="reply-box" id="message" placeholder="Type message here....."></textarea>
+                    <button type="button" id="sendButton" class="send-message"><i class="fal fa-paper-plane"></i></button>
+                </div>
+            </div>
+        </div>
+
+        <div class="add-connection messenger">
+            @if (Model.Count() > 0)
+            {
+            <form class="messenger-search">
+                <input type="text" id="searchchatuser" placeholder="Search User" class="form-control">
+                <i class="fa fa-search search-icon"></i>
+            </form>
+            <ul class="messenger-list mCustomScrollbar">
+                @foreach (var item in Model.Where(r => r.isChatRoom))
+                {
+                <li id="@item.ContestId" class="chatRoomElement" onclick="loadGroupComponentView(this,@item.ContestId )">
+                    @if (item.Unseend > 0)
+                    {
+                        <span data-count="@item.Unseend" class="new_message">@item.Unseend</span>
+                    }
+                    else
+                    {
+                        <span data-count="0" class="new_message"></span>
+                    }
+                    <span class="online_icon"></span>
+                    <div class="user-img">
+                        <a href="#" class="img">
+                            <img src="@Url.Content(item.Avatar)" alt="user">
+                        </a>
+                    </div>
+                    <div class="user-details">
+                        <a href="#" class="user-name">
+                            @item.EventName
+                            <small> @string.Join(", ", item.chatRoomUsers)</small>
+                        </a>
+                        @if (!string.IsNullOrEmpty(item.Lastmessage))
+                        {
+                            <span class="last-message"><i class="zmdi zmdi-mail-reply"></i> @Html.Raw(item.Lastmessage)</span>
+                        }
+                        <span class="last-message-date">@item.LastSeenDate?.ToString("MMM dd yyyy")</span>
+
+                        @*@if (!string.IsNullOrEmpty(item.Lastmessage))
+        {
+            <span class="last-message"><i class="zmdi zmdi-mail-reply"></i> @Html.Raw(item.Lastmessage)</span>
+        }
+        <span class="last-message-date">@item.LastSeenDate?.ToString("MMM dd yyyy")</span>*@
+                    </div>
+                </li>
+
+                }
+
+                @foreach (var item in Model.Where(r => !r.isChatRoom))
+                {
+                    <li id="@item.AspUserId" onclick="loadComponentView(this,'@item.AspUserId', true)">
+                        @if (item.Unseend > 0)
+                        {
+                            <span data-count="@item.Unseend" class="new_message">@item.Unseend</span>
+                        }
+                        else
+                        {
+                            <span data-count="0" class="new_message"></span>
+                        }
+                        <span class="@Html.Raw(item.IsUserOnline==true?"online_icon":"online_icon offline")"></span>
+                        <div class="user-img">
+                            <a href="#" class="img">
+                                <img src="@Url.Content(item.Avatar)" alt="user">
+                            </a>
+                        </div>
+                        <div class="user-details">
+                            <a href="#" class="user-name">@item.Username</a>
+                            @if (!string.IsNullOrEmpty(item.Lastmessage))
+                            {
+                                <span class="last-message"><i class="zmdi zmdi-mail-reply"></i> @Html.Raw(item.Lastmessage)</span>
+                            }
+                            <span class="last-message-date">@item.LastSeenDate?.ToString("MMM dd yyyy")</span>
+                        </div>
+                    </li>
+
+                }
+            </ul>
+            }
+            else
+            {
+                <label>Data Not Available</label>
+
+            }
+
+
+        </div>
+
+
+    </div>
+</div>
+
+
+

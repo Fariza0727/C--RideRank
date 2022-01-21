@@ -1,0 +1,160 @@
+﻿@model RR.Dto.TransactionLiteDto
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="/images/bg-breadcrumbs-1-1920x726.jpg">
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h3 class="breadcrumbs-custom-title">Checkout</h3>
+        </div>
+    </div>
+</section>
+
+<section class="section section-variant-1 bg-gray-100 custom-float-width contest_pg">
+    <div class="container">
+        <div id="fpRespone"></div>
+        <div class="row justify-content-center">
+            <div class="col-lg-6">
+                <!-- Heading Component-->
+                <article class="heading-component">
+                    <div class="heading-component-inner">
+                        <h5 class="heading-component-title">
+                            Subscription Detail
+                        </h5>
+                    </div>
+                </article>
+                <div class="table-custom-responsive">
+                    <table class="table-custom card-shop-table">
+                        <tbody>
+                            <tr>
+                                <td>cart subtotal</td>
+                                <td>@(Model.AwardType == 2 ? "T" : "$")@Model.ContestFee</td>
+                            </tr>
+                            <tr>
+                                <td>Extras</td>
+                                <td>0</td>
+                            </tr>
+                            <tr>
+                                <td>Total</td>
+                                <td>@(Model.AwardType == 2 ? "T" : "$")@Model.ContestFee</td>
+                            </tr>
+                            <tr>
+                                @if (Model.PaymentMadeFor == "tpcj")
+                                {
+                                    <td colspan="2">@Model.TokenWillGet</td>
+                                }
+                            </tr>
+
+                        </tbody>
+                    </table>
+
+                </div>
+
+            </div>
+            <div class="col-lg-6 col-xl-6">
+                <article class="heading-component">
+                    <div class="heading-component-inner">
+                        <h5 class="heading-component-title">
+                            Payment Method - PAYPAL <img class="paypal-img" src="/images/RR/paypal.png">
+                        </h5>
+                    </div>
+                </article>
+                <div class="col-xs-12 col-md-12">
+                    @{ await Html.RenderPartialAsync("_MakeTransaction"); }
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+
+
+        </div>
+    </div>
+</section>
+
+<div class="clearfix"></div>
+@section Scripts{
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.15/jquery.mask.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#CreditCardNumber").mask("0000000000000000");
+            $('#CreditCardExp').mask("0000");
+        });
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
+        }
+        function encryptvalue() {
+            $('#paging-loader').show();
+            $.blockUI();
+            var ccexp = $('#CreditCardExp').val();
+            var cvv = $('#Cvv').val();
+            var crdnumber = $("#CreditCardNumber").val();
+            if (crdnumber.length < 16) {
+                $('#CreditCardNumber').css('border-color', 'red');
+                $('#paging-loader').hide();
+                $.unblockUI();
+                initializeToastr();
+                toastr["warning"]("Card Number Is Not Valid. Please check.", "warning");
+                return false;
+            }
+            var parts = ccexp.split("/");
+            if (parts[0] > 12) {
+                $('#CreditCardExp').css('border-color', 'red');
+                $('#paging-loader').hide();
+                $.unblockUI();
+                initializeToastr();
+                toastr["warning"]("Expiry date should be in MM/YY. Please check.", "warning");
+                return false;
+            }
+            if (parts[1] > 37 || parts[1] < 18) {
+                $('#CreditCardExp').css('border-color', 'red');
+                $('#paging-loader').hide();
+                $.unblockUI();
+                initializeToastr();
+                toastr["warning"]("Expiry year should be in range 18-37", "Warning");
+                return false;
+            }
+
+            if (cvv < 3) {
+                $('#Cvv').css('border-color', 'red');
+                $('#paging-loader').hide();
+                $.unblockUI();
+                initializeToastr();
+                toastr["warning"]("Cvv code must be of 3-4 character", "warning");
+                return false;
+            }
+            var date = process(ccexp);
+            var today = new Date();
+            if (date <= today) {
+                $('#CreditCardExp').css('border-color', 'red');
+                $('#paging-loader').hide();
+                $.unblockUI();
+                initializeToastr();
+                toastr["warning"]("The credit card expiration date you entered is expired.", "warning");
+                return false;
+            }
+        }
+        function process(date) {
+            var parts = date.split("/");
+            return new Date('20' + parts[1], parts[0] - 1);
+        }
+        function toggleIcon(e) {
+            $(e.target)
+                .prev('.panel-heading')
+                .find(".more-less")
+                .toggleClass('glyphicon-plus glyphicon-minus');
+        }
+
+        $('.panel-group').on('hidden.bs.collapse', toggleIcon);
+        $('.panel-group').on('shown.bs.collapse', toggleIcon);
+        $(function () {
+            $('#headingOne').trigger('click');
+        });
+    </script>
+}

@@ -1,0 +1,178 @@
+﻿@using Microsoft.AspNetCore.Identity
+@inject SignInManager<IdentityUser> SignInManager // ApplicatonUser is the class that inherited IndentityUser
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "_SidePanelLayout";
+}
+
+<div class="sidebar" data-color="purple" data-background-color="white" data-image="../assets/img/sidebar-1.jpg">
+    <!--
+        Tip 1: You can change the color of the sidebar using: data-color="purple | azure | green | orange | danger"
+
+        Tip 2: you can also add an image using data-image tag
+    -->
+    <div class="logo">
+        <a href="javascript:void(0);" class="simple-text logo-normal">
+            Admin RR
+        </a>
+    </div>
+    <div class="sidebar-wrapper ps-container ps-theme-default" data-ps-id="f0b87ce9-46b1-0d82-31fc-7faae4d6af37">
+        <ul class="nav">
+            @if (SignInManager.IsSignedIn(User))
+            {
+                // Here is navbar items for authenticated (logged in) user
+
+                if (User.IsInRole("Admin"))
+                {
+                    <li class="nav-item account">
+                        <a class="nav-link" href="/account">
+                            <i class="material-icons">Sub Admin</i>
+                            <p>Sub Admin</p>
+                        </a>
+                    </li>
+                    <li class="nav-item apisresponse">
+                        <a class="nav-link" href="/apisresponse">
+                            <i class="material-icons">Sub Admin</i>
+                            <p>Apis</p>
+                        </a>
+                    </li>
+                }
+            }
+
+            <li class="nav-item dashboard">
+                <a class="nav-link" href="@Url.Action("index","home")">
+                    <i class="material-icons">dashboard</i>
+                    <p>Dashboard</p>
+                </a>
+            </li>
+            <li class="nav-item user">
+                <a class="nav-link" href="@Url.Action("index","usermanagement")">
+                    <i class="material-icons">person</i>
+                    <p>Player Management</p>
+                </a>
+            </li>
+            <li class="nav-item bulknotifications">
+                <a class="nav-link" href="/bulknotifications">
+                    <i class="material-icons">person</i>
+                    <p>Player Notifications</p>
+                </a>
+            </li>
+            <li class="nav-item videosliders">
+                <a class="nav-link" href="/videosliders">
+                    <i class="material-icons">person</i>
+                    <p>Video Slider(Homepage)</p>
+                </a>
+            </li>
+            <li class="nav-item cms">
+                <a class="nav-link" href="@Url.Action("index","cms")">
+                    <i class="material-icons">library_books</i>
+                    <p>CMS Management</p>
+                </a>
+            </li>
+            <li class="nav-item news">
+                <a class="nav-link" href="@Url.Action("index","news")">
+                    <i class="material-icons">assignment</i>
+                    <p>News Managment</p>
+                </a>
+            </li>
+            <li class="nav-item sponsor">
+            <a class="nav-link" href="@Url.Action("index","sponsormanagement")">
+                <i class="material-icons">assignment</i>
+                <p>Partner Managment</p>
+            </a>
+        </li>
+            <li class="nav-item banner">
+                <a class="nav-link" href="@Url.Action("index","bannerManagement")">
+                    <i class="material-icons">assignment</i>
+                    <p>Banner Managment</p>
+                </a>
+            </li>
+            <li class="nav-item event">
+                <a class="nav-link" href="@Url.Action("index","event")">
+                    <i class="material-icons">assignment</i>
+                    <p>Event</p>
+                </a>
+            </li>
+            <li class="nav-item bull">
+                <a class="nav-link" href="@Url.Action("index","bull")">
+                    <i class="material-icons">assignment</i>
+                    <p>Bull</p>
+                </a>
+            </li>
+            <li class="nav-item bullpic">
+                <a class="nav-link" href="@Url.Action("index","picturesmanagers", new {isBool=true })">
+                    <i class="material-icons">assignment</i>
+                    <p>Bull Pictures</p>
+                </a>
+            </li>
+            <li class="nav-item rider">
+                <a class="nav-link" href="@Url.Action("index","rider")">
+                    <i class="material-icons">assignment</i>
+                    <p>Rider</p>
+                </a>
+            </li>
+            <li class="nav-item riderpic">
+                <a class="nav-link" href="@Url.Action("index","picturesmanagers", new {isBool=false })">
+                    <i class="material-icons">assignment</i>
+                    <p>Rider Pictures/Social</p>
+                </a>
+            </li>
+            @*<li class="nav-item subadmin">
+            <a class="nav-link" href="@Url.Action("index","account")">
+                <i class="material-icons">assignment</i>
+                <p>Sub-Admin</p>
+            </a>
+        </li>*@
+
+            <li class="nav-item awardtype">
+                <a class="nav-link" href="@Url.Action("Index","AwardManagement")">
+                    <i class="material-icons">assignment</i>
+                    <p>Award Types</p>
+                </a>
+            </li>
+            <li class="nav-item usercontests">
+                <a class="nav-link" href="@Url.Action("index","userContest")">
+                    <i class="material-icons">assignment </i>
+                    <p>
+                        User Contest
+                    </p>
+                </a>
+            </li>
+
+            <li class="nav-item awards">
+                <a class="nav-link" href="@Url.Action("awards","awardManagement")">
+                    <i class="material-icons">assignment</i>
+                    <p>Awards</p>
+                </a>
+            </li>
+
+            <li class="nav-item contest">
+                <a class="nav-link" href="@Url.Action("index","contestManagement")">
+                    <i class="material-icons">assignment</i>
+                    <p>Contests</p>
+                </a>
+            </li>
+            <li class="nav-item transactions">
+                <a class="nav-link" href="@Url.Action("index","transaction")">
+                    <i class="material-icons">attach_money</i>
+                    <p>Transaction History</p>
+                </a>
+            </li>
+            <li class="nav-item transactions">
+                <a class="nav-link" href="@Url.Action("index","PointTableManagement")">
+                    <i class="material-icons">assignment</i>
+                    <p>Points Table</p>
+                </a>
+            </li>
+            @*<li class="nav-item transactions">
+            <a class="nav-link" href="@Url.Action("index","userrequests")">
+                <i class="material-icons">attach_money</i>
+                <p>User Requests</p>
+            </a>
+        </li>*@
+        </ul>
+        <div class="ps-scrollbar-x-rail" style="left: 0px; bottom: 0px;"><div class="ps-scrollbar-x" tabindex="0" style="left: 0px; width: 0px;"></div></div><div class="ps-scrollbar-y-rail" style="top: 0px; right: 0px;"><div class="ps-scrollbar-y" tabindex="0" style="top: 0px; height: 0px;"></div></div>
+    </div>
+    <div class="sidebar-background" style="background-image: url(../assets/img/sidebar-1.jpg) "></div>
+</div>

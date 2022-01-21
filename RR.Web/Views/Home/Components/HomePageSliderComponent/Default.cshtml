@@ -1,0 +1,44 @@
+﻿@model IEnumerable<RR.Dto.BannerDto>
+@{
+    //string basePath = ViewBag.NewsPicPath;
+    //int i = 1;
+    string basePath = ViewBag.BannerImagePath;
+}
+
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        string path = string.Concat(basePath, item.PicPath);
+        //string path = "/shared/banner/" + item.PicPath;
+        //string url = "/news/" + item.Title.Replace(" ", "-").ToLower() + "/" + item.Id;
+        //string backImg = "/images/banner/banner" + i + ".png";
+        <div class="item bg-gray-2" style="background-image: url(@path);">
+            <div class="container">
+                <!-- Post Elizabeth-->
+                @*<article class="post-elizabeth">
+                        <h2 class="post-elizabeth-title"><a href="">@item.Title</a></h2>
+                        <div class="post-elizabeth-text">
+                            <p>@Html.Raw(item.NewsContent.Substring(0,100))</p>
+                        </div>
+                        <a class="button btn btn-custom-gold-border" href="@url">Read More</a>
+                    </article>*@
+            </div>
+        </div>
+        //i++;
+    }
+}
+else
+{
+    <div class="item bg-gray-2" style="background-image: url(/images/RR/banner2-n.jpg);">
+        <div class="container">
+            <!-- Post Elizabeth-->
+            <article class="post-elizabeth">
+                <!-- Badge-->
+                <h2 class="post-elizabeth-title"><a href="">Nothing Is There To Show!!</a></h2>
+                <div class="post-elizabeth-text">
+                </div>
+            </article>
+        </div>
+    </div>
+}

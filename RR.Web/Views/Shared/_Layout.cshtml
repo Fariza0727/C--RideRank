@@ -1,0 +1,604 @@
+﻿<!DOCTYPE html>
+<html class="wide wow-animation" lang="en">
+@{
+    @inject RR.Service.User.IUserService userService;
+    @inject Microsoft.Extensions.Options.IOptions<RR.Core.AppSettings> appSettings;
+}
+<head>
+    <!-- Site Title-->
+    <title>RankRide</title>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="description" content="@ViewBag.Description">
+    <meta name="keywords" content="@ViewBag.Keywords" />
+    <meta name="title" content="Rank Ride is a company created by cowboys for cowboys." />
+    <!-- Stylesheets-->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Kanit:300,400,500,500i,600%7CRoboto:400,900">
+    @*<script src="https://cdn.lr-ingest.io/LogRocket.min.js" crossorigin="anonymous"></script>
+    <script>
+        window.LogRocket && window.LogRocket.init('knared/rank-ride');
+        LogRocket.identify('rankride');
+    </script>*@
+    <script>var _rootURL = '@Url.Content("~/")';</script>
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/fonts.css" />
+    <link rel="stylesheet" href="~/css/style.css?v=4" id="main-styles-link" />
+    <link rel="stylesheet" href="~/css/custom.css" />
+    <link href="~/css/jquery.mCustomScrollbar.css" rel="stylesheet" />
+    <link href="~/css/sweetalert.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" />
+
+    <link href="~/css/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <link href="~/css/material-design-iconic-font.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" href="~/favicon-32x32.png" sizes="32x32" />
+    <link rel="icon" type="image/png" href="~/favicon-16x16.png" sizes="16x16" />
+    <link rel="image_src" href="~/favicon-32x32.png" />
+    <link href="~/css/datatable.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/responsive/2.2.4/css/responsive.bootstrap4.min.css" />
+    @*<link href="~/signalr/Chat.css" rel="stylesheet" />*@
+    @RenderSection("Styles", required: false)
+    <link href="https://cdn.datatables.net/responsive/2.2.4/css/responsive.bootstrap.min.css" />
+    @*<link href="https://vjs.zencdn.net/7.8.2/video-js.css" rel="stylesheet" />*@
+    <link href="~/css/venobox.css" rel="stylesheet" />
+
+</head>
+
+<body onload="ActiveLink()">
+    <div id="preloader">
+        <div class="preloader-body">
+            <div class="img">
+                <img src="~/images/loading.gif" />
+            </div>
+        </div>
+    </div>
+    <!-- Page-->
+    <div class="page">
+        <!-- Page Header-->
+        <header class="section page-header rd-navbar-dark">
+            <!--  Navbar-->
+            <div class="rd-navbar-wrap">
+                <nav class="rd-navbar rd-navbar-classic" data-layout="rd-navbar-fixed" data-sm-layout="rd-navbar-fixed" data-md-layout="rd-navbar-fixed" data-md-device-layout="rd-navbar-fixed" data-lg-layout="rd-navbar-fixed" data-lg-device-layout="rd-navbar-fixed" data-xl-layout="rd-navbar-static" data-xl-device-layout="rd-navbar-static" data-xxl-layout="rd-navbar-static" data-xxl-device-layout="rd-navbar-static" data-lg-stick-up-offset="166px" data-xl-stick-up-offset="166px" data-xxl-stick-up-offset="166px" data-lg-stick-up="true" data-xl-stick-up="true" data-xxl-stick-up="true">
+                    <div class="rd-navbar-panel">
+                        <!--  Navbar Toggle-->
+                        <button class="rd-navbar-toggle tarun" data-rd-navbar-toggle=".rd-navbar-main"><span></span></button>
+                        <div class="rd-navbar-brand dee_work">
+                            <a class="brand" href="/"><img class="brand-logo" src="/images/RR/New-logo.png" alt="" width="158" height="116"></a>
+                        </div>
+                        <!--  Navbar Panel-->
+                        <div class="rd-navbar-panel-inner container">
+                            <div class="rd-navbar-collapse rd-navbar-panel-item rd-navbar-panel-item-left">
+                                @*@await Component.InvokeAsync("HeaderLatestEvent")*@
+                                <div class="rd-navbar-brand dee_work_desktop">
+                                    <a class="brand" href="/"><img class="brand-logo" src="~/images/RR/New-logo.png" alt="" width="100" height="100" /></a>
+                                </div>
+                            </div>
+                            <div class="rd-navbar-panel-item rd-navbar-panel-item-right">
+                                <!-- Navbar Search-->
+                                <div class="rd-navbar-search dee_work_desktop pr-4 ">
+                                    <button class="rd-navbar-search-toggle toggle-original" data-rd-navbar-toggle=".rd-navbar-search"><span></span></button>
+                                    @await Component.InvokeAsync("SearchComponent")
+                                </div>
+                                <ul class="list-inline list-inline-bordered custom-display hidden-grt-xs">
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        using (Html.BeginForm("SignOut", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                        {
+                                            @Html.AntiForgeryToken() }
+                                        <li class="mt-0"><a class="link link-icon link-icon-left link-classic" href="/myaccount"><span class="fa fa-user"></span> <span class="link-icon-text redesign_menu_txt">My Account</span></a></li>
+                                        <li class="mt-0"><a class="link link-icon link-icon-left link-classic redesign_menu_txt" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                                        <li class="mt-0"><span class="span_btn_refer" data-toggle="modal" data-target="#shareModal">REFER A FRIEND</span></li>
+                                    }
+                                    else
+                                    {
+                                        <li class="mt-0"><a class="link link-icon link-icon-left link-classic btn btn-custom-white-header" href="/Login"><span class="link-icon-text redesign_menu_txt">LOG IN</span></a></li>
+                                        <li class="freeplaybtn mt-0"><a class="link link-icon link-icon-left link-classic btn btn-custom-white-header" href="/freeplayer"><span class="link-icon-text redesign_menu_txt">SIGN UP</span></a></li>
+
+                                    }
+                                </ul>
+                            </div>
+                            @*<div class="rd-navbar-collapse-toggle rd-navbar-fixed-element-1" data-rd-navbar-toggle=".rd-navbar-collapse"><span></span></div>*@
+                        </div>
+                    </div>
+                    <div class="rd-navbar-main">
+                        <div class="rd-navbar-main-bottom rd-navbar-darker">
+                            <div class="rd-navbar-main-container container">
+                                <div class="rd-navbar-search dee_work_search p-3">
+                                    <button class="rd-navbar-search-toggle toggle-original" data-rd-navbar-toggle=".rd-navbar-search"><span></span></button>
+                                    @await Component.InvokeAsync("SearchComponent")
+                                </div>
+                                <!-- Navbar Nav-->
+                                <ul class="rd-navbar-nav">
+                                    <li class="rd-nav-item active home"><a class="rd-nav-link redesign_menu_txt " href="/">Home</a></li>
+                                    <li class="rd-nav-item about_us"><a class="rd-nav-link redesign_menu_txt " href="/about-us">About Us</a></li>
+                                    @*<li class="rd-nav-item how-it-works hidden-lg hidden-md"><a class="rd-nav-link" href="/Page/how-it-works">How It Works</a></li>*@
+                                    <li class="rd-nav-item rules"><a class="rd-nav-link redesign_menu_txt " href="/rules-scoring">Rules and Scoring</a></li>
+                                    <li class="rd-nav-item riders"><a class="rd-nav-link redesign_menu_txt " href="/riders">Riders</a></li>
+                                    <li class="rd-nav-item bulls"><a class="rd-nav-link redesign_menu_txt " href="/bulls">Bulls</a></li>
+                                    <li class="rd-nav-item contest"><a class="rd-nav-link redesign_menu_txt " href="/events">Events + Results</a></li>
+                                    <li class="rd-nav-item rrstore"><a class="rd-nav-link redesign_menu_txt " target="_blank" href="https://rankridestore.com/">RR Store</a></li>
+                                    <li class="rd-nav-item news">
+                                        <a class="rd-nav-link redesign_menu_txt " href="/news">RANK RIDE TV</a>
+                                    </li>
+
+                                    @*<li class="rd-nav-item news">
+                                            <a class="rd-nav-link" href="#" onclick="gotoChatpanel(this,event)">Connect Chat</a>
+                                        </li>*@
+
+                                </ul>
+                                <div class="rd-navbar-main-element">
+                                    <ul class="list-inline list-inline-sm">
+
+                                        <li>
+                                            <a href="https://www.instagram.com/rankridefantasy/?hl=en" class="icon icon-xs icon-corporate fa fa-instagram"></a>
+                                        </li>
+                                        <li>
+                                            <a class="icon icon-corporate" href="https://vm.tiktok.com/ZMdv8R4VU/">
+                                                <svg aria-hidden="true" width="14px" height="14px" focusable="false" data-prefix="fab" data-icon="tiktok" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-tiktok fa-w-14"><path fill="currentColor" d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z" class=""></path></svg>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="https://www.facebook.com/rankrideapp/" class="icon icon-xs icon-corporate fa fa-facebook"></a>
+                                        </li>
+                                        <li>
+                                            <a href="https://youtube.com/channel/UC2x0-RNeULh2AUsCR5TulFg" class="icon icon-xs icon-corporate fa fa-youtube-play"></a>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <ul class="rd-navbar-nav custom-button-li hidden-md hidden-lg">
+                                    @if (User.Identity.IsAuthenticated)
+                                    {
+                                        using (Html.BeginForm("SignOut", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                                        {
+                                            @Html.AntiForgeryToken()
+                                        }
+                                        <li class="px-2"><a class="link link-icon link-icon-left link-classic" href="/myaccount"><span class="fa fa-user"></span> <span class="link-icon-text">My Account</span></a></li>
+                                        <li class="px-2"><a class="link link-icon link-icon-left link-classic" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                                        <li class="px-2" style="width:92%;"><span class="span_btn_refer" style="display:block;" data-toggle="modal" data-target="#shareModal">REFER A FRIEND</span></li>
+                                    }
+                                    else
+                                    {
+                                        <li><a class="link link-icon link-icon-left link-classic btn btn-custom-gold" href="/Login"><span class="link-icon-text">Login</span></a></li>
+
+                                        <li><a class="link link-icon link-icon-left link-classic btn btn-custom-gold" target="_blank" href="/freeplayer"><span class="link-icon-text">Sign Up</span></a></li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </nav>
+            </div>
+        </header>
+
+        @RenderBody()
+        <!-- Page Footer-->
+        <footer class="section footer-classic footer-classic-dark context-dark">
+            <div class="footer-classic-main">
+                <div class="container">
+
+
+                    <!-- RD Mailform-->
+                    @*@await Component.InvokeAsync("SubscibeNewsLetterComponent")*@
+                    <div class="row row-50 mt-0">
+                        <div class="col-lg-2">
+                            <h5 class="custom-footer-title">ABOUT US</h5>
+                            <div class="row mt-2">
+                                <ul class="custom-footer-ul">
+                                    @*<a href="/page/Advertisers">
+                                            <li class="custom-footer-li">Advertisers</li>
+                                        </a>
+                                        <a href="/page/investor-relations">
+                                            <li class="custom-footer-li">Investor Relations</li>
+                                        </a>
+
+                                        <a href="/page/press-media">
+                                            <li class="custom-footer-li">Press &amp; Media</li>
+                                        </a>*@
+                                    <a href="/page/terms-of-use">
+                                        <li class="custom-footer-li">Terms of Use</li>
+                                    </a>
+                                    <a href="/page/privacy-policy">
+                                        <li class="custom-footer-li">Privacy &amp; Policy</li>
+                                    </a>
+                                    <a href="/page/Disclaimer">
+                                        <li class="custom-footer-li">Disclaimer</li>
+                                    </a>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <h5 class="custom-footer-title">LINKS</h5>
+                            <div class="row mt-2">
+                                <ul class="custom-footer-ul">
+                                    <a target="_blank" href="https://www.westernsportsfoundation.org">
+                                        <li class="custom-footer-li">Western Sports Foundation</li>
+                                    </a>
+                                    <a target="_blank" href="https://pbr.com/">
+                                        <li class="custom-footer-li">PBR</li>
+                                    </a>
+                                    @*<a class="rd-nav-link" href="#" onclick="gotoChatpanel(this,event)">
+                                            <li class="custom-footer-li">Connect Chat</li>
+                                        </a>*@
+
+
+                                    @* <a target="_blank" href="https://www.actionsportsfoundation.org/">
+                                                <li class="custom-footer-li">Extreme Sports</li>
+                                            </a>
+                                        <a target="_blank" href="https://probullstats.com/">
+                                            <li class="custom-footer-li">Probullstats</li>
+                                        </a>*@
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-2">
+                            <h5 class="custom-footer-title">HELP</h5>
+                            <div class="row mt-2">
+                                <ul class="custom-footer-ul">
+                                    @*<a href="/page/faq">
+                                            <li class="custom-footer-li">FAQ</li>
+                                        </a>*@
+                                    <a href="/contact-us">
+                                        <li class="custom-footer-li">Contact Us</li>
+                                    </a>
+                                    @*<a href="/page/how-it-works">
+                                            <li class="custom-footer-li">How It Works</li>
+                                        </a>*@
+                                    <a href="/rules-scoring">
+                                        <li class="custom-footer-li">Rules &amp; Scoring</li>
+                                    </a>
+                                    @*<a href="/page/responsible-play">
+                                            <li class="custom-footer-li">Responsible Play</li>
+                                        </a>*@
+                                    <a href="/page/acceptable-use">
+                                        <li class="custom-footer-li">Acceptable Use</li>
+                                    </a>
+                                    <a href="/page/cookies-policy">
+                                        <li class="custom-footer-li">cookies policy</li>
+                                    </a>
+                                    <a href="/page/refund-policy">
+                                        <li class="custom-footer-li">refund policy</li>
+                                    </a>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                            <h5 class="custom-footer-title">SOCIAL MEDIA</h5>
+                            <div class="row p-l15 mt-2">
+                                <div class="group-md group-middle">
+                                    <div class="group-item">
+                                        <ul class="list-inline list-inline-xs">
+                                            <li>
+                                                <a class="icon icon-corporate fa fa-instagram" href="https://www.instagram.com/rankridefantasy/?hl=en"></a>
+                                            </li>
+                                            <li>
+                                                <a class="icon icon-corporate" href="https://vm.tiktok.com/ZMdv8R4VU/">
+                                                    <svg aria-hidden="true" color="#fff" width="14px" height="14px" focusable="false" data-prefix="fab" data-icon="tiktok" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" class="svg-inline--fa fa-tiktok fa-w-14"><path fill="currentColor" d="M448,209.91a210.06,210.06,0,0,1-122.77-39.25V349.38A162.55,162.55,0,1,1,185,188.31V278.2a74.62,74.62,0,1,0,52.23,71.18V0l88,0a121.18,121.18,0,0,0,1.86,22.17h0A122.18,122.18,0,0,0,381,102.39a121.43,121.43,0,0,0,67,20.14Z" class=""></path></svg>
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a class="icon icon-corporate fa fa-facebook" href="https://www.facebook.com/rankrideapp/"></a>
+                                            </li>
+                                            <li>
+                                                <a href="https://youtube.com/channel/UC2x0-RNeULh2AUsCR5TulFg" class="icon icon-xs icon-corporate fa fa-youtube-play"></a>
+                                            </li>
+                                            <li>
+                                                <a class="button button-sm button-gray-outline btn-custom-white m-t-5" href="/contact-us">Get in Touch</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="footer-classic-aside footer-classic-darken">
+                <div class="container">
+                    <div class="layout-justify">
+                        <p class="rights"><span>&copy; @DateTime.Now.Year RANK RIDE ALL RIGHTS RESERVED</span></p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+    <!-- Global Mailform Output-->
+    <div class="snackbars" id="form-output-global"></div>
+    <!-- Javascript-->
+
+    <div id="tcpop" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <div class="col-md-12">
+                        <div class="row">
+                            <div class="col-md-6"><h4>Accept Term And Condition</h4></div>
+                            <div class="col-md-5 text-right"><button class="btn button" data-dismiss="modal" type="button" onclick="acceptTC()"> I Accept</button></div>
+                            <div class="col-md-1"><button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-body" style="height: 500px;overflow: scroll;">
+                    <div class="col-md-12">
+
+                        <div class="panel panel-default">
+                            <div class="panel-body">
+                                <div class="text-center">
+                                    <section class="section section-variant-1 bg-gray-100">
+                                        <div class="container">
+                                            <partial name="_Termsandconditions" />
+                                        </div>
+                                    </section>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button class="btn button mt-20" data-dismiss="modal" type="button" onclick="acceptTC()"> I Accept</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="becomeMember" tabindex="-1" role="dialog" aria-labelledby="becomeMemberTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-body">
+                    @if (!User.Identity.IsAuthenticated)
+                    {
+                        <div class="text-center">
+                            <p>Please login or register and become premium membership to chat with your friends</p>
+                            <br />
+                            <a href="/Login" class="btn btn-sm btn-primary">Login</a>
+                            <a href="/become-a-player" class="btn btn-sm btn-primary">Register</a>
+                        </div>
+                    }
+                    else
+                    {
+                        if (!await userService.IsPaidMember(User))
+                        {
+                            <div class="text-center">
+                                <p>Please get premium membership to chat with your friends</p>
+                                <br />
+                                <a target="_blank" href="@appSettings.Value.StoreURL" class="btn btn-sm btn-primary">Become a premium membership</a>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="shareModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header p-0">
+                    <div class="col-12 px-0 share_div">
+                        <div class="share_div_back">
+                            <img src="/images/home/share_dlg_back.png">
+                        </div>
+                        <span class="share_div_title">Invite your friends now and <br> earn rewards points for <br /> major giveaways monthly</span>
+                    </div>
+                    <button type="button" class="close btn_share_close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <div class="row mt-2 mb-2">
+                        <div class="col-12 text-center">
+                            <span class="share_text">SHARE THE LINK</span>
+                        </div>
+                        <div class="col-12 text-center mt-3 share_ad_div">
+                            <!-- Go to www.addthis.com/dashboard to customize your tools -->
+                            <div class="addthis_inline_share_toolbox_3n4o" data-url="@ViewBag.ReferralLink" data-title="Invites you to join Rank Ride"></div>
+                            <div class="share_email" id="btn_share_email">
+                                <i class="fa fa-envelope" aria-hidden="true"></i>
+                            </div>
+                        </div>
+                        <div class="col-12 mt-4">
+                            <p class="share_text_p">
+                                Reffereal codes only apply once you have signed up to earn rewards points towards year end giveaway PBR FINALS VACATION by inviting your friends! Once you have signed up When you look in your account settings at your profile you will have a special code that you can give to any of your friends to place here when they sign up and earn the rewards points!
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="shareEmailModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header p-0" style="background-color: #FFF;border:none;">
+                    <span>&nbsp;</span>
+                    <button type="button" class="close btn_share_close" data-dismiss="modal" aria-label="Close" style="color: #000; text-shadow: 0 1px 0 #000;">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body pt-2">
+                    <div class="row mb-2">
+                        <div class="col-12 text-center">
+                            <span class="share_text">INVITE YOUR FRIEND</span>
+                        </div>
+                        <div class="col-12 mt-3 bg_login ">
+                            @await Component.InvokeAsync("SendReferralEmailComponent")
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <script data-cfasync="false" src="~/js/email-decode.min.js"></script>
+    <script src="~/js/core.min.js" type="text/javascript"></script>
+    <script src="~/js/script.js" type="text/javascript"></script>
+    <script src="~/js/jquery.datetimepicker.full.min.js" type="text/javascript"></script>
+    <script src="~/js/sweetalert.min.js" type="text/javascript"></script>
+    <script src="~/js/CustomFunction.js" type="text/javascript"></script>
+    @*<script src="~/lib/jquery/dist/jquery.js" type="text/javascript"></script>*@
+    <script src="~/lib/jquery.unobtrusive-ajax.js" type="text/javascript"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+
+    <script type="text/javascript" src=" https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script type="text/javascript" src="  https://cdn.datatables.net/1.10.21/js/dataTables.bootstrap4.min.js"></script>
+
+
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.4/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.4/js/responsive.bootstrap4.min.js"></script>
+
+
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.4/js/dataTables.responsive.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.4/js/responsive.bootstrap.min.js"></script>
+    <!-- If you'd like to support IE8 (for Video.js versions prior to v7) -->
+    @*<script src="https://vjs.zencdn.net/7.8.2/video.js"></script>*@
+    <script src="~/js/jquery.mCustomScrollbar.js"></script>
+    @*<script src="~/signalr/signalr.js"></script>
+    <script src="~/signalr/chat.js"></script>*@
+    <script src="~/js/venobox.js"></script>
+    <!-- Go to www.addthis.com/dashboard to customize your tools -->
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-610301771771f587"></script>
+    <!-- Begin Constant Contact Active Forms -->
+    <script>var _ctct_m = "5e56d1e36b1517562665599fc4ef92b6";</script>
+    <script id="signupScript" src="//static.ctctcdn.com/js/signup-form-widget/current/signup-form-widget.min.js" async defer></script>
+    <!-- End Constant Contact Active Forms -->
+
+    <script>
+        (function ($) {
+            $('.video-owl-slider').owlCarousel({
+                //center: true,
+                loop: true,
+                margin: 0,
+                nav: true,
+                dots: false,
+                items: 1,
+
+            })
+            $(window).on("load", function () {
+                $('#project-list').click(function () {
+                    $('.cus-tab-link .cus-tab-item').removeClass('active');
+                    $(this).addClass('active');
+                    $('.dashboard-content').removeClass('d-none');
+                    $('.dashboard-content').addClass('d-block');
+                    $('.add-connection').addClass('d-none');
+                    $('.add-connection').removeClass('d-block');
+                });
+                $('#connection-list').click(function () {
+                    $('.cus-tab-link .cus-tab-item').removeClass('active');
+                    $(this).addClass('active');
+                    $('.dashboard-content').addClass('d-none');
+                    $('.dashboard-content').removeClass('d-block');
+                    $('.add-connection').removeClass('d-none');
+                    $('.add-connection').addClass('d-block');
+                });
+                $(".content").mCustomScrollbar();
+                $('.venoboxvid').venobox({
+                    bgcolor: '#000',
+                    spinner: 'cube-grid',
+
+                    cb_pre_open: function (obj) {
+                        debugger;
+                        var data = obj.data();
+                        if (data.vbtype === 'inline') {
+                            var video = $('<video />', {
+                                id: 'videoplayer',
+                                autoplay: 'autoplay',
+                                src: data.url,
+                                type: 'video/mp4',
+                                controls: false
+                            });
+                            video.appendTo($('#inline-content'));
+                        }
+                    },
+                    cb_post_open: function (obj, gallIndex, thenext, theprev) {
+
+                    },
+                    cb_pre_close: function (obj, gallIndex, thenext, theprev) {
+                        $('#inline-content').html('');
+                    },
+
+                });
+
+            });
+        })(jQuery);
+
+
+        function empty(th) {
+            var x = $(th);
+            var data = x.closest("div").find("#_form").find("div").hasClass("cleared");
+            if (data) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+    </script>
+    <script>
+        jQuery(document).ready(function ($) {
+            $('.partners-logo-slider').slick({
+                dots: false,
+                infinite: true,
+                speed: 500,
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                arrows: false,
+                responsive: [{
+                    breakpoint: 600,
+                    settings: {
+                        slidesToShow: 3,
+                        slidesToScroll: 1
+                    }
+                },
+                {
+                    breakpoint: 400,
+                    settings: {
+                        arrows: false,
+                        slidesToShow: 1,
+                        slidesToScroll: 1
+                    }
+                }]
+            });
+        });
+        initDataTable();
+        console.log("AAAA");
+        setTimeout(function () {
+            $("#email_address_0").attr("placeholder", "Input Email Here");
+            console.log("CCC");
+        }, 6000)
+        $('#btn_share_email').on('click', function () {
+            $('#shareEmailModal').modal('show');
+            $('#shareModal').modal('hide');
+        });
+        $(".btn_refer_friend").on('click', function () {
+            var isLoginUser = '@User.Identity.IsAuthenticated';
+            if (isLoginUser.toLowerCase() === 'false') {
+                swal("You should login to collect rewards points for referrals at first", {
+                    icon: "warning",
+                    className: "notify-alert",
+                    button: false,
+                    timer: 5000,
+                });
+
+                setTimeout(function () {
+                    window.location.href = "/Login";
+                }, 5300);
+                return false;
+            }
+        })
+
+    </script>
+    @RenderSection("Scripts", required: false)
+</body>
+
+</html>
+

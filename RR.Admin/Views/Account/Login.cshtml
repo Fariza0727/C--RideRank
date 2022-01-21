@@ -1,0 +1,109 @@
+﻿@model RR.Dto.LoginDto
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+    string returnUrl = ViewBag.ReturnUrl;
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title "><b>Rank Ride Admin</b></h4>
+                </div>
+                <div id="response">
+                </div>
+                <div class="card-body">
+                    <form asp-action="Login" asp-controller="Account" method="POST" data-ajax="true" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+                          data-ajax-failure="onFailed" data-ajax-success="onRegisterSuccess" data-ajax-update="response">
+                        
+                        
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group bmd-form-group">
+                                    <input type="hidden" value="@returnUrl" name="ReturnUrl" id="ReturnUrl" />
+                                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", autocomplete = "off", placeholder = "Email" })
+                                    @Html.ValidationMessageFor(x => x.Email)
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="form-group bmd-form-group">
+                                    @Html.PasswordFor(x => x.Password, new { @class = "form-control", autocomplete = "off", placeholder = "Password" })
+                                    @Html.ValidationMessageFor(x => x.Password)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+                                    <label> @Html.CheckBoxFor(x => x.Rememberme) Remember Me?</label><br />
+                                    <label> <a class="forgot-text" href="#" data-target="#pwdModal" data-toggle="modal">Forgot Password?</a></label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary pull-right">Submit</button>
+
+
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--modal-->
+<div id="pwdModal" class="modal fade container-fluid" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content card">
+            <div class="modal-header card-header card-header-primary">
+                <h5 class="text-center">Forgot Password</h5>
+                <button type="button" style="color:white;" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body ">
+                <partial name="_ForgetPassword" />
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MODAL -->
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+<script>
+
+    function onBegin() {
+
+    }
+    function onComplete() {
+        $("#preloader").removeClass('loaderActive');
+    }
+    function onRegisterSuccess(response) {
+        $("#response").html(response);
+        if (response.indexOf("alert-success") > -1) {
+            var url = $("#dasboardURL").attr('href');
+            if (url === '') { url = "/"; }
+            setTimeout(function () { window.location.href = url; }, 3000);
+        }
+        $("#preloader").removeClass('loaderActive');
+    }
+
+
+    function onForgotPasswordSuccess(response) {
+        $("#fpRespone").html(response);
+        if (response.indexOf("alert-success") > -1) {
+            $("#fpBody").hide();
+            $("#fpForm").trigger("reset");
+        }
+        $("#preloader").removeClass('loaderActive');
+        setTimeout(function () { $("#fpRespone").html(''); $("#fpBody").show(); $('#pwdModal').modal('toggle'); }, 5000);
+    }
+
+
+
+</script>

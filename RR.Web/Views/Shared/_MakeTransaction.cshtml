@@ -1,0 +1,61 @@
+﻿@model RR.Dto.TransactionLiteDto
+@*data-ajax="true" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+    data-ajax-failure="onFailed" data-ajax-success="onTransactionSuccess" data-ajax-update="response" enctype="multipart/form-data"*@
+<form id="fpForm" asp-controller="Transaction" asp-action="PostCheckout" data-ajax="true" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+      data-ajax-failure="onFailed" data-ajax-success="onTransactionSuccess" data-ajax-update="response" method="POST" onsubmit="return encryptvalue()">
+    <div class="panel panel-default">
+
+        <div class="panel-body">
+            @Html.HiddenFor(x => x.IsToken)
+            @Html.HiddenFor(x => x.EventId)
+            @Html.HiddenFor(x => x.ContestFee)
+            @Html.HiddenFor(x => x.ContestId)
+            @Html.HiddenFor(x => x.TeamId)
+            @Html.HiddenFor(x => x.PaymentMode)
+            @Html.HiddenFor(x => x.PlayerType)
+            @Html.HiddenFor(x => x.IsUpgrade)
+            @Html.HiddenFor(x => x.PaymentMadeFor)
+            <div class="row">
+                <div class="col-xs-12 col-md-12">
+                    <div class="form-group">
+                        <label for="cardNumber">
+                            CARD NUMBER
+                        </label>
+                        @Html.TextBoxFor(x => x.CardNumber, new { @class = "form-control", placeholder = "Valid Card Number", autocomplete = "off", onkeypress = "return isNumber(event)" })
+                        @Html.ValidationMessageFor(x => x.CardNumber)
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-xs-12 col-md-3">
+                    <label for="expityMonth">
+                        Expiry Month
+                    </label>
+                    @Html.TextBoxFor(x => x.ExpiryMonth, new { @class = "form-control", placeholder = "MM", autocomplete = "off", onkeypress = "return isNumber(event)", maxlength = "2", minlength = "2" })
+                    @Html.ValidationMessageFor(x => x.ExpiryMonth)
+                </div>
+                <div class="col-xs-12 col-md-3">
+                    <div class="form-group">
+                        <label for="expityMonth">
+                            Expiry Year
+                        </label>
+                        @Html.TextBoxFor(x => x.ExpiryYear, new { @class = "form-control", placeholder = "YY", autocomplete = "off", onkeypress = "return isNumber(event)", maxlength = "2", minlength = "2" })
+                        @Html.ValidationMessageFor(x => x.ExpiryYear)
+                    </div>
+                </div>
+                <div class="col-xs-12 col-md-5">
+                    <label for="cvCode">
+                        CVV CODE
+                    </label>
+                    @Html.PasswordFor(x => x.CVV, new { @class = "form-control", placeholder = "***", autocomplete = "off", onkeypress = "return isNumber(event)", maxlength = "3", minlength = "3" })
+                    @Html.ValidationMessageFor(x => x.CVV)
+                </div>
+            </div>
+        </div>
+    </div>
+    <button class="button button-primary mt-0 float-right" type="submit" aria-label="Send">Pay Now</button>
+</form>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

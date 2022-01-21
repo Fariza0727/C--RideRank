@@ -1,0 +1,672 @@
+﻿@model IEnumerable<RR.Dto.UserDetailDto>
+@inject Microsoft.Extensions.Options.IOptions<RR.Core.AppSettings> appsetting;
+@{
+    ViewData["Title"] = "Index";
+    string msg = ViewBag.IsSuccess != null ? ViewBag.IsSuccess : "";
+
+}
+
+@section styles{
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+}
+<style>
+    .pdetail {
+        font-size: 13px;
+        width: 50%;
+    }
+
+        .pdetail > b {
+            font-weight: 800;
+        }
+</style>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Players List</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" width="100%" id="userDataTable">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th style="font-size: 13px;">Team</th>
+                                    <th style="font-size: 13px;">Name</th>
+                                    <th style="font-size: 13px;">Email</th>
+                                    <th style="font-size: 13px;">Phone Number</th>
+                                    <th style="font-size: 13px;">Last Update Email</th>
+                                    <th style="font-size: 13px;">Status</th>
+                                    <th style="font-size: 13px;">Membership</th>
+                                    <th style="font-size: 13px;">Action</th>
+                                    <th style="font-size: 13px;">Address</th>
+                                    <th style="font-size: 13px;">IsNotifyEmail</th>
+                                    <th style="font-size: 13px;">IsNotifySMS</th>
+
+                                    @*<th></th>*@
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog" style="top:20%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="float:left">Player Detail</h4>
+                <span style="float:right">
+                    <i class="material-icons" data-dismiss="modal">
+                        close
+                    </i>
+                </span>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td class="pdetail">
+                                <b>First Name: </b><span id="fname"></span>
+                            </td>
+                            <td class="pdetail">
+                                <b>SurName: </b><span id="sname"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pdetail">
+                                <b style="font-weight: 800;">UserName: </b><span id="name"></span>
+                            </td>
+                            <td class="pdetail">
+                                <b>Email: </b><span id="email"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pdetail">
+                                <b>Password: </b><span>*********</span>
+                            </td>
+                            <td class="pdetail">
+                                <b>PhoneNumber: </b><span id="phnumber"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pdetail">
+                                <b>Address: </b><span id="address"></span>
+                            </td>
+                            <td class="pdetail">
+                                <b>City: </b><span id="city"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pdetail">
+                                <b>ZipCode: </b><span id="zipcode"></span>
+                            </td>
+                            <td class="pdetail">
+                                <b>State/Provice: </b><span id="state"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pdetail">
+                                <b>Country: </b><span id="country"></span>
+                            </td>
+                            <td class="pdetail">
+                                <b>Registered On: </b><span id="regdate"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pdetail">
+                                <b>Wallet Cowboy Coins: </b><span id="token"></span>
+                            </td>
+                            <td class="pdetail">
+                                <b>Player Type: </b><span id="pType"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pdetail">
+                                <b>League Notification: </b><span id="league"></span>
+                            </td>
+                            <td class="pdetail">
+                                <b>Membership: </b><span class="label label-success" id="membership"></span>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MODAL -->
+
+<div class="col-md-12">
+    <div id="fpRespone"></div>
+    <div id="fpBody">
+
+        <div class="panel panel-default">
+            <div class="panel-body">
+                <div class="text-center">
+                    <div class="panel-body mt-20">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group bmd-form-group">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="dvjson"></div>
+@section Scripts{
+
+    <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="~/js/buttons.html5.js"></script>
+    <script src="https://www.jqueryscript.net/demo/Export-Table-JSON-Data-To-Excel-jQuery-ExportToExcel/excelexportjs.js"></script>
+
+    <script>
+        $(document).ready(function() {
+
+            var success = '@msg';
+
+            if (success !== "" && success === "true") {
+                    swal("Record updated successfully.", {
+                        icon: "success",
+                    });
+            }
+            if (success !== "" && success !== "true") {
+                swal("Record not updated, please try again.", {
+                    icon: "warning",
+                });
+            }
+    });
+        $(function () {
+            $('.dataTables_filter input').attr('placeholder', 'Search...').hide();
+            var table = $("#userDataTable").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                //"dom": '<"top"i>rt<"bottom"lp><"clear">',
+                "ajax": {
+                    "url": '/usermanagement/getcurrentpageusers',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "userName", "name": "userName", "autoWidth": false, "visible": false,
+                        render: function (data, type, row) {
+                            return type === 'export' ?
+                                data.replace(/[$,]/g, '').replace("N/A", "") :
+                                data;
+                        }
+                    },
+                    { "data": "userName", "name": "userName", "autoWidth": false, },
+                    {"data": "email", "name": "email","autoWidth": false },
+                    {
+                        "data": "phoneNumber", "name": "phoneNumber", "autoWidth": false, render: function (data, type, row) {
+                            return type === 'export' ?
+                                data.replace(/[$,]/g, '').replace("N/A","") :
+                                data;
+                        } },
+                    { "data": "updatedDate", "name": "updatedDate", "autoWidth": false },
+                    {
+                        "data": "isActive", "name": "isActive", "autoWidth": false,
+                        "render": function (value) {
+                           if(value)
+                               return '<a href="#"><span class="label label-success" onclick="updateStatus(this)">Active</span></a>';
+                            else
+                               return '<a href="#"><span class="label label-danger" onclick="updateStatus(this)">DeActive</span></a>';
+                        }
+                    },
+                    { "data": "membership", "name": "membership", "autoWidth": false, "visible": @Html.Raw(appsetting.Value.ShowMembership?"true":"false") },
+
+                    {
+                        "data": "id", "name": "id", "className": 'btnColumnNone', "render": function (data, type, row) {
+                            console.log(row);
+
+                            var btntemplate = '<a id="userdetail" onclick="getuserDetail(this)" data-token="' + row.id + '" \
+                                    title="View Detail of Player" name="'+ row.isActive +'"><i class="fa fa-eye"></i></a>\
+                                    <a href="/player/detail/' + row.id + '" data-token=' + row.id + ' rel="tooltip" title="Edit Player"\
+                                    /><i class="fa fa-pencil"></i><div class="ripple-container">\
+                                    </div></a>\
+                            <a  href = "javascript:void(0);" data-token='+ row.id + ' onclick="DeleteUser(this)" rel = "tooltip" title = "Delete User" \
+                                    ><i class="fa fa-trash"></i></a><a  data-token='+ row.id + ' onclick="forgetPassowrd(this)" rel = "tooltip" title = "Forget Password" \
+                                    ><i class="fa fa-key"></i></a>';
+
+                            if (row.lockoutEnd != '') {
+                                btntemplate += '<a id="lock" href = "javascript: void (0); " data-token='+ row.email + ' onclick="LockUnlockUser(this)" rel = "tooltip" title = "Unock User" \
+                                    ><i class="fa fa-unlock"></i></a>';
+                            }
+                            else {
+                                btntemplate += '<a id="lock" href = "javascript:void(0);" data-token='+ row.email + ' onclick="LockUnlockUser(this)" rel = "tooltip" title = "Lock User" \
+                                    ><i  class="fa fa-lock"></i></a> ';
+                            }
+
+                            if (row.isEmailConfirm) {
+                                //btntemplate += '<a  data-token=' + row.email + ' onclick="confirmEmail(this)" rel = "tooltip" title = "Verified email" \
+                                //    ><i class="fa fa-envelope-open"></i></a>';
+
+                            }
+                            else {
+                                //btntemplate += '<a  data-token=' + row.email + ' onclick="confirmEmail(this)" rel = "tooltip" title = "Send verification email" \
+                                //    ><i class="fa fa-envelope"></i></a>';
+                            }
+                            return btntemplate;
+                        }, "autoWidth": true
+                    },
+                    {
+                        "data": "address", "name": "address", "autoWidth": false, "visible": false,
+                        render: function (data, type, row)
+                        {
+                            return type === 'export' ?
+                                data.replace(/[$,]/g, '').replace("N/A", "") :
+                                data;
+                        }
+                    },
+                    { "data": "isNotifyEmail", "name": "isNotifyEmail", "autoWidth": false, "visible": false },
+                    { "data": "isNotifySMS", "name": "isNotifySMS", "autoWidth": false, "visible": false },
+
+                ],
+
+                dom: "Bfrtip",
+                //"pageLength": 10,
+                "columnDefs": [{
+                    @if(appsetting.Value.ShowMembership){
+                        <text>"targets": [4, 6],</text>
+                    }
+                    else{<text>"targets": [4, 5],</text>}
+                    "orderable": false,
+                }],
+                buttons: [
+                    {
+                        className: 'excelButton',
+                        extend: 'excelHtml5',
+                        autoFilter: true,
+                        sheetName: 'Players',
+                        text: 'Players Export to Excel',
+                        title: "Players",
+                        action: fullexport_action,
+                        exportOptions: {
+                            columns: [0, 1, 2,3, 6, 8,9,10],
+                            orthogonal: 'export',
+                            modifier: {
+                                page: 'all',      // 'all',     'current'
+                                search: 'none'     // 'none',    'applied', 'removed'
+                            }
+                        },
+                    },
+                    {
+                        text: 'Sent Notifications',
+                        action: function (e, dt, node, config) {
+                            window.location.href = "/BulkNotifications";
+                        }
+                    }
+
+                ]
+            });
+
+
+
+
+
+
+            $('.search-input').on('keyup change', function () {
+                var index = $(this).attr('data-column'),
+                    val = $(this).val();
+                table.columns(index).search(val.trim()).draw();
+            });
+
+
+        });
+
+        function getuserDetail(th) {
+            var x = $(th);
+            var modal = $("#myModal");
+            $.ajax({
+                url: "@Url.Action("getuserdetail", "usermanagement")",
+                data: { id: x.attr("data-token") },
+                type:"POST",
+                success: function (result) {
+                    if (result != null) {
+                        $("#close").off().on("click", function () {
+                            modal.modal('hide');
+                        });
+                        modal.find("#fname").text(result.firstName);
+                        modal.find("#sname").text(result.lastName);
+                        modal.find("#name").text(result.userName);
+                        modal.find("#email").text(result.email);
+                        modal.find("#phnumber").text(result.phoneNumber);
+                        modal.find("#address").text(result.address1, (result.address2 !== "N/A" ? result.address2:""));
+                        modal.find("#state").text(result.stateName);
+                        modal.find("#country").text(result.countryName);
+                        modal.find("#city").text(result.city);
+                        //modal.find("#banking").text(result.banking);
+                        modal.find("#league").text((result.leagueNotification ? "Yes" : "No"));
+                        modal.find("#token").text(result.walletToken);
+                        modal.find("#regdate").text(result.registeredOn);
+                        modal.find("#pType").text(result.playerType);
+                        modal.find("#zipcode").text(result.zipCode);
+                        @if (appsetting.Value.ShowMembership) {
+                            <text>modal.find("#membership").text(result.shopifyMembership);</text>
+                        }
+                            modal.modal('show');
+                        }
+                },
+                error: function () {
+                    swal("Something Went Wrong!!", {
+                        icon: "warning",
+                    });
+                }
+            });
+        }
+
+        function updateStatus(th) {
+
+            var id = $(th).closest('td').next('td').find('a').attr('data-token');
+            var status = $(th).closest('td').next('td').find('a').attr('name');
+            if (status == 'true') {
+                swal({
+                    title: "Are you sure?",
+                    text: "you want to Deactive this account!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                          $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("updatestatus","usermanagement")",
+                    data: {id: id },
+                    success: function (result) {
+                        if (result != null) {
+                              if (result.isActive) {
+                                    $(th).text("Active");
+                                if ($(th).hasClass("label-danger")) {
+                                    $(th).closest("td").find("span").removeClass("label label-danger");
+                                    $(th).closest("td").find("span").addClass("label label-success");
+                                    $(th).closest("td").next("td").find("#userdetail").attr("name", "true");
+                                  }
+                                  swal("User status has been updated!");
+                            }
+                            else {
+                                    $(th).text("DeActive");
+                                if ($(th).hasClass("label-success")) {
+                                    $(th).closest("td").find("span").removeClass("label label-success");
+                                    $(th).closest("td").find("span").addClass("label label-danger");
+                                    $(th).closest("td").next("td").find("#userdetail").attr("name", "false");
+                                  }
+                                  swal("User status has been updated!");
+                            }
+                        }
+                    },
+                    error: function () {
+                     alert("error");
+                    }
+                });
+                    }
+                    else {
+                        swal("The User Status is not updated!");
+                    }
+                });
+            }
+            else {
+                swal({
+                    title: "Are you sure?",
+                    text: "you want to Active this account!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((willDelete) => {
+                    if (willDelete) {
+                          $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("updatestatus","usermanagement")",
+                    data: {id: id },
+                              success: function (result) {
+
+                        if (result != null) {
+                              if (result.isActive) {
+                                    $(th).text("Active");
+                                if ($(th).hasClass("label-danger")) {
+                                    $(th).closest("td").find("span").removeClass("label label-danger");
+                                    $(th).closest("td").find("span").addClass("label label-success");
+                                    $(th).closest("td").next("td").find("#userdetail").attr("name", "true");
+                                  }
+                                  swal("User status has been updated!");
+                            }
+                            else {
+                                    $(th).text("DeActive");
+                                if ($(th).hasClass("label-success")) {
+                                    $(th).closest("td").find("span").removeClass("label label-success");
+                                    $(th).closest("td").find("span").addClass("label label-danger");
+                                    $(th).closest("td").next("td").find("#userdetail").attr("name", "false");
+                                  }
+                                  swal("User status has been updated!");
+                            }
+
+                        }
+                    },
+                    error: function () {
+                        swal("Something Went Wrong!");
+                    }
+                });
+                    }
+                    else {
+                        swal("User status is not updated!");
+                    }
+                });
+            }
+
+
+        }
+
+        function forgetPassowrd(th) {
+
+            var id = $(th).attr('data-token');
+            var emailId = $(th).closest("tr").find("td:eq(1)").text();
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("forgotpassword", "account")",
+                data: { UserId: id, Email: emailId },
+                success: function (response) {
+                    if (typeof (response) == "string") {
+                        if (response.includes("Success")) {
+                            swal("Password reset link has been sent on provided email address. Please check inbox. If not received please check in junk folder.", {
+
+                                icon: "Success",
+                            });
+                        }
+                        else if (response.includes("Access Denied")) {
+                            swal("You Do Not Have persmission to Change the Password!", {
+
+                                icon: "warning",
+                            });
+                        }
+                        else {
+                            swal("Something Went Wrong!!!", {
+                                icon:"warning",
+                            })
+                        }
+                    }
+
+                  
+                },
+                error: function () {
+                    swal("Something Went Wrong!!", {
+                        icon : "warning",
+                    });
+                }
+            });
+        }
+
+        function LockUnlockUser(th) {
+
+            var userName = $(th).attr('data-token');
+            $.ajax({
+                type: "POST",
+               url: "/updateuserlockstatus/" ,
+                data: { userName: userName },
+
+                success: function (response) {
+                    if (typeof (response) == "string") {
+                        if (response.includes("Access Denied"))
+                        {
+                            swal("You Do not have Permission to lock User!", {
+                                icon: "warning",
+                            });
+                        };
+                    }
+                    else if (typeof (response) == "object") {
+                        if (response.status == 'unlocked') {
+                            $(th).empty();
+                            $(th).html("<i  class='fa fa-lock'></i>");
+                            $(th).removeAttr('title');
+                            $(th).attr('title', 'Lock User');
+
+                            swal("User is Unlocked SuccessFully!", {
+                                icon: "success",
+                            });
+
+
+                        }
+                        else if (response.status == 'locked') {
+                            $(th).empty();
+                            $(th).html("<i  class='fa fa-unlock'></i>");
+                            $(th).removeAttr('title');
+                            $(th).attr('title', 'Unlock User');
+                            swal("User is Locked SuccessFully!", {
+                                icon: "success",
+                            });
+
+                        }
+                    } else {
+                        swal("Something Went Wrong!", {
+                            icon: "warning",
+                        });
+                    }
+                },
+                error: function () {
+                    swal("Something Went Wrong!", {
+                        icon: "warning",
+                    });
+                }
+            });
+        }
+
+        function DeleteUser(th) {
+
+            var userId = $(th).attr('data-token');
+          swal({
+                title: "Are you sure?",
+                text: "You Want Delete Of This User!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+
+                          $.ajax({
+                              type: "GET",
+                              url: "/deluser/" + userId, //"@Url.Action("DeleteUser", "UserManagement")",
+                              //data: { id: userId },
+                              success: function (result) {
+
+                                  if (typeof (result) == "string") {
+                                      if (result.includes("Access Denied")) {
+                                          swal("You Do not have Permission to lock User!", {
+                                              icon: "warning",
+                                          });
+                                      }
+                                      else if (result == "success") {
+                                          swal("User has been deleted Successfully!", {
+                                              icon: "success",
+                                          });
+                                          setTimeout(function () { window.location.href = "/players" }, 1500);
+                                      }
+                                      else if (result == "failed") {
+                                          swal("User not deleted, Something Went Wrong!", {
+                                              icon: "warning",
+                                          });
+                                      }
+                                  }
+                              },
+                    error: function () {
+                     alert("error");
+                    }
+                });
+                    }
+
+                });
+        }
+
+        function confirmEmail(elm) {
+            var id = $(elm).attr('data-token');
+            swal({
+                    title: "Are you sure?",
+                    text: "you want to sent email verification mail!",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                }).then((confirm) => {
+                    if (confirm) {
+                    $.ajax({
+                    type: "POST",
+                    url: "@string.Concat(appsetting.Value.MainSiteURL, "sentconfirmemail/")",
+                    data: {email: id },
+                    success: function (result) {
+                        if (result != null) {
+                              if (result.status) {
+                                  swal("Verification mail successfully sent");
+                            }
+                            else {
+
+                                  swal("Error: Something wrong!!");
+                                  console.log(result.message);
+                            }
+                        }
+                    },
+                    error: function () {
+                     alert("error");
+                    }
+                });
+                    }
+                    else {
+
+                    }
+                });
+
+        }
+
+        //assuming you have a json data as above
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+}
+

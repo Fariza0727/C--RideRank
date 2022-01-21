@@ -1,0 +1,472 @@
+﻿@model IEnumerable<RR.Dto.RiderDto>
+@inject Microsoft.Extensions.Options.IOptions<RR.Core.AppSettings> appsetting;
+
+@{
+    ViewData["Title"] = "Index";
+    var appSettings = appsetting.Value;
+}
+
+@section styles{
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Rider List</h4>
+                </div>
+                <div class="card-body">
+                    <select class="form-control col-md-3" id="ddl_rank">
+                        <option value="1">Ranked</option>
+                        <option value="2">Un-Ranked</option>
+                    </select>
+                    <div class="form-group col-md-3">
+                        <input type="checkbox" value="false" name="clearRider" id="ddl_clrrider" />
+                        <label for="ddl_clrrider" title="Rider has not been seen in @DateTime.Now.AddYears(-1).Year year">Rider Not seen (@DateTime.Now.AddYears(-1).Year)</label>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <button onclick="deletenotseenriders(this)" class="hide btn btn-warning btn-sm" id="notseenriderdelete">
+                            Delete Not Seen Riders
+                        </button>
+                        <button onclick="deletenotseenriders(this, true)" class="hide btn btn-danger btn-sm" id="notseenriderdeleteperma">
+                            Permanent Delete Not Seen Riders
+                        </button>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" width="100%" id="userDataTable">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th>Word Rank</th>
+                                    <th>Rider Id</th>
+                                    <th>Name</th>
+                                    <th>Outs</th>
+                                    <th>Rode</th>
+                                    <th>Streak</th>
+                                    <th>Hand</th>
+                                    <th>Power</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog" style="top:20%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="float:left">
+                    Rider Detail  <span class="pull-right">
+                        <i class="material-icons" data-dismiss="modal">
+                            close
+                        </i>
+                    </span>
+                </h4>
+
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <b>Name: </b><span id="rider_name"></span>
+                            </td>
+                            <td>
+                                <b>Outs: </b><span id="mounted"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <b>Rode: </b><span id="rode"></span>
+                            </td>
+                            <td>
+                                <b>Streak: </b><span id="streak"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <b>Hand: </b><span id="hand"></span>
+                            </td>
+                            <td>
+                                <b>RidePerc: </b><span id="rideperc"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <b>RidePrecCurent: </b><span id="rideperc_current"></span>
+                            </td>
+                            <td>
+                                <b>CurrentOuts: </b><span id="mounted_current"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <b>RiderPower: </b><span id="riderpower"></span>
+                            </td>
+                            <td>
+                                <b>RiderPowerCurrent: </b><span id="riderpower_current"></span>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>
+                                <b>World Rank: </b><span id="riderwr"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+
+        $(document).ready(function() {
+
+            var success = '@ViewBag.Message';
+
+            if (success != ""  ) {
+
+                if (success == "updated") {
+                    swal("Rider Record has been Updated successfully!", {
+                        icon: "success",
+                    });
+                }
+            }
+    });
+
+
+
+        $(function () {
+            var rec = $('#ddl_rank').val();
+            $('.dataTables_filter input').attr('placeholder', 'Search...').hide();
+            var table = $("#userDataTable").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "columnDefs": [
+                    { "targets": [8,9], "orderable": false }
+                ],
+                "ajax": {
+                    "url": '/rider/getallriders/' + parseInt(rec),
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "cwrp", "name": "cwrp", "autoWidth": false,
+                        "render": function (value) {
+                            if (parseInt(value) > 0)
+                                return value;
+                            else
+                                return '<span>Un-ranked</span>';
+                        }
+                    },
+                    { "data": "riderid", "name": "riderid", "autoWidth": false },
+                    //{ "data": "rider_name", "name": "rider_name", "autoWidth": false },
+                    {
+                        "data": "rider_name", "name": "rider_name", "autoWidth": false,
+                        "render": function (value, type, row) {
+                            //<img class="cericle-img" src="'+ row.rider_avatar + '" alt="" width="30" height="30">\
+                            return '<div class="team-figure">\
+                                 @if (appSettings.ShowDynamicBullRiderImg) {
+                                         <text><img class="cericle-img" src="'+ row.rider_avatar + '" alt="" width="30" height="30"></text>
+                                     }
+                                     else { <text><img class="cericle-img" src="/assets/img/logo.png" alt="" width="30" height="30"></text>}\
+                                    </div>\
+                                    <div class="team-title">\
+                                        <div class="team-name rider-name"><a href="javascript:void(0);" onclick="getRiderDetail(this)"    data-token="' + row.id + '" data-toggle="tooltip">' + value + '</a></div>\
+                                    </div>';
+                        }
+                    },
+                    { "data": "mounted", "name": "mounted", "autoWidth": false },
+                    { "data": "rode", "name": "rode", "autoWidth": false },
+                    { "data": "streak", "name": "streak", "autoWidth": false },
+                    { "data": "hand", "name": "hand", "autoWidth": false },
+                    { "data": "riderpower", "name": "riderpower", "autoWidth": false },
+
+                    {
+                        "data": "isActive", "name": "isActive", "autoWidth": false,
+                        "render": function (value) {
+                            if (value === null) return
+                                '<i class="fa fa-remove" onclick = "getUserStatus(this)" value="true" ></i > ';
+
+                            if (value)
+                                return '<span class="label label-success" onclick="updateStatus(this)">Active</span>';
+                            else
+                                return '<span class="label label-danger" onclick="updateStatus(this)">DeActive</span>';
+                        }
+                    },
+                    {
+                        "data": "guyid", "name": "guyid", "render": function (value) {
+                            return '<a href="javascript:void(0);" onclick="getRiderDetail(this)" data-token="' + value + '" data-toggle="tooltip">\
+                                    <i class="fa fa-eye"></i></a>\
+                                    <a href="/rider/detail/' + value + '" data-token=' + value + ' class="btn btn-primary btn-link btn-sm" rel="tooltip" title="Edit">\
+                                    <i class="material-icons">edit</i><div class="ripple-container"></div></a>\
+                                    <a onclick = "deleteRider(' + value + ')" tooltip = "Delete" title="Delete"> <i class="material-icons">delete_forever</i></a > '
+                    }, "autoWidth": true
+                    }
+                ],
+                dom: "Bfrtip",
+                 "pageLength": 10
+            });
+
+            $('.search-input').on('keyup change', function () {
+                var index = $(this).attr('data-column'),
+                    val = $(this).val();
+                table.columns(index).search(val.trim()).draw();
+            });
+            $('#ddl_rank').on('change', function () {
+                var filter_value = $(this).val();
+                var new_url = '/rider/getallriders/' + parseInt(filter_value)+'/' + $('#ddl_clrrider').val();
+                //var new_url = '/rider/getallriders/' + parseInt(filter_value);
+                table.ajax.url(new_url).load();
+            });
+            $('#ddl_clrrider').on('change', function () {
+                debugger;
+                var status = false;
+                $(this).val(false);
+
+                if ($(this).is(":checked")) {
+                    status = true;
+                    $(this).val(true);
+                    $('#notseenriderdelete,#notseenriderdeleteperma').removeClass('hide');
+                }
+                else {
+                    $('#notseenriderdelete,#notseenriderdeleteperma').addClass('hide');
+                }
+                var new_url = '/rider/getallriders/' + parseInt($('#ddl_rank').val()) + '/' + status;
+                table.ajax.url(new_url).load();
+            });
+        });
+
+        function getRiderDetail(th) {
+            var x = $(th);
+            var modal = $("#myModal");
+            $.ajax({
+                url: "@Url.Action("GetRiderDetail", "Rider")",
+                data: { riderId: x.attr("data-token") },
+                type: "POST",
+                success: function (result) {
+                    if (result != null) {
+                        $("#close").off().on("click", function () {
+                            modal.modal('hide');
+                        });
+                        modal.find("#rider_name").text(result.rider_name);
+                        modal.find("#mounted").text(result.mounted);
+                        modal.find("#rode").text(result.rode);
+                        modal.find("#streak").text(result.streak);
+                        modal.find("#hand").text(result.hand);
+                        modal.find("#rideperc").text(result.rideperc);
+                        modal.find("#rideperc_current").text(result.rideperc_current);
+                        modal.find("#mounted_current").text(result.mounted_current);
+                        modal.find("#riderpower").text(result.riderpower);
+                        modal.find("#riderpower_current").text(result.riderpower_current);
+                        modal.find("#riderwr").text(result.cwrp);
+                        modal.modal('show');
+                    }
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+        }
+
+        function updateStatus(th) {
+            var id = $(th).parent('td').next('td').find('a').attr('data-token');
+            swal({
+                title: "Are you sure?",
+                text: "You Want To Change The Statue Of This User!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                          $.ajax({
+                    url: "@Url.Action("UpdateStatus", "Rider")",
+                              data: { riderId: id },
+                    type: "POST",
+                              success: function (result) {
+                                  debugger;
+                                  if (typeof (result) == "string") {
+                                      if (result.includes("Access Denied")) {
+                                          swal("You Do Not Have the Permission to Update !", {
+
+                                              icon: "warning",
+                                          });
+                                      }
+                                      else {
+                                          swal("Not Updated Something Went Wrong !", {
+
+                                              icon: "warning",
+                                          });
+                                      }
+                                  }
+                                  else if (typeof (result) == "object") {
+                                      if (result.isActive) {
+                                          $(th).text("Active");
+                                          if ($(th).hasClass("label-danger")) {
+                                              $(th).closest("td").find("span").removeClass("label label-danger");
+                                              $(th).closest("td").find("span").addClass("label label-success");
+                                          }
+                                          swal("Rider status has been updated!");
+                                      }
+                                      else {
+                                          $(th).text("DeActive");
+                                          if ($(th).hasClass("label-success")) {
+                                              $(th).closest("td").find("span").removeClass("label label-success");
+                                              $(th).closest("td").find("span").addClass("label label-danger");
+                                          }
+                                          swal("Rider status has been updated!");
+                                      }
+                                  } else {
+                                      swal("Not Updated Something Went Wrong !", {
+
+                                          icon: "warning",
+                                      });
+                                  }
+
+
+                    },
+                    error: function () {
+                     alert("error");
+                    }
+                });
+                    }
+                    else {
+                        swal("The rider status is not updated!");
+                    }
+                });
+        }
+
+        function deletenotseenriders(elm,isparmanent) {
+            swal({
+                title: "Are you sure?",
+                text: "You Want Delete Of This Riders!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+
+                        var ispdelet = false;
+                        if (typeof (isparmanent) !== "undefined" && isparmanent == true)
+                            ispdelet = true;
+
+                          $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("DeleteNotSeenRider", "Rider")",
+                              data: { isparmnentdelete: ispdelet },
+                              success: function (result) {
+                                  if (result != null) {
+
+                                      debugger;
+                                      if (result.indexOf('alert-danger') > -1) {
+                                          if (result.includes("Access Denied")) {
+                                              swal("You Do Not Have Permission To Delete!", {
+
+                                                  icon: "warning",
+                                              });
+                                          } else {
+                                              swal("Not Deleted,Something Went Wrong!", {
+                                                  icon: "warning",
+                                              });
+                                          }
+                                      }
+                                      else {
+                                          swal("Success! Riders Record deleted successfully!", {
+                                              icon: "success",
+                                          });
+                                          setTimeout(function () { window.location.href = "/riders" }, 1500);
+                                      }
+                                      $("#awardDataTable").DataTable().draw();
+                                  }
+                              },
+                    error: function () {
+                     alert("error");
+                    }
+                });
+                    }
+                    else {
+                        swal("Rider is not deleted!");
+                    }
+                });
+        }
+        function deleteRider(id) {
+          swal({
+                title: "Are you sure?",
+                text: "You Want Delete Of This Rider!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                          $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("DeleteRider", "Rider")",
+                    data: {riderId: id },
+                              success: function (result) {
+                                  if (result != null) {
+
+                                      debugger;
+                                      if (result.indexOf('alert-danger') > -1) {
+                                          if (result.includes("Access Denied")) {
+                                              swal("You Do Not Have Permission To Delete!", {
+
+                                                  icon: "warning",
+                                              });
+                                          } else {
+                                              swal("Not Deleted,Something Went Wrong!", {
+
+                                                  icon: "warning",
+                                              });
+                                          }
+                                      }
+                                      else {
+                                          swal("Success! Rider Record deleted successfully!", {
+                                              icon: "success",
+                                          });
+                                          setTimeout(function () { window.location.href = "/riders" }, 1500);
+                                      }
+                                      $("#awardDataTable").DataTable().draw();
+                                  }
+                              },
+                    error: function () {
+                     alert("error");
+                    }
+                });
+                    }
+                    else {
+                        swal("Rider is not deleted!");
+                    }
+                });
+        }
+
+    </script>
+}
+

@@ -1,0 +1,616 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Template>
+  <Contactus>
+    <Subject>Rank Ride Enquiry</Subject>
+    <Body>
+      <![CDATA[
+      <!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900|Nunito:400,600,700,800,900&display=swap" rel="stylesheet">
+    <title>@@@title</title>
+
+</head>
+<body style="background-color: #f7f7f7; height: 100%; margin: 0; padding: 0; width: 100%">
+    <center>
+        <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" id="bodyTable" style="border-collapse: collapse;background-color: #f7f7f7; height: 100%; margin: 0; padding: 0; width:100%" width="100%">
+            <tr>
+                <td align="center" id="bodyCell" style="border-top: 0;height: 100%; margin: 0; padding: 0; width: 100%" valign="top">
+
+                    <table border="0" cellpadding="0" cellspacing="0" class="templateContainer" style="border-collapse: collapse; max-width: 600px; background:#f9f9f9;border: 0" width="100%">
+                        <tr>
+                            <td id="templatePreheader" style="background-color: #b18837;border-top: 0; border-bottom: 0; padding-top: 16px; padding-bottom: 8px" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" class="mcnTextBlock" style="border-collapse: collapse;min-width:100%;" width="100%">
+                                    <tbody class="mcnTextBlockOuter">
+                                        <tr>
+                                            <td class="mcnTextBlockInner" valign="top">
+                                                <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnTextContentContainer" style="border-collapse: collapse; min-width:100%;" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word;color: #fff; font-size: 30px; line-height: 24px; text-align: center; padding:9px 18px;' valign="top">
+                                                                Welcome to RankRide
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="templateBody" style="background-color: #fff; border-top: 0; border-bottom: 0; padding: 30px 30px" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" class="mcnTextBlock" width="100%">
+                                    <tbody class="mcnTextBlockOuter">
+                                        <tr>
+                                            <td class="mcnTextBlockInner" valign="top">
+                                                <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnTextContentContainer" style="border-collapse: collapse;min-width:100%;" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                Hello Admin,
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                You received an enquiry from below information:
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                <p><b>Name: </b> @@@Name
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                <p><b>Phone: </b> @@@Phone
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                <p><b>Email: </b> @@@Email
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                <p><b>Message: </b> @@@Message
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                Regards,<br />
+                                                RankRide Team
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="templateFooter" style="background-color: #282828; padding: 25px 0" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" class="mcnTextBlock" style="min-width:100%;" width="100%">
+                                    <tbody class="mcnTextBlockOuter">
+                                        <tr>
+                                            <td class="mcnTextBlockInner" valign="top">
+
+                                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="padding: 18px; text-align: center;color: #fff;font-size: 12px;" valign="top">
+                                                                Got Questions? Reply directly to this email or mail us at <a style="color: #fff;" href="mailto:info@foxiie.com">info@rankride.com</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </center>
+</body>
+</html>
+
+      ]]>
+    </Body>
+  </Contactus>
+  <AccountActivation>
+    <Subject>Rank Ride email Confirmation</Subject>
+    <Body>
+      <![CDATA[
+      <!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900|Nunito:400,600,700,800,900&display=swap" rel="stylesheet">
+    <title>@@@title</title>
+
+</head>
+<body style="background-color: #f7f7f7; height: 100%; margin: 0; padding: 0; width: 100%">
+    <center>
+        <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" id="bodyTable" style="border-collapse: collapse;background-color: #f7f7f7; height: 100%; margin: 0; padding: 0; width:100%" width="100%">
+            <tr>
+                <td align="center" id="bodyCell" style="border-top: 0;height: 100%; margin: 0; padding: 0; width: 100%" valign="top">
+
+                    <table border="0" cellpadding="0" cellspacing="0" class="templateContainer" style="border-collapse: collapse; max-width: 600px; background:#f9f9f9;border: 0" width="100%">
+                        <tr>
+                            <td id="templatePreheader" style="background-color: #b18837;border-top: 0; border-bottom: 0; padding-top: 16px; padding-bottom: 8px" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" class="mcnTextBlock" style="border-collapse: collapse;min-width:100%;" width="100%">
+                                    <tbody class="mcnTextBlockOuter">
+                                        <tr>
+                                            <td class="mcnTextBlockInner" valign="top">
+                                                <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnTextContentContainer" style="border-collapse: collapse; min-width:100%;" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word;color: #fff; font-size: 30px; line-height: 24px; text-align: center; padding:9px 18px;' valign="top">
+                                                                Welcome to RankRide
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="templateBody" style="background-color: #fff; border-top: 0; border-bottom: 0; padding: 30px 30px" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" class="mcnTextBlock" width="100%">
+                                    <tbody class="mcnTextBlockOuter">
+                                        <tr>
+                                            <td class="mcnTextBlockInner" valign="top">
+                                                <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnTextContentContainer" style="border-collapse: collapse;min-width:100%;" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                Hello @@@UserEmail,
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                Please confirm your account by Clicking on below Link:
+                                                            </td>
+                                                        </tr>
+                                                        <br/>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                <p><a href='@@@Url' style='padding: 11px;background-color: #b18837;border-radius: 5px;text-decoration: none;color: #fff;'>Confirm My Email Account!!</a>.</p>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <br/>
+                                        <tr>
+                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                Regards,<br />
+                                                RankRide Team
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="templateFooter" style="background-color: #282828; padding: 25px 0" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" class="mcnTextBlock" style="min-width:100%;" width="100%">
+                                    <tbody class="mcnTextBlockOuter">
+                                        <tr>
+                                            <td class="mcnTextBlockInner" valign="top">
+
+                                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="padding: 18px; text-align: center;color: #fff;font-size: 12px;" valign="top">
+                                                                Got Questions? Reply directly to this email or mail us at <a style="color: #fff;" href="mailto:info@foxiie.com">info@rankride.com</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </center>
+</body>
+</html>
+
+      ]]>
+    </Body>
+  </AccountActivation>
+  <PasswordRequest>
+    <Subject>Password Request</Subject>
+    <Body>
+      <![CDATA[
+      <!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900|Nunito:400,600,700,800,900&display=swap" rel="stylesheet">
+    <title>@@@title</title>
+
+</head>
+<body style="background-color: #f7f7f7; height: 100%; margin: 0; padding: 0; width: 100%">
+    <center>
+        <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" id="bodyTable" style="border-collapse: collapse;background-color: #f7f7f7; height: 100%; margin: 0; padding: 0; width:100%" width="100%">
+            <tr>
+                <td align="center" id="bodyCell" style="border-top: 0;height: 100%; margin: 0; padding: 0; width: 100%" valign="top">
+
+                    <table border="0" cellpadding="0" cellspacing="0" class="templateContainer" style="border-collapse: collapse; max-width: 600px; background:#f9f9f9;border: 0" width="100%">
+                        <tr>
+                            <td id="templatePreheader" style="background-color: #b18837;border-top: 0; border-bottom: 0; padding-top: 16px; padding-bottom: 8px" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" class="mcnTextBlock" style="border-collapse: collapse;min-width:100%;" width="100%">
+                                    <tbody class="mcnTextBlockOuter">
+                                        <tr>
+                                            <td class="mcnTextBlockInner" valign="top">
+                                                <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnTextContentContainer" style="border-collapse: collapse; min-width:100%;" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word;color: #fff; font-size: 30px; line-height: 24px; text-align: center; padding:9px 18px;' valign="top">
+                                                                Welcome to RankRide
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="templateBody" style="background-color: #fff; border-top: 0; border-bottom: 0; padding: 30px 30px" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" class="mcnTextBlock" width="100%">
+                                    <tbody class="mcnTextBlockOuter">
+                                        <tr>
+                                            <td class="mcnTextBlockInner" valign="top">
+                                                <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnTextContentContainer" style="border-collapse: collapse;min-width:100%;" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                Hello @@@Email,
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                Please Reset You Password By Clicking on below Link:
+                                                            </td>
+                                                        </tr>
+                                                        <br/>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                <p><a href='@@@Url' style='padding: 11px;background-color: #b18837;border-radius: 5px;text-decoration: none;color: #fff;'>Reset Password!!</a></p>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <br/>
+                                        <tr>
+                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                Regards,<br />
+                                                RankRide Team
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="templateFooter" style="background-color: #282828; padding: 25px 0" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" class="mcnTextBlock" style="min-width:100%;" width="100%">
+                                    <tbody class="mcnTextBlockOuter">
+                                        <tr>
+                                            <td class="mcnTextBlockInner" valign="top">
+
+                                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="padding: 18px; text-align: center;color: #fff;font-size: 12px;" valign="top">
+                                                                Got Questions? Reply directly to this email or mail us at <a style="color: #fff;" href="mailto:info@foxiie.com">info@rankride.com</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </center>
+</body>
+</html>
+
+      ]]>
+    </Body>
+  </PasswordRequest>
+  <AccountCreated>
+    <Subject>Rank Ride Account Registration</Subject>
+    <Body>
+      <![CDATA[
+      <!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900|Nunito:400,600,700,800,900&display=swap" rel="stylesheet">
+    <title>@@@Title</title>
+
+</head>
+<body style="background-color: #f7f7f7; height: 100%; margin: 0; padding: 0; width: 100%">
+    <center>
+        <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" id="bodyTable" style="border-collapse: collapse;background-color: #f7f7f7; height: 100%; margin: 0; padding: 0; width:100%" width="100%">
+            <tr>
+                <td align="center" id="bodyCell" style="border-top: 0;height: 100%; margin: 0; padding: 0; width: 100%" valign="top">
+
+                    <table border="0" cellpadding="0" cellspacing="0" class="templateContainer" style="border-collapse: collapse; max-width: 600px; background:#f9f9f9;border: 0" width="100%">
+                        <tr>
+                            <td id="templatePreheader" style="background-color: #b18837;border-top: 0; border-bottom: 0; padding-top: 16px; padding-bottom: 8px" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" class="mcnTextBlock" style="border-collapse: collapse;min-width:100%;" width="100%">
+                                    <tbody class="mcnTextBlockOuter">
+                                        <tr>
+                                            <td class="mcnTextBlockInner" valign="top">
+                                                <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnTextContentContainer" style="border-collapse: collapse; min-width:100%;" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word;color: #fff; font-size: 30px; line-height: 24px; text-align: center; padding:9px 18px;' valign="top">
+                                                                Welcome to RankRide
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="templateBody" style="background-color: #fff; border-top: 0; border-bottom: 0; padding: 30px 30px" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" class="mcnTextBlock" width="100%">
+                                    <tbody class="mcnTextBlockOuter">
+                                        <tr>
+                                            <td class="mcnTextBlockInner" valign="top">
+                                                <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnTextContentContainer" style="border-collapse: collapse;min-width:100%;" width="100%">
+                                                    <tbody>
+                                                      <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                Username: @@@Email<br>
+                                                                TempPassword: @@@Password
+
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                Hello Rank Ride Player
+
+
+                                                            </td>
+                                                        </tr>
+
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                <p>We do apologize to all our great Players. Because of a technical glitch with our Rank Ride Fantasy website, we have been down this week. Now that it is back up, we had to reset everyones password. To log in for the PBR Finals contest tonight, we request that you go to the login page and request a password reset on your account. Sorry for the inconvenience these problem have caused. We hope everyone enjoys the PBR Finals.</p>
+
+
+                                                            </td>
+                                                        </tr>
+                                                        <br/>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                               <p>We have extended the Team formation until the start of the final round on the 15th.</p>
+
+<p>We plan to have a new and more exciting experience going into the new year. We do appreciate you and plan on some big things next season.</p>
+
+
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <br/>
+                                        <tr>
+                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                Thank You Regards,<br />
+                                                The Rank Ride Team
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="templateFooter" style="background-color: #282828; padding: 25px 0" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" class="mcnTextBlock" style="min-width:100%;" width="100%">
+                                    <tbody class="mcnTextBlockOuter">
+                                        <tr>
+                                            <td class="mcnTextBlockInner" valign="top">
+
+                                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="padding: 18px; text-align: center;color: #fff;font-size: 12px;" valign="top">
+                                                                Got Questions? Reply directly to this email or mail us at <a style="color: #fff;" href="mailto:info@foxiie.com">info@rankride.com</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </center>
+</body>
+</html>
+
+      ]]>
+    </Body>
+  </AccountCreated>
+  <ShopifyAccountActivation>
+    <Subject>Rank Ride email Confirmation</Subject>
+    <Body>
+      <![CDATA[
+      <!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Nunito+Sans:400,600,700,800,900|Nunito:400,600,700,800,900&display=swap" rel="stylesheet">
+    <title>@@@title</title>
+
+</head>
+<body style="background-color: #f7f7f7; height: 100%; margin: 0; padding: 0; width: 100%">
+    <center>
+        <table align="center" border="0" cellpadding="0" cellspacing="0" height="100%" id="bodyTable" style="border-collapse: collapse;background-color: #f7f7f7; height: 100%; margin: 0; padding: 0; width:100%" width="100%">
+            <tr>
+                <td align="center" id="bodyCell" style="border-top: 0;height: 100%; margin: 0; padding: 0; width: 100%" valign="top">
+
+                    <table border="0" cellpadding="0" cellspacing="0" class="templateContainer" style="border-collapse: collapse; max-width: 600px; background:#f9f9f9;border: 0" width="100%">
+                        <tr>
+                            <td id="templatePreheader" style="background-color: #b18837;border-top: 0; border-bottom: 0; padding-top: 16px; padding-bottom: 8px" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" class="mcnTextBlock" style="border-collapse: collapse;min-width:100%;" width="100%">
+                                    <tbody class="mcnTextBlockOuter">
+                                        <tr>
+                                            <td class="mcnTextBlockInner" valign="top">
+                                                <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnTextContentContainer" style="border-collapse: collapse; min-width:100%;" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word;color: #fff; font-size: 30px; line-height: 24px; text-align: center; padding:9px 18px;' valign="top">
+                                                                Welcome to RankRide
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="templateBody" style="background-color: #fff; border-top: 0; border-bottom: 0; padding: 30px 30px" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" class="mcnTextBlock" width="100%">
+                                    <tbody class="mcnTextBlockOuter">
+                                        <tr>
+                                            <td class="mcnTextBlockInner" valign="top">
+                                                <table align="left" border="0" cellpadding="0" cellspacing="0" class="mcnTextContentContainer" style="border-collapse: collapse;min-width:100%;" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                Hello @@@UserEmail,
+                                                            </td>
+                                                        </tr>
+                                                          <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                <strong>Username: </strong>@@@UserEmail
+                                                            </td>
+                                                        </tr>
+                                                         <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                               <strong>Temp password: </strong>@@@Password
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                Please confirm your account by Clicking on below Link:
+                                                            </td>
+                                                        </tr>
+                                                        <br/>
+                                                        <tr>
+                                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                                <p><a href='@@@Url' style='padding: 11px;background-color: #b18837;border-radius: 5px;text-decoration: none;color: #fff;'>Confirm My Email Account!!</a>.</p>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                        <br/>
+                                        <tr>
+                                            <td class="mcnTextContent" style='word-break: break-word; color: #2a2a2a;font-size: 16px; line-height: 24px; text-align: left; padding:9px 18px;' valign="top">
+                                                Regards,<br />
+                                                RankRide Team
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="templateFooter" style="background-color: #282828; padding: 25px 0" valign="top">
+                                <table border="0" cellpadding="0" cellspacing="0" class="mcnTextBlock" style="min-width:100%;" width="100%">
+                                    <tbody class="mcnTextBlockOuter">
+                                        <tr>
+                                            <td class="mcnTextBlockInner" valign="top">
+
+                                                <table align="center" border="0" cellpadding="0" cellspacing="0" width="100%">
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="padding: 18px; text-align: center;color: #fff;font-size: 12px;" valign="top">
+                                                                Got Questions? Reply directly to this email or mail us at <a style="color: #fff;" href="mailto:info@foxiie.com">info@rankride.com</a>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </center>
+</body>
+</html>
+
+      ]]>
+    </Body>
+  </ShopifyAccountActivation>
+</Template>

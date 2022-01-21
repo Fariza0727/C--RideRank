@@ -1,0 +1,33 @@
+﻿@model RR.Dto.LoginDto
+@{
+    string returnUrl = ViewBag.ReturnUrl;
+}
+<form asp-action="Login" asp-controller="Account" method="POST" data-ajax="true" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+      data-ajax-failure="onFailed" data-ajax-success="onRegisterSuccess" data-ajax-update="response">
+    <div id="response">
+    </div>
+    <div class="form-wrap">
+        <span class="login_span">Email</span>
+    </div>
+    <div class="form-wrap mt-1">
+        <input type="hidden" value="@returnUrl" name="ReturnUrl" id="ReturnUrl" />
+        @Html.TextBoxFor(x => x.Email, new { @class = "form-input", autocomplete = "off"})
+        @Html.ValidationMessageFor(x => x.Email)
+    </div>
+    <div class="form-wrap">
+        <span class="login_span">Password</span>
+    </div>
+    <div class="form-wrap  mt-1">
+        @Html.PasswordFor(x => x.Password, new { @class = "form-input", autocomplete = "off" })
+        @Html.ValidationMessageFor(x => x.Password)
+    </div>
+    <div class="form-wrap">
+        <label class="checkbox-inline checkbox-inline-lg checkbox-light">
+            @*@Html.CheckBoxFor(x => x.Rememberme) Remember Me?*@
+        </label>
+        <label class="float-right">
+            <a class="custom-forgot-txt" href="#" data-target="#pwdModal" data-toggle="modal">Forgot Password?</a>
+        </label>
+    </div>
+    <button class="button button-lg button-dark button-block custom-login-btn" type="submit">LogIN</button>
+</form>

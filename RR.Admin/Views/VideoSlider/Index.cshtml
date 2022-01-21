@@ -1,0 +1,175 @@
+﻿@inject Microsoft.Extensions.Options.IOptions<RR.Core.AppSettings> settings;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var filePath = string.Concat(settings.Value.MainSiteURL, settings.Value.BannerSharedPath);
+}
+
+@section styles{
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Banner List <a href="/VideoSlider/AddEditSlider?id=0" class="btn pull-right"> Add Video </a></h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" width="100%" id="sliderDataTable">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th>Video</th>
+                                    <th>Update Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+
+
+        $(function () {
+            $('.dataTables_filter input').attr('placeholder', 'Search...').hide();
+            var table = $("#sliderDataTable").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "columnDefs": [
+                    { "targets": [2], "orderable": false }
+                ],
+                "ajax": {
+                    "url": '/VideoSlider/GetAllSliders',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+
+                    {
+                        "data": "videoPath", "name": "videoPath", "render": function (value, type, row) {
+                            if (!row.isUrl) {
+                                return `<video width="220" height="120">
+                                            <source src="`+row.videoPath+`" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>`;
+                            }
+                            else {
+                                return `<iframe width="420" height="345" src="`+row.videoUrl+`">
+</iframe>`
+                            }
+                        }, "autoWidth": false
+                    },
+                    {
+                        "data": "isActive", "name": "isActive", "render": function (value, type, row) {
+                            if (value) {
+                                return `<button type="button" class="btn btn-sm btn-warning" onclick="updateStatus('`+ row.id +`',false)">DeActivate</button>`;
+                            }
+                            else { return `<button type="button" class="btn btn-sm btn-success" onclick="updateStatus('`+ row.id + `',true)">Activate</button>`;;}
+                        }, "autoWidth": false
+                    },
+                    {
+                        "data": "id", "name": "id", "render": function (value) {
+                            return '<a href="/VideoSlider/AddEditSlider?id=' + value + '" data-token=' + value + ' class="btn btn-primary btn-link btn-sm" rel="tooltip" data-original-title="Edit" title="Edit "><i class="material-icons">edit</i><div class="ripple-container"></div></a> <a style="cursor:pointer;" onclick="DeleteRecord(' + value + ')" data-toggle="tooltip"  data-original-title="Delete Task" title="Delete News"><i class="material-icons">delete_forever</i></a>'
+                    }, "autoWidth": true
+                    }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 10
+
+            });
+
+            $('.search-input').on('keyup change', function () {
+                var index = $(this).attr('data-column'),
+                    val = $(this).val();
+                table.columns(index).search(val.trim()).draw();
+            });
+        
+
+            updateStatus = function(Id, stats) {
+              swal({
+                title: "Are you sure?",
+                text: "You want update status of this record!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                          $.ajax({
+                    type: "Post",
+                    url: "@Url.Action("UpdateStatus", "VideoSlider")",
+                              data: { id: Id, status : stats },
+                   success: function (result) {
+                       if (result.status) {
+                           swal("Status updated successfully!", {
+                               icon: "success",
+                           });
+                           table.ajax.reload(false);
+                       }
+                       else {
+                           swal(result.message, {
+                               icon: "warning",
+                           });
+                       }
+                            },
+                    error: function () {
+                     alert("error");
+                    }
+                });
+                    }
+                });
+        }
+            DeleteRecord =function(Id) {
+          swal({
+                title: "Are you sure?",
+                text: "You want delete of this record!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                          $.ajax({
+                    type: "Post",
+                    url: "@Url.Action("DeleteSlider", "VideoSlider")",
+                    data: {id: Id },
+                   success: function (result) {
+                       if (result.status) {
+                           swal("Record has been deleted successfully!", {
+                               icon: "success",
+                           });
+                           table.ajax.reload(false);
+                       }
+                       else {
+                           swal(result.message, {
+                               icon: "warning",
+                           });
+                       }
+                            },
+                    error: function () {
+                     alert("error");
+                    }
+                });
+                    }
+                });
+        }
+        });
+    </script>
+}
+
+
+

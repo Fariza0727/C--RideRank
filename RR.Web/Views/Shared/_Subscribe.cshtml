@@ -1,0 +1,35 @@
+﻿@model RR.Dto.SubscribeDto
+<section class="section custom-float-width">
+    <div class="footer">
+        <div class="footer_title">
+            READY TO RIDE? SIGN UP FOR OUR NEWSLETTER FOR EXCLUSIVE ACCESS.
+        </div>
+
+        <div class="row">
+            <div class="col-lg-3"></div>
+            <div class="col-lg-6 col-12 footer_form">
+                <form class="rd-form" asp-action="Subscribe" asp-controller="Home" id="subscribeForm" method="POST" data-ajax="true" data-ajax-begin="onBeginSubscribe" data-ajax-complete="onCompleteSubscribe"
+                      data-ajax-failure="onFailedSubscribe" data-ajax-success="onSuccessSubscribe" data-ajax-update="response">
+                    <div class="row">
+
+                        <div class="col-lg-8 col-12 footer_entry has-error">
+                            <center>
+                                @Html.TextBoxFor(x => x.Email, new { @class = "form_input form-control-has-validation", @id = "footer-form-email", @autocomplete = "off", @placeholder = "Input Email Here" })
+                                @Html.ValidationMessageFor(x => x.Email, "", new { @class = "form-validation sub_email" })
+                            </center>
+                        </div>
+                        <div class="col-lg-4 col-12">
+                            <center><button class="form_sign_up text-center btn" type="submit">SIGN UP</button></center>
+                        </div>
+
+                    </div>
+                </form>
+                <!-- Begin Constant Contact Inline Form Code -->
+                <div class="ctct-inline-form" data-form-id="4dca606e-2084-4cb9-97ed-dbd1fcb06526"></div>
+                <!-- End Constant Contact Inline Form Code -->
+            </div>
+            <div class="col-lg-3 col-12"></div>
+        </div>
+
+    </div>
+</section>

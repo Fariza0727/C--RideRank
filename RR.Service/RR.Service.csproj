@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.9.1" />
+    <PackageReference Include="FastMember" Version="1.5.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="PayPalCheckoutSdk" Version="1.0.4" />
+    <PackageReference Include="StackExchange.Redis" Version="2.0.601" />
+    <PackageReference Include="Voucherify" Version="7.7.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RR.AdminData\RR.AdminData.csproj" />
+    <ProjectReference Include="..\RR.Core\RR.Core.csproj" />
+    <ProjectReference Include="..\RR.Dto\RR.Dto.csproj" />
+    <ProjectReference Include="..\RR.Mapper\RR.Mapper.csproj" />
+    <ProjectReference Include="..\RR.Repo\RR.Repo.csproj" />
+    <ProjectReference Include="..\RR.StaticMapper\RR.StaticMapper.csproj" />
+  </ItemGroup>
+
+</Project>

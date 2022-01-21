@@ -1,0 +1,235 @@
+﻿@model RR.Dto.Team.TeamFormationDto
+@{
+    ViewData["Title"] = "Team Formation";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string userId = ViewBag.userId;
+}
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="/images/bg-breadcrumbs-1-1920x726.jpg">
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h3 class="breadcrumbs-custom-title">Team Formation</h3>
+        </div>
+    </div>
+</section>
+
+<section class="section section-variant-1 bg-gray-100">
+    <div class="container">
+        <div class="row row-50">
+            <div class="col-sm-12">
+                <div class="bg-white">
+                    <div class="col-md-12 float-left teamformationdetail">
+                        @if (!string.IsNullOrEmpty(ViewBag.TeamUpdateError))
+                        {
+                            <div class="row row-30 justify-content-center" style="text-align:center;">
+                                <div class="col-xl-10">
+                                    <h2><span class="text-primary">Timeout!!!</span></h2>
+                                    <p class="big text-gray-800">@ViewBag.TeamUpdateError</p>
+                                    <a class="button button-lg button-primary" href="/events">Back</a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <!-- Bootstrap tabs-->
+                            @if (Model != null && Model.BullList.Count > 0 && Model.RiderList.Count > 0 && !Model.IsFinished)
+                            {
+                                if (Model.IsAlreadyJoined)
+                                {
+                                    <div class="row row-30 justify-content-center" style="text-align:center;">
+                                        <div class="col-xl-10">
+                                            <h2><span class="text-primary">Oops!!!</span></h2>
+                                            <p class="big text-gray-800">You have already joined this contest.</p>
+                                            <a class="button button-lg button-primary" href="/events">Go to event page</a>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="tabs-custom tabs-horizontal tabs-corporate product-single-additional">
+                                        <!-- Nav tabs-->
+                                        <ul class="nav nav-tabs" role="tablist">
+                                            <li class="nav-item" role="tab"><a class="nav-link custom-tab-a active" href="#tabs-product-1" data-toggle="tab">BIG TEAM CONTEST</a></li>
+                                            @*<li class="nav-item" role="tab"><a class="nav-link custom-tab-a" href="#tabs-product-2" data-toggle="tab">3x3 CONTEST</a></li>*@
+                                        </ul>
+                                        <!-- Tab panes-->
+
+                                        <div class="tab-content">
+                                            <div class="tab-pane active show fade" id="tabs-product-1" role="tabpanel">
+                                                <!-- Tabs Modern-->
+                                                @{ await Html.RenderPartialAsync("_BigTeam", Model); }
+                                            </div>
+                                            @*<div class="tab-pane fade" id="tabs-product-2" role="tabpanel">
+                               @{ await Html.RenderPartialAsync("_3-3Team", Model); }
+                            </div>*@
+                                            <button type="submit" data-contesttype="@((int)RR.Core.Enums.ContestType.BigTeamContest)" data-eventid="@Model.EventId" data-contestId="@Model.ContestId" onclick="return createTeam(this,'@userId','@(ViewBag.teamId > 0)')" class="btn btn-warning">Submit</button>
+                                        </div>
+
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                if (Model.IsFinished)
+                                {
+
+                                    <div class="row row-30 justify-content-center" style="text-align:center;">
+                                        <div class="col-xl-10">
+                                            <h2><span class="text-primary">Oops!!!</span> you are late</h2>
+                                            <p class="big text-gray-800">You are late. This event already started. Now you can not create team and join contest.</p>
+                                            <p class="big text-gray-800">Check other events for more contests to join and win cash</p>
+                                            <a class="button button-lg button-primary" href="/events">Go to event page</a>
+                                        </div>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <div class="row row-30 justify-content-center" style="text-align:center;">
+                                        <div class="col-xl-10">
+                                            <h2><span class="text-primary">Oops!!!</span></h2>
+                                            <p class="big text-gray-800">Team members are not declared yet, Please check later again.</p>
+                                            <a class="button button-lg button-primary" href="/events">Back</a>
+                                        </div>
+                                    </div>
+                                }
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+
+    <script src="~/js/bootbox.min.js"></script>
+
+    <script src="~/js/Team.js"></script>
+    <script>
+        function setCookie(th) {
+            document.cookie ='Team'+"="+ JSON.stringify(th);
+        }
+
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        //Old Function
+        $(document).ready(function () {
+            debugger;
+            var teamCreationArr = [[], [], [], [], [], []];
+
+            var riderList = @Json.Serialize(Model.RiderList);
+
+                for (var i = 0; i < riderList.length; i++) {
+                    if (riderList[i].isSelected == true) {
+                        if (teamCreationArr[0].length == 2 && teamCreationArr[1].length == 2) {
+                            teamCreationArr[2].push(riderList[i]);
+                        }
+                        else if (teamCreationArr[0].length == 2 && teamCreationArr[1].length < 2) {
+                            teamCreationArr[1].push(riderList[i]);
+                        }
+                        else {
+                            teamCreationArr[0].push(riderList[i]);
+                        }
+                }
+            }
+
+
+            var bullList = @Json.Serialize(Model.BullList);
+                for (var i = 0; i < bullList.length; i++) {
+                    if (bullList[i].isSelected == true) {
+                        if (teamCreationArr[3].length ==1 && teamCreationArr[4].length ==1 && teamCreationArr[5].length == 0) {
+                            teamCreationArr[5].push(bullList[i]);
+                        }
+                        else if (teamCreationArr[3].length ==1 && teamCreationArr[4].length < 1) {
+                            teamCreationArr[4].push(bullList[i]);
+                        }
+                        else {
+                            teamCreationArr[3].push(bullList[i]);
+                    }
+                }
+
+            }
+            //teamCreationArr = arrangeTeamTier(teamCreationArr);
+            setCookie(teamCreationArr);
+            console.log(teamCreationArr);
+        });
+
+        @*$(document).ready(function () {
+            debugger;
+            var riderArray = [[], [], []];
+            var teamCreationArr = [[], [], [], [], [], []];
+            var riderList = @Json.Serialize(Model.RiderList);
+                for (var i = 0; i < riderList.length; i++) {
+                    if (riderList[i].isSelected == true) {
+                        if (riderArray[0].length == 2 && riderArray[1].length == 2) {
+                            riderArray[2].push(riderList[i]);
+                        }
+                        else if (riderArray[0].length == 2 && riderArray[1].length < 2) {
+                            riderArray[1].push(riderList[i]);
+                        }
+                        else {
+                            riderArray[0].push(riderList[i]);
+                        }
+                }
+            }
+
+            riderArray.reverse();
+            riderArray.forEach((ra, i) => {
+                if (ra.length > 0) {
+                    ra.forEach((r) =>
+                    {
+                        teamCreationArr[i].push(r);
+                    })
+                }
+            });
+
+            //teamCreationArr.push(riderArray);
+
+            var bullArray = [[], [], []];
+            var bullList = @Json.Serialize(Model.BullList);
+                for (var i = 0; i < bullList.length; i++) {
+                    if (bullList[i].isSelected == true) {
+                        if (bullArray[0].length == 1 && bullArray[1].length == 1 && bullArray[2].length == 0) {
+                            bullArray[2].push(bullList[i]);
+                        }
+                        else if (bullArray[0].length == 1 && bullArray[1].length < 1) {
+                            bullArray[1].push(bullList[i]);
+                        }
+                        else {
+                            bullArray[0].push(bullList[i]);
+                    }
+                }
+
+            }
+
+            bullArray.reverse();
+            bullArray.forEach((ba, i) => {
+                if (ba.length > 0) {
+                    ba.forEach((b) => {
+                        teamCreationArr[(i+3)].push(b);
+                    })
+                }
+
+            });
+
+            setCookie(teamCreationArr);
+
+            console.log(teamCreationArr);
+        });*@
+    </script>
+}
+

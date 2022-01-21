@@ -1,0 +1,544 @@
+﻿@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles{
+    <link href="~/css/newdesign.css" rel="stylesheet" />
+    <style>
+        ._dtTable thead {
+            display: none;
+        }
+
+        ._dtTable td {
+            padding: 0px 0px;
+            border: none;
+        }
+    </style>
+}
+<div class="rank-header">
+    <div class="rank-header-back" id="page_head_bg">
+        <img src="/images/home/rank-header-bg.jpg">
+    </div>
+    <span class="rank-header-title" id="page_head_title">Upcoming Events</span>
+</div>
+<section class="section section-variant-1 custom-bg-gray-100 custom-float-width contest_pg">
+    <div class="container">
+        <div class="custom-float-width">
+
+            <div class="tabs-custom tabs-horizontal tabs-corporate no-border no-shadow">
+                <div class="tabs-modern" id="tabs-modern">
+                    <ul class="nav nav-tabs eventsListing-tab-box">
+                        <li class="nav-item" role="presentation" data-id="1"><a class="nav-link custom-nav-link active" href="#tabs-modern-1" data-toggle="tab">Upcoming <span>Events</span></a></li>
+                        <li class="nav-item" role="presentation" data-id="2"><a class="nav-link custom-nav-link" href="#tabs-modern-3" data-toggle="tab">Completed <span>Events</span></a></li>
+                        <li class="nav-item" role="presentation" data-id="3"><a class="nav-link custom-nav-link" href="#tabs-modern-4" data-toggle="tab"><span>Team</span> Standings</a></li>
+                    </ul>
+                    <div class="tab-content custom-tab-content-pad custom-float-width mt-0">
+                        <div class="tab-pane custom-float-width fade active show" id="tabs-modern-1">
+                            <div class="">
+                                <table class="table _dtTable dt-responsive nowrap" id="_upcommingEvents">
+                                    <thead class="theme-dark-th">
+                                        <tr>
+                                            <th></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+
+                        <div class="tab-pane custom-float-width fade" id="tabs-modern-3">
+                            <div class="tab-content custom-tab-content-pad custom-float-width mt-0">
+                                <div class="tab-content-main">
+                                    <div class="row">
+                                        <div class="col-lg-12">
+                                            <div class="main-component">
+                                                <!-- Tabs Modern-->
+                                                <div class="tabs-custom tabs-horizontal tabs-modern">
+
+                                                    <div class="">
+                                                        <table class="table _dtTable dt-responsive nowrap" id="_completedEvents">
+                                                            <thead class="theme-dark-th">
+                                                                <tr>
+                                                                    <th>Team</th>
+
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane custom-float-width fade" id="tabs-modern-4">
+                            <div class="tab-content custom-tab-content-pad custom-float-width mt-0">
+                                <div class="tab-content-main">
+                                    <div class="row row-30">
+                                        <div class="col-lg-12">
+                                            <div class="main-component">
+                                                <!-- Tabs Modern-->
+                                                <div class="tabs-custom tabs-horizontal tabs-modern" id="tabs-modern">
+
+                                                    <div class="">
+                                                        <table class="table _dtTable dt-responsive nowrap" id="_teamStandings">
+                                                            <thead class="theme-dark-th">
+                                                                <tr>
+                                                                    <th></th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                            </tbody>
+                                                        </table>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<partial name="../Shared/_Sponsors.cshtml" />
+@await Component.InvokeAsync("SubscibeNewsLetterComponent")
+@section scripts{
+
+    <script>
+        //set cookies
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        //get cookies
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        //To set onclick event on each of event tab
+        $('#tabs-modern .nav-tabs li a').each(function () {
+            $(this).click(function () {
+
+                var value_ = $(this).attr('href');
+                setCookie("username", value_, 1);
+
+            })
+        })
+
+        //To get the cookie and set current tab
+        $(window).load(function () {
+            var id_ = getCookie("username");
+
+            if (id_ != "") {
+                $('#tabs-modern .nav-tabs li a').removeClass('active');
+                $('.tab-content .tab-pane').removeClass('active show');
+                $('#tabs-modern .nav-tabs li a[href="' + id_ + '"]').addClass('active');
+                $(id_).addClass('active show');
+                if (id_ == "#tabs-modern-1") {
+                    $("#page_head_title").html("Upcoming Events");
+                    $("#page_head_bg").removeClass("rank-header-back-completed");
+                    $("#page_head_bg").addClass("rank-header-back");
+                } else if (id_ == "#tabs-modern-3") {
+                    $("#page_head_title").html("Completed Events");
+                    $("#page_head_bg").addClass("rank-header-back-completed");
+                    $("#page_head_bg").removeClass("rank-header-back");
+                } else {
+                    $("#page_head_title").html("Team Standings");
+                    $("#page_head_bg").removeClass("rank-header-back-completed");
+                    $("#page_head_bg").addClass("rank-header-back");
+                }
+            }
+
+        });
+
+        $(function () {
+
+            $("#_teamStandings").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                    "url": '/Component/YearStanding',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "item1", "name": "item1", "autoWidth": false,
+                        "render": function (value, type, row) {
+
+                            var rowHtml = "<div class='row'>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item1);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item2);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item3);
+                            rowHtml += "</div>";
+                            rowHtml += "</div>";
+                            return rowHtml;
+                        }
+                    }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 9
+
+            });
+            function getOneCard(item) {
+                if (item == null) {
+                    return "";
+                }
+                var rowHtml = "<div class='card rank-card' >";
+                rowHtml += "<div class='row'>";
+                rowHtml += "<div class='col-2 px-1'>";
+
+                rowHtml += '<img src="' + item.avtar + '" style="width:50px; height:50px;" onerror=this.onerror=null; this.src="images/home/team_icon.png"  />';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-8 px-1'>";
+                rowHtml += '<span class="rank-name">' + item.userName + '</span><br>';
+                rowHtml += '<span class="rank-owner mt-3">Team</span>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-1 px-1 text-right'>";
+
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                rowHtml += "<div class='row pt-4'>";
+                rowHtml += "<div class='col-4 px-1'>";
+                rowHtml += '<span class="rank-info-title">Rank:</span><br>';
+                rowHtml += '<span class="rank-info-value">' + item.rank + '</span>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-4 px-1'>";
+                rowHtml += '<span class="rank-info-title">Number of Contest:</span><br>';
+                rowHtml += '<span class="rank-info-value">' + item.numberOfContest + '</span>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-4 px-1'>";
+                rowHtml += '<span class="rank-info-title">Team Point:</span><br>';
+                rowHtml += '<span class="rank-info-value">' + item.teamPoint + '</span>';
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                return rowHtml;
+            }
+
+            $("#_upcommingEvents").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ordering": false,
+                "ajax": {
+                    "url": '/Events/GetUpcomingEvents',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "city", "name": "city", "autoWidth": false, "render": function (value, type, row) {
+                            if (row.eventMode == 0) {
+                                return getPBRUpEvents(row);
+                            } else {
+                                return getCalcuttaUpEvents(row);
+                            }
+
+                        }
+                    }
+                ],
+                "dom": "Bfrtip",
+                "pageLength": 10
+            });
+            function getPBRUpEvents(row) {
+                var eventName = row.event_title;
+                var startDate = new Date(row.startdate);
+                var perfTime = new Date(row.perfTimeUTCString);
+                const options = { day: 'numeric', month: 'short', year: 'numeric' };
+                var hrefLink = `/event/contest/${row.id}`;
+                var type_css = row.event_type.replace('/', '_');
+                var rowHtml = `
+                        <div class="col-12 px-0 mt-lg-3 mt-sm-1">
+
+                            <div class="et_card" style="background: ${row.is_current > 0 ? "linear-gradient(0deg, rgba(240, 210, 131, 0.5), rgba(240, 210, 131, 0.5)), #FFFFFF;" : "#FFFFFF"}">
+                                <a href="${hrefLink}">
+                                    <div class="row">
+                                        <div class="col-8 et_card_title pr-0">
+                                            ${eventName}
+                                        </div>
+                                        <div class="col-md-2 col-auto px-0 text-right">
+                                            <span class="et_status_calcutta mr-3 et_desktop_only_inline">Fantasy</span>
+                                            <span class="sp_jackpot mr-3 et_desktop_only_inline">Jackpot</span>
+                                        </div>
+                                        <div class="col-md-2 col-4 pl-0 text-right">
+                                            <span class="et_status_open">${row.is_current > 0 ? "Entries Open" : "Pending"}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-7 mt-sm-3 mt-md-1 pr-0">
+                                            <i class="fa fa-map-marker" aria-hidden="true" style="zoom:150%"></i>
+                                            <sapn class="et_card_location"> ${row.location}</sapn>
+                                            <div class="et_skew_rect et_card_type_${type_css} ml-lg-4 ml-sm-3">
+                                                <sapn> ${row.event_type}</sapn>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-5 pl-0 mt-sm-3 mt-md-1 et_card_time text-right">${perfTime.toLocaleDateString('en-US', options)} ${perfTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-6  mt-2 ">
+                                            <div class="et_vertical_center h-100">
+                                                <img src="images/home/icon.png">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-6  mt-2 et_mobile_only  text-right">
+                                            <span class="et_status_calcutta mr-2">Fantasy</span>
+                                            <span class="sp_jackpot  mr-2">Jackpot</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                        </div>`;
+                return rowHtml;
+            }
+
+            function getCalcuttaUpEvents(row) {
+                var eventName = row.event_title;
+                var perfTime = new Date(row.perfTimeUTCString);
+                const options = { day: 'numeric', month: 'short', year: 'numeric' };
+                var hrefLink = `/event/bullcomp/${row.id}`;
+                if (row.eventMode == 2) {
+                    hrefLink = `/event/ridercomp/${row.id}`;
+                } else if (row.eventMode == 3) {
+                    hrefLink = `/event/pick-team/${row.id}`;
+                }
+                var type_css = row.event_type.replace('/', '_');
+                var rowHtml = `
+                        <div class="col-12 px-0 mt-lg-3 mt-sm-1">
+
+                            <div class="et_card" style="background: ${row.is_current > 0 ? "linear-gradient(0deg, rgba(240, 210, 131, 0.5), rgba(240, 210, 131, 0.5)), #FFFFFF;" : "#FFFFFF"}">
+                                <a href="${hrefLink}">
+                                    <div class="row">
+                                        <div class="col-8 et_card_title pr-0">
+                                            ${eventName}
+                                        </div>
+                                        <div class="col-md-2 col-auto px-0 text-right">
+                                            <span class="et_status_calcutta mr-3 et_desktop_only_inline">${row.eventMode == 3 ? "Bull teams" : "Calcutta"}</span>
+                                            <span class="sp_jackpot mr-3 et_desktop_only_inline">Jackpot</span>
+                                        </div>
+                                        <div class="col-md-2 col-4 pl-0 text-right">
+                                            <span class="et_status_open">${row.is_current > 0 ? "Entries Open" : "Pending"}</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-7 mt-2 pr-0">
+                                            <i class="fa fa-map-marker" aria-hidden="true" style="zoom:150%"></i>
+                                            <sapn class="et_card_location"> ${row.city}, ${row.state}</sapn>
+                                            <div class="et_skew_rect et_card_type_${type_css} ml-lg-4 ml-sm-3">
+                                                <sapn> ${row.eventMode == 3 ? "pick-a-team": row.event_type}</sapn>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-5 pl-0  mt-2 et_card_time text-right">${perfTime.toLocaleDateString('en-US', options)} ${perfTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-6 col-6  mt-2 ">
+                                            <div class="et_vertical_center h-100">
+                                                <img src="images/home/icon.png">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-6  mt-3 et_mobile_only  text-right">
+                                            <span class="et_status_calcutta mr-2">${row.eventMode == 3 ? "Bull teams" : "Calcutta"}</span>
+                                            <span class="sp_jackpot  mr-2">Jackpot</span>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+
+                        </div>`;
+                return rowHtml;
+            }
+            $("#_completedEvents").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ordering": false,
+                "ajax": {
+                    "url": '/Events/GetCompletedEvents',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "city", "name": "city", "autoWidth": false, "render": function (value, type, row) {
+                            if (row.eventMode == 0) {
+                                return getPBRComEvents(row);
+                            } else {
+                                return getCalcuttaComEvents(row);
+                            }
+                        }
+                    }
+                ],
+                "dom": "Bfrtip",
+                "pageLength": 10
+            });
+
+            function getPBRComEvents(row) {
+                var eventName = row.event_title;
+                var perfTime = new Date(row.perfTimeUTCString);
+                const options = { day: 'numeric', month: 'short', year: 'numeric' };
+                var hrefLink = `/event/contest/${row.id}`;
+                var type_css = row.event_type.replace('/', '_');
+                var rowHtml = `
+                    <div class="col-12 px-0 mt-lg-3 mt-sm-1">
+                        <div class="et_card">
+                            <a href="${hrefLink}">
+                                <div class="row">
+                                    <div class="col-8 et_card_title pr-0">
+                                        ${eventName}
+                                    </div>
+                                    <div class="col-md-2 col-auto px-0 text-right">
+                                        <span class="et_status_calcutta mr-3 et_desktop_only_inline">Fantasy</span>
+                                        <span class="sp_jackpot mr-3 et_desktop_only_inline">Jackpot</span>
+                                    </div>
+                                    <div class="col-md-2 col-4 pl-0 text-right">
+                                        <span class="et_status_open">Completed</span>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-7 mt-2 pr-0">
+                                        <i class="fa fa-map-marker" aria-hidden="true" style="zoom:150%"></i>
+                                        <sapn class="et_card_location"> ${row.location}</sapn>
+                                        <div class="et_skew_rect et_card_type_${type_css} ml-lg-4 ml-sm-3">
+                                            <sapn> ${row.event_type}</sapn>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-5 pl-0 mt-2 et_card_time text-right">${perfTime.toLocaleDateString('en-US', options)} ${perfTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-6  mt-2 ">
+                                        <div class="et_vertical_center h-100">
+                                            <img src="images/home/icon.png">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-6  mt-2 et_mobile_only text-right">
+                                        <span class="et_status_calcutta mr-2">Fantasy</span>
+                                        <span class="sp_jackpot  mr-2">Jackpot</span>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                    </div>`;
+                return rowHtml;
+            }
+
+            function getCalcuttaComEvents(row) {
+                var eventName = row.event_title;
+                var perfTime = new Date(row.perfTimeUTCString);
+                const options = { day: 'numeric', month: 'short', year: 'numeric' };
+                var hrefLink = `/event/bullcomp/${row.id}`;
+                if (row.eventMode == 2) {
+                    hrefLink = `/event/ridercomp/${row.id}`;
+                } else if (row.eventMode == 3) {
+                    hrefLink = `/event/pick-team/${row.id}`;
+                }
+                var type_css = row.event_type.replace('/', '_');
+                var rowHtml = `
+                    <div class="col-12 px-0 mt-lg-3 mt-sm-1">
+                        <div class="et_card">
+                            <a href="${hrefLink}">
+                                <div class="row">
+                                    <div class="col-8 et_card_title pr-0">
+                                        ${eventName}
+                                    </div>
+                                    <div class="col-md-2 col-auto px-0 text-right">
+                                        <span class="et_status_calcutta mr-3 et_desktop_only_inline">${row.eventMode == 3 ? "Bull teams" : "Calcutta"}</span>
+                                        <span class="sp_jackpot mr-3 et_desktop_only_inline">Jackpot</span>
+                                    </div>
+                                    <div class="col-md-2 col-4 pl-0 text-right">
+                                        <span class="et_status_open">Completed</span>
+                                    </div>
+                                </div>
+                            
+                                <div class="row">
+                                    <div class="col-7 mt-sm-3 mt-md-1 pr-0">
+                                        <i class="fa fa-map-marker" aria-hidden="true" style="zoom:150%"></i>
+                                        <sapn class="et_card_location">  ${row.city}, ${row.state}</sapn>
+                                        <div class="et_skew_rect et_card_type_${type_css} ml-lg-4 ml-sm-3">
+                                            <sapn> ${row.eventMode == 3 ? "pick-a-team" : row.event_type}</sapn>
+                                        </div>
+
+                                    </div>
+                                    <div class="col-5 pl-0  mt-sm-3 mt-md-1 et_card_time text-right">${perfTime.toLocaleDateString('en-US', options)} ${perfTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true })}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-6 col-6  mt-2 ">
+                                        <div class="et_vertical_center h-100">
+                                            <img src="images/home/icon.png">
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-6 col-6  mt-3 et_mobile_only text-right">
+                                        <span class="et_status_calcutta mr-2">${row.eventMode == 3 ? "Bull teams" : "Calcutta"}</span>
+                                        <span class="sp_jackpot  mr-2">Jackpot</span>
+                                    </div>
+                                </div >
+                            </a>
+                        </div>
+                    </div>`;
+                return rowHtml;
+            }
+
+        });
+        $(".nav-item").on("click", function () {
+            var cur_id = $(this).data('id');
+            if (cur_id == 1) {
+                $("#page_head_title").html("Upcoming Events");
+                $("#page_head_bg").removeClass("rank-header-back-completed");
+                $("#page_head_bg").addClass("rank-header-back");
+            } else if (cur_id == 2) {
+                $("#page_head_title").html("Completed Events");
+                $("#page_head_bg").addClass("rank-header-back-completed");
+                $("#page_head_bg").removeClass("rank-header-back");
+            } else {
+                $("#page_head_title").html("Team Standings");
+                $("#page_head_bg").removeClass("rank-header-back-completed");
+                $("#page_head_bg").addClass("rank-header-back");
+            }
+
+        })
+    </script>
+
+}

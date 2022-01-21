@@ -1,0 +1,70 @@
+﻿@model IEnumerable<RR.Dto.NewsDto>
+
+@if (Model.Count() > 0)
+{
+    <section class="homeNewe-feed-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <div class="homeNews-feed-head">
+                    <article class="heading-component">
+                        <div class="heading-component-inner">
+                            <h5 class="heading-component-title">Latest News</h5>
+                        </div>
+                    </article>
+                    <a href="/news" class="button button-xs button-gray-outline">See all News</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="row mt-0">
+            @foreach (var item in Model)
+            {
+                string path = @ViewBag.NewsPicPath + item.PicPath;
+                string url = "/news/" + item.Title.Replace(" ", "-").ToLower() + "/" + item.Id;
+
+                <div class="col-md-4">
+                    <article class="post-creative">
+                        <div class="post-creative-content">
+                            <div class="post-creative-header">
+                                <div class="badge badge-secondary"> @item.NewsTag </div>
+                                <time class="post-creative-time" datetime="2019"> @item.NewsDate.ToString("dd MMMM yyyy") </time>
+                            </div>
+                            <h4 class="post-creative-title">
+                                <a href="@url">@(item.Title.Length > 20 ? item.Title.Substring(0, 20) + "..." : item.Title) </a>
+                            </h4>
+                        </div>
+                        @if (!string.IsNullOrEmpty(item.PicPath))
+                        {
+                            <a class="post-creative-figure" href="@url">
+                                <img onerror="this.onerror=null;this.src='/images/notFound.jpg';" src="@path" alt="" style="width:100%;height:200px"
+                                     onerror="this.onerror=null;this.src='/images/notFound.jpg';">
+                            </a>
+                        }
+
+                        @if (!string.IsNullOrEmpty(item.VideoPath))
+                        {
+                            <div class="post-creative-figure">
+                                <video width="100%" height="200" src="@(string.Concat(ViewBag.NewsPicPath, item.VideoPath))">
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        }
+
+                        @if (!string.IsNullOrEmpty(item.VideoUrl))
+                        {
+                            @if (item.VideoUrl.Contains("https://www.youtube.com"))
+                            {
+                                string videoID = item.VideoUrl.Split("watch?v=")[1];
+                                <img style="width:100%;height:200px" src="https://i.ytimg.com/vi/@videoID/maxresdefault.jpg" />
+
+                            }
+                        }
+
+                    </article>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+}

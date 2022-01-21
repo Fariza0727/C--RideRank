@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    string key = !string.IsNullOrEmpty(ViewBag.Key) ? ViewBag.Key : "enterkey";
+    string data = !string.IsNullOrEmpty(ViewBag.Data) ? ViewBag.Data : "apiurl";
+}
+
+@section styles{
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/jquery.json-viewer.css" rel="stylesheet" />
+
+    
+
+
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Apis</h4>
+                </div>
+                <br />
+                <div class="card-body">
+
+                    <form id="apiForm" asp-action="ApisResponse" asp-controller="ThirdpartyApis" method="post" data-ajax="true" 
+data-ajax-success="onSuccessResponse"
+data-ajax-begin="onBegin" enctype="multipart/form-data">
+                        <div class="row">
+                            @*<div class="col-md-6">
+                                    <div class="form-group bmd-form-group is-focused">
+                                        <label for="apiKey" class="bmd-label-floating">Secreat Key</label>
+                                        <input type="text" class="form-control" name="apiKey" />
+                                    </div>
+                                </div>
+
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group is-focused">
+                                        <label for="api" class="bmd-label-floating">Select Api</label>
+                                        @Html.DropDownList("api", Html.GetEnumSelectList(typeof(RR.Core.Enums.ApiEnum)), "Select Apis", new { @class = "form-control", id = "api" })
+                                    </div>
+                                </div>*@
+                            <div class="col-md-10">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label for="apiKey" class="bmd-label-floating">Api Url: (seedbulls,seedriders,events_past,events_future_full,event_current,events_future_velo)</label>
+                                    <input type="text" value="https://probullstats.com/rr/rrapi.php?key={@key}&data={@data}" class="form-control" required="required" name="apiUrl" />
+                                </div>
+                            </div>
+                            <div class="col-md-2  text-right">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label for="apiKey" class="bmd-label-floating"></label>
+                                    <button type="submit" class="btn btn-sm btn-success">Request</button>
+                                </div>
+
+
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <div class="card jsonCard">
+                <textarea id="json-input" class="hideJson" autocomplete="off"></textarea>
+                <p class="options">
+                    Options:
+                    <label title="Generate node as collapsed">
+                        <input type="checkbox" id="collapsed">Collapse nodes
+                    </label>
+                    <label title="Allow root element to be collasped">
+                        <input type="checkbox" id="root-collapsable" checked>Root collapsable
+                    </label>
+                    <label title="Surround keys with quotes">
+                        <input type="checkbox" id="with-quotes">Keys with quotes
+                    </label>
+                    <label title="Generate anchor tags for URL values">
+                        <input type="checkbox" id="with-links" checked>
+                        With Links
+                    </label>
+                    <input type="button" class="btn btn-sm btn-success" id="copy" value="Copy to Clipboard">
+                </p>
+                <pre id="json-renderer"></pre>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts{
+    <script src="~/js/jquery.json-viewer.js"></script>
+
+
+    <script>
+        $(function () {
+            function resetJson() {
+                $('#json-input').val("");
+                $('#json-renderer').html("")
+            }
+            function renderJson() {
+                var jsonData = $('#json-input').val();
+                if (jsonData) {
+                    try {
+
+                        var input = eval('(' + jsonData + ')');
+                    }
+                    catch (error) {
+                        return alert("Cannot eval JSON: " + error);
+                    }
+                    var options = {
+                        collapsed: $('#collapsed').is(':checked'),
+                        rootCollapsable: $('#root-collapsable').is(':checked'),
+                        withQuotes: $('#with-quotes').is(':checked'),
+                        withLinks: $('#with-links').is(':checked')
+                    };
+                    $('#json-renderer').jsonViewer(input, options);
+                    $('.jsonCard').addClass('active');
+                    $('#copy').on('click', function () {
+                        var copyText = document.getElementById("json-input");
+                        copyText.select();
+                        copyText.setSelectionRange(0, 99999)
+                        document.execCommand("copy");
+                        alert(copyText.value);
+                    })
+                }
+            }
+            onBegin = function ()
+            {
+                resetJson();
+            }
+            onSuccessResponse = function (response) {
+                if (response.message) {
+                    swal(response.message, {
+                        icon: "warning",
+                    });
+                }
+                else {
+                    $('#json-input').val(response);
+                    // Generate on option change
+                    $('p.options input[type=checkbox]').click(renderJson);
+                    renderJson();
+                }
+            }
+
+
+        });
+    </script>
+}

@@ -1,0 +1,98 @@
+﻿@model RR.Dto.ContestAwardDto
+@{
+    ViewData["Title"] = "Add/Edit Contest Winners";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">
+                        Contest Winners List
+
+                        <a title="Add Row" id="addButton" href="javascript:void(0)" class="btn pull-right"><i class="fa fa-plus"></i></a>
+                    </h4>
+
+                </div>
+                <div class="card-body">
+
+                    <div class="table-responsive">
+                        <div id="response">
+                        </div>
+
+                        <form id="formContest" asp-action="AddEditWinnerMTT" asp-controller="ContestWinnerManagement" method="POST" data-ajax="true" novalidate="novalidate" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+                              data-ajax-failure="onFailed" data-ajax-success="onWinnerSuccess" data-ajax-update="response">
+                            @Html.HiddenFor(x => x.ContestId)
+                            @Html.HiddenFor(x => x.WinnerCount)
+                            <table class="table table-striped table-bordered" width="100%" id="contestWinnerDT">
+                                <thead class=" text-primary">
+                                    <tr>
+                                        @*<th style="font-size: 13px;">Event</th>*@
+                                        <th style="font-size: 13px;"><label class="control-label">Rank From <span style="color:red">*</span></label></th>
+                                        <th style="font-size: 13px;"><label class="control-label">Rank To <span style="color:red">*</span></label></th>
+                                        <th style="font-size: 13px;"><label class="control-label">Amount/Percentage <span style="color:red">*</span></label></th>
+                                        <th style="font-size: 13px;">Action</th>
+                                    </tr>
+                                </thead>
+
+                                <tbody>
+                                    <tr class="trclone" style="display:none">
+                                        <td>
+                                            <input type="text" autocomplete="off" name="RankFrom" id="RankFrom" placeholder="Rank From" class="form-control" onkeypress="return isNumber(event)" />
+                                        </td>
+                                        <td>
+                                            <input type="text" autocomplete="off" name="RankTo" id="RankTo" placeholder="Rank To" class="form-control" onkeypress="return isNumber(event)" />
+                                        </td>
+                                        <td>
+                                            @Html.DropDownListFor(x => x.AwardId, Model.Awards, new { @class = "form-control" })
+                                        </td>
+                                        <td>
+                                            <a onclick="return delThisRow(this)" href="javascript:void(0)"><i class="fa fa-minus"></i></a>
+                                        </td>
+                                    </tr>
+                                    @if (Model.Winners.Count() > 0)
+                                    {
+                                        foreach (var item in Model.Winners)
+                                        {
+                                            <tr>
+                                                <td>
+                                                    <input type="text" autocomplete="off" name="RankFrom" id="RankFrom" placeholder="Rank From" class="form-control validate" onkeypress="return isNumber(event)" value="@item.RankFrom" />
+                                                </td>
+                                                <td>
+                                                    <input type="text" autocomplete="off" name="RankTo" id="RankTo" placeholder="Rank To" class="form-control validate" onkeypress="return isNumber(event)" value="@item.RankTo" />
+                                                </td>
+                                                <td>
+                                                    @Html.DropDownListFor(x => item.AwardId, Model.Awards, new { @class = "form-control" })
+                                                </td>
+                                                <td>
+                                                    <a onclick="return DeleteWinner(@item.Id)" href="javascript:void(0)"><i class="fa fa-minus"></i></a>
+                                                </td>
+                                            </tr>
+                                        }
+                                    }
+
+                                </tbody>
+
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="4">
+                                            <input type="submit" value="Save" class="btn btn-primary" onclick="return fncvalidate();" />
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+
+    </div>
+</div>
+
+

@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RR.AdminData\RR.AdminData.csproj" />
+    <ProjectReference Include="..\RR.AdminMapper\RR.AdminMapper.csproj" />
+    <ProjectReference Include="..\RR.Core\RR.Core.csproj" />
+    <ProjectReference Include="..\RR.Data\RR.Data.csproj" />
+    <ProjectReference Include="..\RR.Dto\RR.Dto.csproj" />
+    <ProjectReference Include="..\RR.Repo\RR.Repo.csproj" />
+    <ProjectReference Include="..\RR.StaticData\RR.StaticData.csproj" />
+  </ItemGroup>
+
+</Project>

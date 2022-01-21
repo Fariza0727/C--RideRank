@@ -1,0 +1,111 @@
+﻿@model IEnumerable<RR.Dto.EventDto>
+@{
+    string basePath = ViewBag.NewsPicPath;
+
+}
+
+
+@if (Model != null && Model.Count() > 0)
+{
+    foreach (var item in Model)
+    {
+        <div class="col-lg-4 px-2 mt-sm-3">
+            @if (item.EventMode == 0)
+            {
+                <div class="upcoming_card" style="background: @(item.is_current > 0 ? "linear-gradient(0deg, rgba(240, 210, 131, 0.5), rgba(240, 210, 131, 0.5)), #FFFFFF;" : "#FFFFFF")">
+                    @if (item.is_current > 0)
+                    {
+                        <div class="row mt-0">
+                            <div class="col-7">
+                                <div class="upcoming_card_title">
+                                    <a href="/event/contest/@item.Id">@item.Title</a>
+                                </div>
+                            </div>
+                            <div class="col-5 text-right pt-2">
+                                <span class="up_status_open">Entries Open</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="upcoming_card_title">
+                            <a href="/event/contest/@item.Id">@item.Title</a>
+                        </div>
+                    }
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <sapn class="upcoming_card_name"> @item.Location</sapn>
+                        </div>
+                        <div class="col-6 upcoming_card_name_time pl-0">@item.PerfTime.ToString("dd MMM, yyyy hh:mm tt")</div>
+                    </div>
+                    <div class="row mt-3 px-0">
+                        <div class="col-6">
+                            <img src="images/home/icon.png">
+                        </div>
+                        <div class="col-6 text-right">
+                            <a href="/event/contest/@item.Id"><span class="et_status_calcutta">Fantasy</span></a>
+                            <span class="sp_jackpot">Jackpot</span>
+                        </div>
+                    </div>
+                </div>
+            }
+            else
+            {
+                <div class="upcoming_card" style="background: @(item.is_current > 0 ? "linear-gradient(0deg, rgba(240, 210, 131, 0.5), rgba(240, 210, 131, 0.5)), #FFFFFF;" : "#FFFFFF");">
+                    @if (item.is_current > 0)
+                    {
+                        <div class="row mt-0">
+                            <div class="col-7">
+                                <div class="upcoming_card_title">
+                                    <a href="/event/@(item.EventMode == 1 ? "bullcomp" : item.EventMode == 2 ? "ridercomp" : "pick-team")/@item.Id">@item.Title</a>
+                                </div>
+                            </div>
+                            <div class="col-5 text-right pt-2">
+                                <span class="up_status_open">Entries Open</span>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="upcoming_card_title">
+                            <a href="/event/@(item.EventMode == 1 ? "bullcomp" : item.EventMode == 2 ? "ridercomp" : "pick-team")/@item.Id">@item.Title</a>
+                        </div>
+                    }
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <i class="fa fa-map-marker" aria-hidden="true"></i>
+                            <sapn class="upcoming_card_name"> @item.City, @item.State</sapn>
+                        </div>
+                        <div class="col-6 upcoming_card_name_time pl-0">@item.PerfTime.ToString("dd MMM, yyyy hh:mm tt")</div>
+                    </div>
+                    <div class="row mt-3 px-0">
+                        <div class="col-6">
+                            <img src="images/home/icon.png">
+                        </div>
+                        <div class="col-6 text-right">
+                            <a href="/event/@(item.EventMode == 1 ? "bullcomp" : item.EventMode == 2 ? "ridercomp" : "pick-team")/@item.Id"><span class="et_status_calcutta">@(item.EventMode != 3 ? "Calcutta" : "Bull Teams")</span></a>
+                            <span class="sp_jackpot">Jackpot</span>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        </div>
+    }
+}
+else
+{
+    <article class="game-result game-result-modern">
+        <div class="game-result-main">
+            <div class="post-classic-main">
+                <p class="post-classic-title"><a href="javascript:void()">No Event Available</a></p>
+                <div class="post-classic-time">
+                    <i class="fa fa-calendar"></i>
+                    <time datetime="2018">@DateTime.Now.AddDays(1).ToString("dd MMM, yyyy")</time>
+                </div>
+            </div>
+        </div>
+    </article>
+}
+

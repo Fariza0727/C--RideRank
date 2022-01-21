@@ -1,0 +1,174 @@
+﻿@model IEnumerable<RR.Dto.NewsDto>
+@{ ViewData["Title"] = "News";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string basePath = ViewBag.NewsPicPath;
+@inject Microsoft.Extensions.Options.IOptions<RR.Core.AppSettings> appSettings
+}
+
+@*<section class="section section-variant-1 bg-gray-100 pt-50 text-center">
+        <div class="container">
+            <div class="row row-30 justify-content-center">
+                <div class="col-xl-10">
+                    <img class="thankyou-img mb-40" height="150" src="/images/coming-soon.png">
+                    <h2><span class="text-primary">Coming</span> Soon</h2>
+                    <p class="big text-gray-800">We're currently under construction. We'll be launching soon, For visit our website go to home page.</p>
+                    <a class="button button-lg button-primary" href="./">Go to home page</a>
+                </div>
+            </div>
+        </div>
+    </section>*@
+
+
+
+@*added video section on client requirment*@
+<section class="dark-section-bg">
+    <div class="container">
+        <div class="row custom-row-50 row-50">
+            <div class="col-md-12 text-center">
+                <style>
+                    .embed-container {
+                        position: relative;
+                        padding-bottom: 56.25%;
+                        height: 0;
+                        overflow: hidden;
+                        max-width: 100%;
+                    }
+
+                        .embed-container iframe, .embed-container object, .embed-container embed {
+                            position: absolute;
+                            top: 0;
+                            left: 0;
+                            width: 100%;
+                            height: 100%;
+                        }
+                </style>
+                <div class="embed-container">
+                    <iframe src="https://www.youtube.com/embed/01vQ0wP3UTE" frameborder="0" allowfullscreen></iframe>
+                </div>
+            </div>
+            </div>
+    </div>
+</section>
+
+@*<section class="section section-md bg-gray-100">
+        <div class="container">
+
+                <div class="row">
+                    <div class="col-md-12">
+                        <!-- Hidden video div -->
+                        <div style="display:none;" id="video1">
+                            <video class="lg-video-object lg-html5" controls preload="none">
+                                <source src="@appSettings.Value.StaticContents.Howtoplay" type="video/mp4">
+                                Your browser does not support HTML5 video.
+                            </video>
+                        </div>
+                        <!-- data-src should not be provided when you use html5 videos -->
+                        @if (appSettings.Value.StaticContents.Howtoplay.StartsWith("http://") || appSettings.Value.StaticContents.Howtoplay.StartsWith("https://"))
+                        {
+                            <iframe width="100%" height="500" src="@appSettings.Value.StaticContents.Howtoplay" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                        }
+                        else
+                        {
+                            <div id="html5-videos" class="post-alice">
+                                <div style="width:100%" data-sub-html="@appSettings.Value.StaticContents.HowtoplayVideotitle" data-html="#video1">
+                                    <img style="width:100%" src="@appSettings.Value.StaticContents.HowtoplayThumb" />
+                                    <div class="post-alice-main">
+                                        <span class="post-video-button">
+                                            <span class="icon material-icons-play_arrow"></span>
+                                        </span>
+                                        <h3 class="post-alice-title">@appSettings.Value.StaticContents.HowtoplayVideotitle</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+
+        </div>
+    </section>*@
+
+
+@*
+        // Commnet the code for temprary basis as client requirments
+
+        <section class="section parallax-container breadcrumbs-wrap" data-parallax-img="/images/bg-breadcrumbs-1-1920x726.jpg">
+        <div class="material-parallax parallax"><img onerror="this.onerror=null;this.src='/images/notFound.jpg';" src="/images/bg-breadcrumbs-1-1920x726.jpg" alt="" style="transform: translate3d(-50%, 1px, 0px);"></div>
+        <div class="parallax-content breadcrumbs-custom context-dark">
+            <div class="container">
+                <h3 class="breadcrumbs-custom-title">News</h3>
+            </div>
+        </div>
+    </section>
+    <section class="section section-variant-1 bg-gray-100">
+        <div class="container">
+            <div class="row custom-bg-gray-100 custom-bg-light-pad">
+                <div class="col-lg-8">
+                    <!-- Heading Component-->
+                    <article class="heading-component">
+                        <div class="heading-component-inner">
+                            <h5 class="heading-component-title">Latest News</h5>
+                        </div>
+                    </article>
+                    <div class="row row-30">
+                        @foreach (var item in Model)
+                        {
+                            string path = @ViewBag.NewsPicPath + item.PicPath;
+                            string url = "/news/" + item.Title.Replace(" ", "-").ToLower() + "/" + item.Id;
+                            <div class="col-md-6">
+                                <!-- Post Creative-->
+                                <article class="post-creative">
+                                    <div class="post-creative-content">
+                                        <div class="post-creative-header">
+                                            <!-- Badge-->
+                                            <div class="badge badge-secondary">
+                                                @item.NewsTag
+                                            </div>
+                                            <time class="post-creative-time" datetime="2019">@item.NewsDate.ToString("MMM dd, yyyy")</time>
+                                        </div>
+                                        <h4 class="post-creative-title">
+                                            <a href="@url">
+                                                @(item.Title.Length > 20 ? item.Title.Substring(0, 20) + "..." : item.Title)
+                                            </a>
+                                        </h4>
+                                    </div>
+
+                                    @if (!string.IsNullOrEmpty(item.PicPath))
+                                    {
+                                        <a class="post-creative-figure" href="@url">
+                                            <img onerror="this.onerror=null;this.src='/images/notFound.jpg';" src="@path" alt="" style="width:100%;height:200px"
+                                                 onerror="this.onerror=null;this.src='/images/notFound.jpg';">
+                                        </a>
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(item.VideoPath))
+                                    {
+                                        <div class="post-creative-figure">
+                                            <video width="100%" src="@(string.Concat(ViewBag.NewsPicPath,item.VideoPath))">
+                                                Your browser does not support the video tag.
+                                            </video>
+                                        </div>
+                                    }
+
+                                    @if (!string.IsNullOrEmpty(item.VideoUrl))
+                                    {
+                                        @if (item.VideoUrl.Contains("https://www.youtube.com"))
+                                        {
+                                            string videoID = item.VideoUrl.Split("watch?v=")[1];
+                                             <img src="https://i.ytimg.com/vi/@videoID/maxresdefault.jpg" />
+
+                                        }
+                                    }
+
+                                </article>
+                            </div>
+                        }
+
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    @await Component.InvokeAsync("TopRecentComponent")
+                </div>
+            </div>
+        </div>
+
+    </section>*@

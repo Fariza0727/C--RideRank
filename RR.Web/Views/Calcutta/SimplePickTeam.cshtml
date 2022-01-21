@@ -1,0 +1,705 @@
+﻿@using RR.Core;
+@model RR.Dto.Calcutta.PickTeamDetailDto
+@{
+    ViewData["Title"] = "Contest Of Event";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string time = Model != null ? Model.ContestUTCLockTime.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'") : "";
+
+}
+@section Styles{
+    <link href="~/css/newstatic.css" rel="stylesheet" />
+    <link href="~/css/newdesign.css" rel="stylesheet" />
+
+    <style>
+        ._dtTable thead {
+            display: none;
+        }
+
+        ._dtTable td {
+            padding: 0px 0px;
+            border: none;
+        }
+
+        .dataTables_wrapper {
+            margin-top: 5px;
+        }
+    </style>
+}
+<div class="rank-header">
+    @if (Model != null && Model.IsFinished)
+    {
+        <div class="rank-header-back-completed" id="page_head_bg">
+            <img src="/images/home/rank-header-bg-completed.png">
+        </div>
+        <span class="rank-header-title" id="page_head_title">Completed Events</span>
+    }
+    else
+    {
+        <div class="rank-header-back" id="page_head_bg">
+            <img src="/images/home/rank-header-bg.jpg">
+        </div>
+        <span class="rank-header-title" id="page_head_title">Upcoming Events</span>
+    }
+
+</div>
+@if (Model != null && Model.EntryList.Count() > 0)
+{
+    if (!Model.IsFinished)
+    {
+        <section class="section section-variant-1 custom-bg-gray-100 custom-float-width contest_pg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-1">
+                        <b class="btn rank-btn-back" onclick="history.back();">
+                            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                        </b>
+                        <span class="rank-back-span">Events</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-11 text-lg-center">
+                        <span class="et_detail_title">@Model.Title</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+
+                        @if (Model.ContestUTCLockTime > DateTime.UtcNow)
+                        {
+                            <div class="promo-classic-countdown post-inline-time et_count_down">
+                                <div class="countdown countdown-classic countdown-classic-sm" data-type="until" data-time="@time" data-format="dhms" data-style="short"></div>
+                            </div>
+                        }
+                        else
+                        {
+                            <span class="et_completed_days">Started <span style="font-size:24px; line-height: 29px;">@((DateTime.Now - Model.ContestUTCLockTime).Days)</span> Days ago </span>
+                        }
+
+                    </div>
+                </div>
+                @if (Model.EntryList.Count > 0)
+                {
+                    <div class="row mt-3">
+                        <div class="col-12 text-center">
+                            <a href="@Url.Action("JoinedUserTeam", "Calcutta",new { eventId = Model.Id})" class="num_entries_link">Number of entries</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+        @if (Model.EntryList.Count > 0)
+        {
+            <section class="section section-variant-1 team_selection custom-float-width">
+                <div class="container">
+                    <div class="row mt-0">
+                        <div class="col-lg-12 text-center">
+                            <span class="et_detail_pick"><span class="et_detail_yellow">•</span> Pick 5 Bulls</span>
+                        </div>
+                    </div>
+                    <div class="row mt-1">
+                        <div class="et_desktop col-12">
+                            <span class="et_detail_info">Selected Bulls(<span id="totalBulls">0</span> of 5)</span>
+                        </div>
+                    </div>
+                    <div class="row mt-2" id="my-selected-div">
+                        
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-lg-3 col-md-3 col-12">
+                            <button id="btn_team_save" class="btn btn-block et_detail_btn" onclick="return createTeam(this, '@(User.Identity.IsAuthenticated)')" style="display:none;">Save Team</button>
+                            <span id="team_saved_sp" class="et_detail_info1" style="display:none"><i class="fa fa-check" aria-hidden="true"></i> Team Saved</span>
+                        </div>
+                        <div class="col-lg-9 col-md-9 col-12 pt-3">
+                            <span id="team_unsaved_sp" class="et_detail_info1" style="display:none">* Unsaved Changes <span class="ml-3 sp_ignore">Ignore</span></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section section-variant-1 custom-bg-gray-100 custom-float-width">
+                <div class="container">
+                    
+                    <div class="row mt-2">
+                        @foreach (var temp in Model.EntryList.OrderBy(x => x.CompetitorName))
+                        {
+                            
+                            <div class="col-lg-4 px-2">
+                                <div class="card cal_ent_detail_card w-100" style="min-height: 70px;">
+                                    <div class="row">
+                                        <div class="col-2 px-1">
+                                            <img src="/images/home/Bull-logo.png" width="60" height="60" />
+                                        </div>
+                                        <div class="col-8 px-1">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <span class="comp-name">
+                                                        @temp.CompetitorName
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <span class="comp-money">
+                                                        Total Money Won: $@temp.TotalWon
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <span class="comp-money">
+                                                        Owner: @temp.Owner
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 pl-0 text-right">
+                                            <b class="@(temp.IsSelected ? "btn_remove" : "btn_select") btn btn_bull" data-id="@temp.CompetitorId" data-name="@temp.CompetitorName" data-owner="@temp.Owner" data-money="@temp.TotalWon" onclick="addBulls(this)">
+                                                @(temp.IsSelected ? "Remove" : "Select")
+                                            </b>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                        }
+                    </div>
+                    
+                </div>
+            </section>
+            
+                
+            <div class="modal fade" id="bullModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header p-0">
+                            <div class="et_detail_tire w-100">
+                                <span class="">Select 5 Bulls </span>
+                            </div>
+                            <button type="button" class="close btn_modal_close" data-dismiss="modal" aria-label="Close" style="right: 20px;">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body md_scroll">
+                            <div class="row mt-1 mb-1">
+                                @foreach (var temp in Model.EntryList.OrderBy(x => x.CompetitorName))
+                                {
+                                    <div class="col-lg-6 px-lg-3 px-sm-1">
+                                        <div class="card cal_ent_detail_card w-100" style="min-height: 70px;">
+                                            <div class="row">
+                                                <div class="col-2 px-1">
+                                                    <img src="/images/home/Bull-logo.png" width="60" height="60" />
+                                                </div>
+                                                <div class="col-8 px-1">
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <span class="comp-name">
+                                                                @temp.CompetitorName
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <span class="comp-money">
+                                                                Total Money Won: $@temp.TotalWon
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-2 px-1 text-right">
+                                                    <b class="@(temp.IsSelected ? "btn_remove" : "btn_select") btn btn_bull" data-id="@temp.CompetitorId" onclick="addSelBulls(this)">
+                                                        @(temp.IsSelected ? "Remove" : "Select")
+                                                    </b>
+                                                </div>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            
+
+
+        }
+        else
+        {
+            <section class="section section-variant-1 bg-gray-100 custom-float-width contest_pg">
+                <div class="container">
+                    <div class="text-center">
+                        <article class="heading-component mt-20">
+                            <div class="heading-component-inner1">
+                                <h5 style="text-align:center">
+                                    draw coming soon
+                                </h5>
+
+                            </div>
+                        </article>
+                        <a href="/events" class='button button-primary mt-20' type="button" aria-label="Send">Back</a>
+                    </div>
+                </div>
+            </section>
+        }
+
+    }
+    else
+    {
+        <section class="section section-variant-1 custom-bg-gray-100 custom-float-width contest_pg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-1">
+                        <b class="btn rank-btn-back" onclick="history.back();">
+                            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                        </b>
+                        <span class="rank-back-span">Events</span>
+                        
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-11 text-lg-center">
+                        <span class="et_detail_title">@Model.Title</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <span class="et_completed_days">Completed <span style="font-size:24px; line-height: 29px;">@((DateTime.Now - Model.ContestUTCLockTime).Days)</span> Days ago </span>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <span class="rank-bread-title" style="color:#DF6A2E; font-style: normal; font-weight: 600; font-size: 20px; line-height: 24px;">Billings @Model.Title</span>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <table class="table _dtTable dt-responsive nowrap" id="_teamBillings">
+                            <thead class="theme-dark-th">
+                                <tr>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                   
+                </div>
+            </div>
+        </section>
+    }
+    <partial name="../Shared/_Sponsors.cshtml" />
+    @await Component.InvokeAsync("SubscibeNewsLetterComponent")
+}
+
+else
+{
+    <section class="section section-variant-1 bg-gray-100 custom-float-width contest_pg">
+        <div class="container">
+            <div class="text-center">
+                <article class="heading-component mt-20">
+                    <div class="heading-component-inner1">
+                        <h5 style="text-align:center">
+                            Contest has not opened yet
+                        </h5>
+
+                    </div>
+                </article>
+                <a href="/events" class='button button-primary mt-20' type="button" aria-label="Send">Back</a>
+            </div>
+        </div>
+    </section>
+}
+
+
+@section Scripts{
+    <script src="~/js/jquery-ui.min.js"></script>
+    <script src="~/js/PagingSheet.js"></script>
+    <script src="~/js/bootbox.min.js"></script>
+
+
+    <script>
+        var event_id_temp = '@Model.Id';
+
+        function setCookie(th) {
+            document.cookie = 'SimpleTeam' + event_id_temp + "=" + JSON.stringify(th);
+        }
+        function delete_cookie() {
+            document.cookie = 'SimpleTeam' + event_id_temp + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        var teamCreationArrDB = [];
+        var isExistChanged = false;
+        $(document).ready(function () {
+
+            //finished events
+            $("#_teamBillings").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                    "url": '/joinedteamajax/@Model.Id',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "item1", "name": "item1", "autoWidth": false,
+                        "render": function (value, type, row) {
+
+                            var rowHtml = "<div class='row'>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item1);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item2);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item3);
+                            rowHtml += "</div>";
+                            rowHtml += "</div>";
+                            return rowHtml;
+                        }
+                    }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 9
+            });
+
+
+
+            var drawList = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.EntryList));
+
+            for (var i = 0; i < drawList.length; i++) {
+
+                if (drawList[i].IsSelected == true) {
+                    var item = {};
+
+                    item.CompetitorId = drawList[i].CompetitorId;
+                    item.IsSelected = drawList[i].IsSelected;
+                    item.CompetitorName = drawList[i].CompetitorName;
+                    item.TotalWon = drawList[i].TotalWon;
+                    item.Owner = drawList[i].Owner;
+                    item.IsChanged = false;
+
+                    teamCreationArrDB.push(item);
+                }
+
+            }
+
+            if (getCookie('SimpleTeam' + event_id_temp) != "") {
+                var data = getCookie('SimpleTeam' + event_id_temp);
+                if (data == JSON.stringify([])) {
+                    setCookie(teamCreationArrDB);
+                } else {
+                    var dataArr = JSON.parse(data);
+
+                    for (var j = 0; j < dataArr.length; j++) {
+                        var isChanged = true;
+                        for (var k = 0; k < teamCreationArrDB.length; k++) {
+                            if (dataArr[j].CompetitorId == teamCreationArrDB[k].CompetitorId) {
+                                isChanged = false;
+                            }
+                        }
+                        if (isChanged) {
+                            isExistChanged = true;
+                        }
+                        dataArr[j].IsChanged = isChanged;
+                    }
+
+                    setCookie(dataArr);
+                }
+
+            } else {
+                setCookie(teamCreationArrDB);
+                console.log(teamCreationArrDB);
+            }
+
+            refreshSelection();
+
+
+        });
+
+        function getOneCard(item) {
+            if (item == null) {
+                return "";
+            }
+            var team_name = item.teamName == null || item.teamName == "" ? item.userName : item.teamName;
+            var rowHtml = "<div class='card rank-card' >";
+            rowHtml += "<div class='row'>";
+            rowHtml += "<div class='col-2 px-1'>";
+
+            rowHtml += '<img src="' + item.avatar + '" style="width:50px; height:50px;" onerror=this.onerror=null; this.src="images/home/team_icon.png"  />';
+            rowHtml += "</div>";
+            rowHtml += "<div class='col-8 px-1'>";
+            rowHtml += '<span class="rank-name"><a href="/userteam/' + item.userId + '/@Model.Id/' + item.teamId + '">' + team_name + '</a></span><br>';
+            rowHtml += '<span class="rank-owner mt-3">Team</span>';
+            rowHtml += "</div>";
+            rowHtml += "<div class='col-1 px-1 text-right'>";
+
+            rowHtml += "</div>";
+            rowHtml += "</div>";
+            rowHtml += "<div class='row pt-4'>";
+            rowHtml += "<div class='col-4 px-1'>";
+            rowHtml += '<span class="rank-info-title">Rank:</span><br>';
+            rowHtml += '<span class="rank-info-value">' + item.teamRank + '</span>';
+            rowHtml += "</div>";
+            rowHtml += "<div class='col-4 px-1'>";
+            rowHtml += '<span class="rank-info-title">Number of Contest:</span><br>';
+            rowHtml += '<span class="rank-info-value">' + item.numberOfContest + '</span>';
+            rowHtml += "</div>";
+            rowHtml += "<div class='col-4 px-1'>";
+            rowHtml += '<span class="rank-info-title">Team Point:</span><br>';
+            rowHtml += '<span class="rank-info-value">' + item.teamPoint + '</span>';
+            rowHtml += "</div>";
+            rowHtml += "</div>";
+            rowHtml += "</div>";
+            return rowHtml;
+        }
+
+        $(".sp_ignore").on('click', function () {
+            setCookie(teamCreationArrDB);
+            isExistChanged = false;
+            refreshSelection();
+        });
+        function refreshSelection() {
+            console.log("refresh Selection");
+            $("#my-selected-div").html("");
+            $('.btn_bull').removeClass("btn_remove");
+            $('.btn_bull').addClass("btn_select");
+            $('.btn_bull').html("Select");
+            var data = getCookie('SimpleTeam' + event_id_temp);
+            var teamCreationArr = JSON.parse(data);
+            console.log(teamCreationArr);
+            for (var i = 0; i < 5; i++) {
+                if (teamCreationArr.length >= i + 1) {
+                    $("#my-selected-div").append(getOneBullCard(teamCreationArr[i]));
+                } else {
+                    $("#my-selected-div").append(`<div class="col-lg-4 px-2"><div class="card et_detail_blank w-100" style="min-height: 70px;" data-toggle="modal" data-target="#bullModal"><span class="et_sp_select">Select Bull<br><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div></div>`);
+                }
+            }
+
+            $("#totalBulls").html(teamCreationArr.length);
+
+            if (isExistChanged) {
+                $("#btn_team_save").show();
+                $("#team_unsaved_sp").show();
+            } else {
+                $("#btn_team_save").hide();
+                $("#team_unsaved_sp").hide();
+            }
+        }
+        function getOneBullCard(data) {
+            if ($('.btn_bull[data-id="' + data.CompetitorId + '"]').hasClass("btn_select")) {
+                $('.btn_bull[data-id="' + data.CompetitorId + '"]').removeClass("btn_select");
+                $('.btn_bull[data-id="' + data.CompetitorId + '"]').addClass("btn_remove");
+                $('.btn_bull[data-id="' + data.CompetitorId + '"]').html("Remove");
+            }
+
+            var tmpHtml = `
+                <div class="col-lg-4 px-2">
+                    <div class="card cal_ent_detail_card w-100" style="min-height: 70px;background:${data.IsChanged ? "#C4C4C4;" : "#FFFFFF;"} ">
+                        <div class="row">
+                            <div class="col-2 px-1">
+                                <img src="/images/home/Bull-logo.png" width="60" height="60" />
+                            </div>
+                            <div class="col-8 px-1">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span class="comp-name">
+                                            ${data.CompetitorName}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span class="comp-money">
+                                            Total Money Won: $${data.TotalWon}
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span class="comp-money">
+                                            Owner: ${data.Owner}
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-2 pl-0 text-right">
+                                <b class="${data.IsSelected ? "btn_remove" : "btn_select"} btn" data-id="${data.CompetitorId}" onclick="addSelBulls(this)">
+                                    ${data.IsSelected ? "Remove" : "Select"}
+                                </b>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            `;
+            return tmpHtml;
+        }
+
+        function addSelBulls(elm) {
+            var x = $(elm);
+            var bullId = x.attr('data-id');
+            $('.btn_bull[data-id="' + bullId + '"]').first().click();
+        }
+
+        function addBulls(th) {
+            isExistChanged = true;
+            var data = getCookie('SimpleTeam' + event_id_temp);
+            var teamCreationArr = JSON.parse(data);
+            var x = $(th);
+            var i, item = {};
+
+
+            item.CompetitorId = x.attr('data-id');
+            item.CompetitorName = x.attr('data-name');
+            item.TotalWon = x.attr('data-money');
+            item.Owner = x.attr('data-owner');
+
+            var bullIds = teamCreationArr.map(function (el) { return Number(el.CompetitorId) });
+
+            idx = jQuery.inArray(Number(item.CompetitorId), bullIds);
+            if (idx == -1) {
+                if (teamCreationArr.length < 5) {
+                    if ($(th).hasClass("btn_select")) {
+                        item.IsSelected = true;
+                        item.IsChanged = true;
+                        teamCreationArr.push(item);
+                        $(th).removeClass("btn_select");
+                        $(th).addClass("btn_remove");
+                        $(th).html("Remove");
+                        if (teamCreationArr.length >= 5) {
+                            $("#bullModal").modal('hide');
+                        }
+                    }
+                } else {
+                    bootbox.alert("You already selected 5 bulls!");
+                }
+            }
+            else {
+
+                if ($(th).hasClass("btn_remove")) {
+                    teamCreationArr.splice(idx, 1);
+                    $(th).removeClass("btn_remove");
+                    $(th).addClass("btn_select");
+                    $(th).html("Select");
+                }
+            }
+            setCookie(teamCreationArr);
+            refreshSelection();
+        }
+
+
+        function createTeam(th, isLoginUser) {
+            if (isLoginUser.toLowerCase() === 'false') {
+                swal("You should login at first", {
+                    icon: "warning",
+                    className: "notify-alert",
+                    button: false,
+                    timer: 5000,
+                });
+
+                setTimeout(function () {
+                    window.location.href = "/Login";
+                }, 5300);
+                return false;
+            }
+
+            var data = getCookie('SimpleTeam' + event_id_temp);
+            var teamCreationArr = JSON.parse(data);
+
+            if (teamCreationArr.length < 5) {
+                bootbox.alert("Number Of Bulls selected are not valid!");
+                return false;
+            }
+            var teamList = teamCreationArr;
+
+            $("#btn_team_save").hide();
+            $("#team_unsaved_sp").hide();
+            $.ajax({
+                url: '@Url.Action("CreateTeam", "Calcutta")',
+                data: {
+                    teamData: JSON.stringify(teamList),
+                    eventId: event_id_temp,
+                    parentEventId: '@Model.ParentEventId',
+                    teamId : '@Model.TeamId'
+                },
+                type: "POST",
+                success: function (result) {
+                    if (result != null) {
+
+                        if (result.timeout) {
+                            $("#btn_team_save").show();
+                            $("#team_unsaved_sp").show();
+                            swal(result.message, {
+                                icon: "warning",
+                                className: "notify-alert",
+                                button: false,
+                                timer: 5000,
+                            });
+                        }
+                        else {
+                            $("#team_saved_sp").show();
+
+                            //delete_cookie();
+                            swal("Team successfully created!!", {
+                                icon: "success",
+                                className: "notify-alert",
+                                button: false,
+                                timer: 5000,
+                            });
+                            setTimeout(function () {
+                                window.location.reload();
+                            }, 5300);
+                        }
+                    }
+                    else {
+                        swal("You may First Login!!", {
+                            icon: "info",
+                            className: "notify-alert",
+                            button: false,
+                            timer: 5000,
+                        });
+                        setTimeout(function () {
+                            window.location.href ="/Login";
+                        }, 5300);
+                    }
+                },
+                error: function (error) {
+                    $("#btn_team_save").show();
+                    $("#team_unsaved_sp").show();
+                    swal(error, {
+                        icon: "error",
+                        className: "notify-alert",
+                        button: false,
+                        timer: 5000,
+                    });
+                }
+            });
+        }
+    </script>
+}
+

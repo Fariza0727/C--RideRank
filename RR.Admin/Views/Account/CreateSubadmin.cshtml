@@ -1,0 +1,167 @@
+﻿@model RR.Dto.RegisterDto
+@{
+    ViewData["Title"] = "CreateSubadmin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section styles{
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+}
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Create Subadmin<a href="@Url.Action("Index","Account")" class="btn btn-danger pull-right">Subadmin List </a></h4>
+                </div>
+                <div id="response">
+                </div>
+                <div class="card-body">
+
+                    <form asp-action="CreateSubadmin" asp-controller="Account" method="POST" data-ajax="true" data-ajax-update="" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+                          data-ajax-failure="onFailed" data-ajax-success="onRegisterSuccess">
+                        @Html.HiddenFor(x => x.Id)
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+
+                                    @Html.TextBoxFor(x => x.Email, new { @class = "form-control", @placeholder = "Email" })
+                                    @Html.ValidationMessageFor(x => x.Email)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group">
+                                    @if (string.IsNullOrEmpty(Model.Id))
+                                    {
+                                        @Html.PasswordFor(x => x.Password, new { @class = "form-control", @placeholder = "Password", type = "Password" })
+                                        @Html.ValidationMessageFor(x => x.Password)
+                                    }
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-12">
+
+                                @for (int i = 0; i < Model.PageList.Count(); i++)
+                                {
+                                    <div class="col-md-4">
+                                        <div class="form-check">
+                                            <label class="checkbox">
+                                                @Html.CheckBoxFor(m => m.PageList[i].Selected, new { @class = "checkbox" })
+                                            </label>
+                                        </div>
+                                        <h5 style="margin-bottom:-21px;">@Html.DisplayFor(m => m.PageList[i].PageName)</h5>
+                                        @Html.HiddenFor(m => m.PageList[i].Id)
+                                        @Html.HiddenFor(m => m.PageList[i].PageUrl)
+                                        @Html.HiddenFor(m => m.PageList[i].PageName)
+                                        <br />
+                                    </div>
+                                }
+                            </div>
+                        </div>
+
+
+                        @if (string.IsNullOrEmpty(Model.Id))
+                        {
+                            <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-primary pull-right">Update</button>
+                        }
+
+
+                        <div class="clearfix"></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+</style>
+@section Scripts{
+    <script src="~/assets/theme/ckeditor/ckeditor.js"></script>
+
+    <script>
+
+        function onBegin() {
+
+        }
+         $(document).ready(function () {
+
+            if ('@Model.Id' != '') {
+                $("#Password").rules("remove", "required")
+            }
+
+        })
+
+        function onFailed(result) {
+            $("#response").html(response);
+
+        }
+
+        function onRegisterSuccess(response) {
+        
+            if (response == "Inserted") {
+                swal("User Registered Successfully!", {
+                    icon: "success",
+                });
+            }
+            else if (response == "Updated") {
+                swal("User Updated Successfully!", {
+                    icon: "success",
+                });
+            }
+            else if (response == "Exist")
+            {
+                swal("User Name Already Exists!",
+                    {
+                        icon:"warning",
+                    });
+            }else {
+                swal("Something Went Wrong!!!", {
+                    icon: "warning",
+                });
+            }
+            setTimeout(function () { window.location.href = "/account"; }, 1500);
+        }
+
+
+        function onComplete(response) {
+       
+            if (response.responseText == "Inserted") {
+                swal("User Registered Successfully!", {
+                    icon: "success",
+                });
+
+            }
+            else if (response.responseText == "Updated") {
+                swal("User Updated Successfully!", {
+                    icon: "success",
+                });
+            }
+            else if (response.responseText == "Exist")
+            {
+                swal("User Name Already Exists!",
+                    {
+                        icon: "warning",
+                    });
+            }else {
+                swal("Something Went Wrong!!!", {
+                    icon: "warning",
+                });
+            }
+            setTimeout(function () { window.location.href = "/account"; }, 1500);
+
+        }
+
+
+
+
+    </script>
+}
+

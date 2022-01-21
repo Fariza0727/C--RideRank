@@ -1,0 +1,1546 @@
+﻿@using RR.Core;
+@model Tuple<IEnumerable<RR.Dto.ContestLiteDto>, decimal, string, RR.Dto.EventDto, RR.Dto.Team.TeamFormationDetailDto>
+@{
+    ViewData["Title"] = "Contest Of Event";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @*var joinedContest = ViewBag.JoinedContest;*@
+    string eventStatus = ViewBag.EventStatus;
+    ViewBag.Title = Model.Item3;
+    string msg = ViewBag.NoEnoughToken != null ? "true" : "";
+    string time = Model != null && Model.Item4 != null ? Model.Item4.PerfTimeUTC.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'") : "";
+    List<RR.Dto.Team.TeamRiderDrawDto> teamRiderDrawDtos = new List<RR.Dto.Team.TeamRiderDrawDto>();
+    List<RR.Dto.Team.TeamBullDrawDto> teamBullDrawDtos = new List<RR.Dto.Team.TeamBullDrawDto>();
+    if (!Model.Item5.IsFinished)
+    {
+        foreach (var temp in Model.Item5.DrawList)
+        {
+            var tmpRider = new RR.Dto.Team.TeamRiderDrawDto
+            {
+                RiderId = temp.RiderId,
+                RiderAvatar = temp.RiderAvatar,
+                RiderIsDropout = temp.RiderIsDropout,
+                RiderIsSelected = temp.RiderIsSelected,
+                RiderName = temp.RiderName,
+                RiderPower = temp.RiderPower,
+                RiderTier = temp.RiderTier,
+                RRTotalpoint = temp.RRTotalpoint,
+                WorldRanking = temp.WorldRanking
+            };
+            var tmpBull = new RR.Dto.Team.TeamBullDrawDto
+            {
+                BullId = temp.BullId,
+                BullName = temp.BullName,
+                BullTier = temp.BullTier,
+                BullIsDropout = temp.BullIsDropout,
+                BullOwner = temp.BullOwner,
+                BullAverageMark = temp.BullAverageMark,
+                BullPowerRating = temp.BullPowerRating,
+                BullIsSelected = temp.BullIsSelected,
+                BullAvatar = temp.BullAvatar,
+                BullRankRideScore = temp.BullRankRideScore
+            };
+            if (!teamRiderDrawDtos.Any(x => x.RiderId == tmpRider.RiderId))
+            {
+                teamRiderDrawDtos.Add(tmpRider);
+            }
+            if (!teamBullDrawDtos.Any(x => x.BullId == tmpBull.BullId))
+            {
+                teamBullDrawDtos.Add(tmpBull);
+            }
+
+        }
+        foreach (var temp in Model.Item5.BullList.OrderBy(x => x.BullTier))
+        {
+            if (!teamBullDrawDtos.Any(x => x.BullId == temp.BullId))
+            {
+                teamBullDrawDtos.Add(temp);
+            }
+        }
+    }
+}
+@section Styles{
+    <link href="~/css/newstatic.css" rel="stylesheet" />
+    <link href="~/css/newdesign.css" rel="stylesheet" />
+
+    <style>
+        ._dtTable thead {
+            display: none;
+        }
+
+        ._dtTable td {
+            padding: 0px 0px;
+            border: none;
+        }
+
+        .dataTables_wrapper {
+            margin-top: 5px;
+        }
+    </style>
+}
+<div class="rank-header">
+    @if (Model != null && Model.Item2 >= 0 && Model.Item1 != null && Model.Item5.IsFinished)
+    {
+        <div class="rank-header-back-completed" id="page_head_bg">
+            <img src="/images/home/rank-header-bg-completed.png">
+        </div>
+        <span class="rank-header-title" id="page_head_title">Completed Events</span>
+    }
+    else
+    {
+        <div class="rank-header-back" id="page_head_bg">
+            <img src="/images/home/rank-header-bg.jpg">
+        </div>
+        <span class="rank-header-title" id="page_head_title">Upcoming Events</span>
+    }
+
+</div>
+@if (Model != null && Model.Item2 >= 0 && Model.Item1 != null && Model.Item1.Count() > 0)
+{
+    if (!Model.Item5.IsFinished)
+    {
+        <section class="section section-variant-1 custom-bg-gray-100 custom-float-width contest_pg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-1">
+                        <b class="btn rank-btn-back" onclick="history.back();">
+                            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                        </b>
+                        <span class="rank-back-span">Events</span>
+                        <input type="hidden" value="@ViewBag.WalletToken" id="hdn_walletToken" />
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-11 text-lg-center">
+                        <span class="et_detail_title">@Model.Item3</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+
+                        <div class="promo-classic-countdown post-inline-time et_count_down">
+                            <div class="countdown countdown-classic countdown-classic-sm" data-type="until" data-time="@time" data-format="dhms" data-style="short"></div>
+                        </div>
+
+                    </div>
+                </div>
+                @if (Model.Item5.DrawList.Count > 0)
+                {
+                    <div class="row mt-3">
+                        <div class="col-12 text-center">
+                            <a href="@Url.Action("JoinedUserContest", "Contest",new { eventId = ViewBag.EventId, contestId = ViewBag.ContestIdd})" class="num_entries_link">Number of entries</a>
+                        </div>
+                    </div>
+                }
+            </div>
+        </section>
+        @if (Model.Item5.DrawList.Count > 0)
+        {
+            <section class="section section-variant-1 team_selection custom-float-width">
+                <div class="container">
+                    <div class="row mt-0">
+                        <div class="col-lg-6 text-center">
+                            <span class="et_detail_pick"><span class="et_detail_yellow">•</span> Pick 2 riders in each tier = 6 riders total</span>
+                        </div>
+                        <div class="col-lg-6 text-center">
+                            <span class="et_detail_pick"><span class="et_detail_yellow">•</span> Pick 1 bull in each tier = 3 bulls total</span>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-lg-4 col-md-4">
+                            <div class="et_detail_tire w-100">
+                                <span class="">Tier1</span>
+                            </div>
+                            <div class="et_desktop w-100">
+                                <span class="et_detail_info">Selected Riders(<span id="totalRiders">0</span> of 6)</span>
+                            </div>
+                            <div id="rider1_1">
+                                <div class="card et_detail_blank w-100"></div>
+                            </div>
+                            <div id="rider1_2">
+                                <div class="card et_detail_blank w-100"></div>
+                            </div>
+
+                            <div class="et_desktop w-100">
+                                <span class="et_detail_info">Selected Bulls(<span id="totalBulls">0</span> of 3)</span>
+                            </div>
+                            <div id="bull1">
+                                <div class="card et_detail_blank w-100"></div>
+                            </div>
+
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="et_detail_tire w-100">
+                                <span class="">Tier2</span>
+                            </div>
+                            <div class="et_desktop w-100">
+                                <span class="et_detail_info">&nbsp;</span>
+                            </div>
+                            <div id="rider2_1">
+                                <div class="card et_detail_blank w-100"></div>
+                            </div>
+                            <div id="rider2_2">
+                                <div class="card et_detail_blank w-100"></div>
+                            </div>
+                            <div class="et_desktop w-100">
+                                <span class="et_detail_info">&nbsp;</span>
+                            </div>
+                            <div id="bull2">
+                                <div class="card et_detail_blank w-100"></div>
+                            </div>
+                        </div>
+                        <div class="col-lg-4 col-md-4">
+                            <div class="et_detail_tire w-100">
+                                <span class="">Tier3</span>
+                            </div>
+                            <div class="et_desktop w-100">
+                                <span class="et_detail_info">&nbsp;</span>
+                            </div>
+                            <div id="rider3_1">
+                                <div class="card et_detail_blank w-100"></div>
+                            </div>
+                            <div id="rider3_2">
+                                <div class="card et_detail_blank w-100"></div>
+                            </div>
+                            <div class="et_desktop w-100">
+                                <span class="et_detail_info">&nbsp;</span>
+                            </div>
+                            <div id="bull3">
+                                <div class="card et_detail_blank w-100"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-lg-3 col-md-3 col-12">
+                            <button id="btn_team_save" class="btn btn-block et_detail_btn" data-contesttype="@((int)RR.Core.Enums.ContestType.BigTeamContest)" data-eventid="@Model.Item5.EventId" data-contestId="@Model.Item5.ContestId" onclick="return createTeam(this, '@(User.Identity.IsAuthenticated)', '@Model.Item1.FirstOrDefault().EntryFeeType', @Model.Item1.FirstOrDefault().JoiningFee)" style="display:none;">Save Team</button>
+                            <span id="team_saved_sp" class="et_detail_info1" style="display:none"><i class="fa fa-check" aria-hidden="true"></i> Team Saved</span>
+                        </div>
+                        <div class="col-lg-9 col-md-9 col-12 pt-3">
+                            <span id="team_unsaved_sp" class="et_detail_info1" style="display:none">* Unsaved Changes <span class="ml-3 sp_ignore">Ignore</span></span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section class="section section-variant-1 custom-bg-gray-100 custom-float-width">
+                <div class="container">
+                    <div class="row mt-2">
+                        <div class="col-12 text-center">
+                            <span class="rank-bread-title" style="color:#DF6A2E;font-style: normal;">Event Draw</span>
+                        </div>
+                    </div>
+                    <div class="row mt-1 draw_round">
+                        @foreach (var temp in Model.Item5.DrawList.OrderBy(x => x.Round).ThenBy(x => x.RiderTier).ThenBy(x => x.RiderName))
+                        {
+                            <div class="col-12 px-1">
+                                <div class="et_detail_card" style="min-height:100px;">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-5 px-1">
+                                            <div class="row mx-0">
+                                                <div class="col-lg-3 col-md-3 col-12 px-1">
+                                                    <img src="@temp.RiderAvatar" width="80" height="80">
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-12 px-1">
+                                                    <span class="rank-name">
+                                                        <a href="/rider/detail/@temp.RiderId">@temp.RiderName</a>
+                                                    </span><br />
+                                                    <span class="et_detail_owner">Tier @temp.RiderTier</span><br />
+                                                    @*<span class="et_detail_yellow">Potential Point: +17</span><br />*@
+                                                    <button class="@(temp.RiderIsSelected ? "btn_remove" : "btn_select") btn btn_rider" data-tier="@temp.RiderTier" data-eventid="@Model.Item5.EventId" data-contesttype="@((int)Enums.ContestType.BigTeamContest)" data-riderid="@temp.RiderId" data-rrtotalpoint="@temp.RRTotalpoint" data-worldranking="@temp.WorldRanking" data-riderpower="@temp.RiderPower" data-avatar="@temp.RiderAvatar" data-ridername="@temp.RiderName" onclick="addRiders(this)" role="button">
+                                                        @(temp.RiderIsSelected ? "Remove" : "Select")
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-lg-4 col-2 px-1">
+                                            <div class="row mx-0">
+                                                <div class="col-12 text-center px-0">
+                                                    <span class="round_prob_info" style="display:inline-block;line-height:26px;vertical-align:middle;">Round</span>
+                                                    <span class="et_result_round" style="display:inline-block;line-height:26px;vertical-align:middle;">@temp.Round</span>
+                                                </div>
+                                            </div>
+                                            <div class="row mx-0">
+                                                <div class="col-12 text-center px-0" style="min-height:45px;">
+                                                    <span class="round_prob" style="">@((temp.QRProb*100).ToString("0.##"))%</span>
+                                                </div>
+                                            </div>
+                                            <div class="row mx-0">
+                                                <div class="col-12 col text-center px-0">
+                                                    <div class="row mx-0">
+                                                        <div class="col-lg-2 col-12 text-center px-1">
+                                                            <span class="round_prob_info" style="">Ride</span>
+                                                        </div>
+                                                        <div class="col-lg-8 col-12 px-1">
+                                                            <div class="row mx-0">
+                                                                <div class="col-lg-1">
+
+                                                                </div>
+                                                                <div class="col-lg-2 p-1">
+                                                                    <div class="w-100 @((double)temp.QRProb / 0.2 < 1 ? "bg_yellow_orange" : "bg_yellow")" style=""></div>
+                                                                </div>
+                                                                <div class="col-lg-2 p-1">
+                                                                    <div class="w-100 @((double)temp.QRProb / 0.4 < 1 ? (double)temp.QRProb / 0.2 < 1 ? "bg_orange" : "bg_yellow_orange" : "bg_yellow")" style=""></div>
+                                                                </div>
+                                                                <div class="col-lg-2 p-1">
+                                                                    <div class="w-100 @((double)temp.QRProb / 0.6 < 1 ? (double)temp.QRProb / 0.4 < 1 ? "bg_orange" : "bg_yellow_orange" : "bg_yellow")" style=""></div>
+                                                                </div>
+                                                                <div class="col-lg-2 p-1">
+                                                                    <div class="w-100 @((double)temp.QRProb / 0.8 < 1 ? (double)temp.QRProb / 0.6 < 1 ? "bg_orange" : "bg_yellow_orange" : "bg_yellow")" style=""></div>
+                                                                </div>
+                                                                <div class="col-lg-2 p-1">
+                                                                    <div class="w-100 @((double)temp.QRProb / 0.8 > 1 ? "bg_yellow_orange" : "bg_orange")" style=""></div>
+                                                                </div>
+                                                                <div class="col-lg-1">
+
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-lg-2 col-12 text-center px-1">
+                                                            <span class="round_prob_info" style="">BUckOFF</span>
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-5 px-1">
+                                            <div class="row mx-0">
+                                                <div class="col-lg-3 col-md-3 col-12 px-1 text-right et_mobile_only" style="min-height:80px;">
+                                                    <img src="@temp.BullAvatar" width="80" height="80">
+                                                </div>
+                                                <div class="col-lg-9 col-md-9 col-12 px-1 text-right">
+                                                    <span class="rank-name">
+                                                        <a href="/bull/detail/@temp.BullId">@temp.BullName</a>
+                                                    </span><br />
+                                                    <span class="et_detail_owner">Tier @temp.BullTier</span><br />
+                                                    @*<span class="et_detail_yellow">Potential Point: +17</span><br />*@
+                                                    <button class="@(temp.BullIsSelected ? "btn_remove" : "btn_select") btn btn_bull" data-tier="@temp.BullTier" data-eventid="@Model.Item5.EventId" data-contesttype="@((int)Enums.ContestType.BigTeamContest)" data-bullid="@temp.BullId" onclick="addBulls(this)" role="button" data-owner="@temp.BullOwner" data-powerrating="@temp.BullPowerRating" data-averagemark="@temp.BullAverageMark" data-rankridescore="@temp.BullRankRideScore" data-avatar="@temp.BullAvatar" data-bullname="@temp.BullName">@(temp.BullIsSelected ? "Remove" : "Select")</button>
+                                                </div>
+                                                <div class="col-lg-3 col-md-3 col-12 px-1 text-right et_desktop_only">
+                                                    <img src="@temp.BullAvatar" width="80" height="80">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="row mt-3 mb-2">
+                        <div class="col-12 text-center">
+                            <span class="rank-bread-title" style="color:#DF6A2E;">Bonus Bull Picks</span>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        @foreach (var temp in Model.Item5.BullList.OrderBy(x => x.BullTier))
+                        {
+                            <div class="col-lg-4 px-1">
+                                <div class="card et_detail_card w-100">
+                                    <div class="row">
+                                        <div class="col-3 px-1">
+                                            <img src="@temp.BullAvatar" width="80" height="67" />
+                                        </div>
+                                        <div class="col-7 px-1">
+                                            <span class="rank-name">
+                                                <a href="/bull/detail/@temp.BullId" data-token="@temp.BullId">@temp.BullName</a>
+                                            </span><br />
+                                            <span class="mt-3 et_detail_yellow">Tier @temp.BullTier</span><br />
+                                            @*<span class="mt-3 et_detail_yellow">Potential Point: +17 </span>*@
+                                        </div>
+                                        <div class="col-2 px-1 text-right">
+                                            <button class="@(temp.BullIsSelected ? "btn_remove" : "btn_select") btn btn_bull" data-tier="@temp.BullTier" data-eventid="@Model.Item5.EventId"
+                                                    data-contesttype="@((int)Enums.ContestType.BigTeamContest)" data-bullid="@temp.BullId" onclick="addBulls(this)" role="button" data-owner="@temp.BullOwner" data-powerrating="@temp.BullPowerRating" data-averagemark="@temp.BullAverageMark" data-rankridescore="@temp.BullRankRideScore" data-avatar="@temp.BullAvatar" data-bullname="@temp.BullName">
+                                                @(temp.BullIsSelected ? "Remove" : "Select")
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="row mt-0">
+                                        <div class="col-3 px-1"></div>
+                                        <div class="col-9 px-1">
+                                            <span class="mt-3 et_detail_owner">Owner: @temp.BullOwner </span>
+                                        </div>
+                                    </div>
+                                    <div class="row pt-2">
+                                        <div class="col-4 px-1">
+                                            <span class="rank-info-title">Power Rating</span><br>
+                                            <span class="rank-info-value">@temp.BullPowerRating.ToString("0.##")</span>
+                                        </div>
+                                        <div class="col-4 px-1">
+                                            <span class="rank-info-title">Average Mark</span><br>
+                                            <span class="rank-info-value">@temp.BullAverageMark.ToString("0.##")</span>
+                                        </div>
+                                        <div class="col-4 px-1">
+                                            <span class="rank-info-title">Rank Ride Score</span><br>
+                                            <span class="rank-info-value">@temp.BullRankRideScore.ToString("0.##")</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                    <div class="row mt-3 ">
+                        <div class="col-12">
+                            <div class="team_scoring mt-2 mb-2 pt-2 pb-2">
+                                Team Scoring<i class="far ml-2 rounded fa-angle-up" id="arr_up" onclick="myFunction()" style="font-style: normal; background-color: rgba(209, 209, 209, 0.7); color: #DF6A2E; cursor: pointer;"></i>
+                            </div>
+                            <div id="Myteam_scoring" class="mb-4" style="color: #000;">
+                                <p class="scoring_text">
+                                    For every matchup Rank Ride calculates the probability of a qualified ride. For example:
+                                </p>
+                                <p style="font-size: 18px; font-weight: bold;">
+                                    Chase Dougherty --vs – 519 Hell on the Red = 37.5% chance of a qualified ride
+                                </p>
+                                <p class="scoring_text">
+                                    37.5% chance of a qualified ride means the odds are in the bull’s favor with 62.5% chance of a buckoff.
+                                </p>
+                                <p class="scoring_text">
+                                    This is a common situation in bull riding - the odds are with the bull most of the time.
+                                </p>
+                                <p class="scoring_text">
+                                    The Rank Ride contest produces a score for each rider and each bull based on the outcome of the match. If the rider wins the match and gets a score, the rider has a chance to earn bonuses, likewise, if the bull wins the match he has a chance to earn bonuses. Both rider and bull start with the score given to them by the judges. Possible bonuses are awarded based on the original odds for the matchup.
+                                </p>
+                                <p>
+                                    <i style="font-size: 18px; font-weight: bold; text-transform:uppercase;">Scenario 1: </i>
+                                </p>
+                                <p class="scoring_text">
+                                    Dougherty wins and scores 87 points, the bull scores 42.25 points<br>
+                                    Hell on the Red scores 42.25 points – no bonus<br>
+                                    Dougherty scores 87 points + 1.25 bonus = 88.25 points<br>
+                                    The bonus value for the rider is .625 (the % chance of a buckoff)<br>
+                                    If the chance of a qualified ride was 60% or greater, the rider gets no bonus<br>
+                                    If the chance of a qualified ride was between 40% and 60%, rider gets his bonus (.625 in this case)<br>
+                                    If the chance of a qualified ride was 40% or less, rider gets double bonus (1.25 in this case)<br>
+                                    If the chance of a qualified ride was 25% or less, rider gets triple bonus (1.875 in this case)
+
+                                </p>
+                                <p>
+                                    <i style="font-size: 18px; font-weight: bold; text-transform:uppercase;">Scenario 2: </i>
+                                </p>
+                                <p class="scoring_text">
+                                    Dougherty bucks off in 4.22 seconds, the bull scores 42.25 points<br>
+                                    Dougherty scores 0 + .375 (the % chance of a qualified ride) + 4.22 (time he stayed on) = 4.60 points<br>
+                                    Hell on the Red scores 42.25 points + .375 = 42.63 points<br>
+                                    The bonus value for the bull is .375 (the % chance of a qualified ride)<br>
+                                    If the chance of a qualified ride was 60% or greater, the bull gets double bonus (.750 in this case)<br>
+                                    If the chance of a qualified ride was between 40% and 60%, bull gets bonus x 1.5 (.563 in this case)<br>
+                                    In all other cases, the bull gets his standard bonus (.375 in this case)
+                                </p>
+
+                                <p class="scoring_text">
+                                    Both riders and bulls earn bonuses by beating the specific odds against them.
+                                </p>
+                                <p class="scoring_text">
+                                    Max score for a rider is 100 points per matchup<br>
+                                    Max score for a bull is 50 points per matchup
+                                </p>
+                                <p class="scoring_text">
+                                    Rank Ride players earn all the points for their chosen riders and bulls from each matchup in the event. Players can maximize points and bonuses (and risk) by selecting riders and bulls who have the odds against them. Players may choose to play it safe by selecting riders and bulls most likely to win their matchups, but with less opportunity for bonuses.
+                                </p>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            @for (int ii = 1; ii < 4; ii++)
+            {
+                <div class="modal fade" id="riderTierModal_@ii" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header p-0">
+                                <div class="et_detail_tire w-100">
+                                    <span class="">Tier @ii</span>
+                                </div>
+                                <button type="button" class="close btn_modal_close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body md_scroll">
+                                <div class="row mt-1 mb-1">
+                                    @foreach (var temp in teamRiderDrawDtos.Distinct().Where(x => x.RiderTier == ii).OrderBy(x => x.RiderName))
+                                    {
+                                        <div class="col-lg-6 px-lg-3 px-sm-1">
+                                            <div class="card et_detail_card w-100" style="min-height: 160px;">
+                                                <div class="row">
+                                                    <div class="col-3 px-1">
+                                                        <img src="@temp.RiderAvatar" width="80" height="80" />
+                                                    </div>
+                                                    <div class="col-7 px-1">
+                                                        <span class="rank-name">
+                                                            <a href="/rider/detail/@temp.RiderId" data-token="@temp.RiderId">@temp.RiderName</a>
+                                                        </span><br />
+                                                        <span class="mt-3 et_detail_yellow">Tier @temp.RiderTier</span><br />
+                                                    </div>
+                                                    <div class="col-2 px-1 text-right">
+                                                        <button class="@(temp.RiderIsSelected ? "btn_remove" : "btn_select") btn btn_rider" data-tier="@temp.RiderTier" data-riderid="@temp.RiderId" onclick="addSelRiders(this)" role="button">
+                                                            @(temp.RiderIsSelected ? "Remove" : "Select")
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="row pt-1">
+                                                    <div class="col-4 px-1">
+                                                        <span class="rank-info-title">Rank Ride Total</span><br>
+                                                        <span class="rank-info-value">@temp.RRTotalpoint.ToString("0.##")</span>
+                                                    </div>
+                                                    <div class="col-4 px-1">
+                                                        <span class="rank-info-title">World Ranking</span><br>
+                                                        <span class="rank-info-value">@temp.WorldRanking</span>
+                                                    </div>
+                                                    <div class="col-4 px-1">
+                                                        <span class="rank-info-title">Rider Rating</span><br>
+                                                        <span class="rank-info-value">@temp.RiderPower.ToString("0.###")</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <div class="modal fade" id="bullTierModal_@ii" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header p-0">
+                                <div class="et_detail_tire w-100">
+                                    <span class="">Tier @ii</span>
+                                </div>
+                                <button type="button" class="close btn_modal_close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body md_scroll">
+                                <div class="row mt-1 mb-1">
+                                    @foreach (var temp in teamBullDrawDtos.Distinct().Where(x => x.BullTier == ii).OrderBy(x => x.BullName))
+                                    {
+                                        <div class="col-lg-6 px-lg-3 px-sm-1">
+                                            <div class="card et_detail_card w-100" style="min-height: 170px;">
+                                                <div class="row">
+                                                    <div class="col-3 px-1">
+                                                        <img src="@temp.BullAvatar" width="80" height="67" />
+                                                    </div>
+                                                    <div class="col-7 px-1">
+                                                        <span class="rank-name">
+                                                            <a href="/bull/detail/@temp.BullId" data-token="@temp.BullId">@temp.BullName</a>
+                                                        </span><br />
+                                                        <span class="mt-3 et_detail_yellow">Tier @temp.BullTier</span><br />
+
+                                                    </div>
+                                                    <div class="col-2 px-1 text-right">
+                                                        <button class="@(temp.BullIsSelected ? "btn_remove" : "btn_select") btn btn_bull" data-tier="@temp.BullTier" data-bullid="@temp.BullId" onclick="addSelBulls(this)" role="button">
+                                                            @(temp.BullIsSelected ? "Remove" : "Select")
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-0">
+                                                    <div class="col-3 px-1"></div>
+                                                    <div class="col-9 px-1">
+                                                        <span class="mt-3 et_detail_owner">Owner: @temp.BullOwner </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row pt-1">
+                                                    <div class="col-4 px-1">
+                                                        <span class="rank-info-title">Power Rating</span><br>
+                                                        <span class="rank-info-value">@temp.BullPowerRating.ToString("0.##")</span>
+                                                    </div>
+                                                    <div class="col-4 px-1">
+                                                        <span class="rank-info-title">Average Mark</span><br>
+                                                        <span class="rank-info-value">@temp.BullAverageMark.ToString("0.##")</span>
+                                                    </div>
+                                                    <div class="col-4 px-1">
+                                                        <span class="rank-info-title">Rank Ride Score</span><br>
+                                                        <span class="rank-info-value">@temp.BullRankRideScore.ToString("0.##")</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            }
+
+
+        }
+        else
+        {
+            <section class="section section-variant-1 bg-gray-100 custom-float-width contest_pg">
+                <div class="container">
+                    <div class="text-center">
+                        <article class="heading-component mt-20">
+                            <div class="heading-component-inner1">
+                                <h5 style="text-align:center">
+                                    draw coming soon
+                                </h5>
+
+                            </div>
+                        </article>
+                        <a href="/events" class='button button-primary mt-20' type="button" aria-label="Send">Back</a>
+                    </div>
+                </div>
+            </section>
+        }
+
+    }
+    else
+    {
+        <section class="section section-variant-1 custom-bg-gray-100 custom-float-width contest_pg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-1">
+                        <b class="btn rank-btn-back" onclick="history.back();">
+                            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                        </b>
+                        <span class="rank-back-span">Events</span>
+                        <input type="hidden" value="@ViewBag.WalletToken" id="hdn_walletToken" />
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-11 text-lg-center">
+                        <span class="et_detail_title">@Model.Item3</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <span class="et_completed_days">Completed <span style="font-size:24px; line-height: 29px;">@((DateTime.Now - Model.Item4.PerfTime).Days)</span> Days ago </span>
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <span class="rank-bread-title" style="color:#DF6A2E; font-style: normal; font-weight: 600; font-size: 20px; line-height: 24px;">Billings @Model.Item3</span>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-12">
+                        <table class="table _dtTable dt-responsive nowrap" id="_teamBillings">
+                            <thead class="theme-dark-th">
+                                <tr>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row mt-1">
+                    @foreach (var temp in Model.Item5.EventResultList.Where(x => x.rr_rider_score != 0 && x.rr_bull_score != 0).OrderBy(x => x.rider_name).ThenBy(x => x.round))
+                    {
+                        <div class="col-12 px-1">
+                            <div class="et_detail_card" style="min-height:100px;">
+                                <div class="row">
+                                    <div class="col-lg-4 col-6 px-1">
+                                        <div class="row mx-0">
+                                            <div class="col-lg-3 col-md-3 col-12 px-1">
+                                                <img src="@temp.rider_avatar" width="80" height="80">
+                                            </div>
+                                            <div class="col-lg-9 col-md-9 col-12 px-1">
+                                                <span class="rank-name">@temp.rider_name</span><br />
+                                                <span class="et_detail_owner">Tier @(String.IsNullOrEmpty(temp.rider_tier) ? "--" : temp.rider_tier)</span>
+                                                <div>
+                                                    <span class="et_detail_yellow" style="display:inline-block;line-height:26px;vertical-align:middle;">Game score: </span>
+                                                    <span class="et_detail_yellow" style="font-size:24px;display:inline-block;line-height:26px;vertical-align:middle;">+@temp.rr_rider_score.ToString("0.##")</span>
+                                                </div>
+                                                <div>
+                                                    <span class="et_detail_yellow" style="display:inline-block;line-height:26px;vertical-align:middle;">Actual score: </span>
+                                                    <span class="et_detail_yellow" style="font-size:24px;display:inline-block;line-height:26px;vertical-align:middle;">+@temp.ride_score.ToString("0.##")</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-lg-4 px-1 et_desktop_only">
+                                        <div class="row mx-0">
+                                            <div class="col-12 text-center px-0" style="min-height:60px;">
+                                                <span class="round_prob_info" style="display:inline-block;line-height:26px;vertical-align:middle;">Round</span> <span class="round_prob_info" style="display:inline-block;line-height:26px;vertical-align:middle;">@temp.round</span>@*et_result_round*@
+                                            </div>
+                                        </div>
+                                        <div class="row mx-0">
+                                            <div class="col-12 col text-center px-0">
+                                                <span class="round_prob_info" style="display:inline-block;line-height:26px;vertical-align:middle;">Ride Probabliity</span> <span class="et_result_round" style="display:inline-block;line-height:26px;vertical-align:middle;">@((temp.prp*100)?.ToString("0.##"))%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-4 col-6 px-1">
+                                        <div class="row mx-0">
+                                            <div class="col-lg-3 col-md-3 col-12 px-1 text-right et_mobile_only" style="min-height:80px;">
+                                                <img src="@temp.bull_avatar" width="80" height="80" onerror="getBullPic(this, @temp.pbid)">
+                                            </div>
+                                            <div class="col-lg-9 col-md-9 col-12 px-1 text-right">
+                                                <span class="rank-name">@temp.bull_name</span><br />
+                                                <span class="et_detail_owner">Tier @(String.IsNullOrEmpty(temp.bull_tier) ? "--" : temp.bull_tier)</span>
+                                                <div>
+                                                    <span class="et_detail_yellow" style="display:inline-block;line-height:26px;vertical-align:middle;">Game score: </span>
+                                                    <span class="et_detail_yellow" style="font-size:24px;display:inline-block;line-height:26px;vertical-align:middle;">+@temp.rr_bull_score.ToString("0.##")</span>
+                                                </div>
+                                                <div>
+                                                    <span class="et_detail_yellow" style="display:inline-block;line-height:26px;vertical-align:middle;">Actual score: </span>
+                                                    <span class="et_detail_yellow" style="font-size:24px;display:inline-block;line-height:26px;vertical-align:middle;">+@temp.bull_score.ToString("0.##")</span>
+                                                </div>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-12 px-1 text-right et_desktop_only">
+                                                <img src="@temp.bull_avatar" width="80" height="80" onerror="getBullPic(this, @temp.pbid)">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row et_mobile_only">
+                                    <div class="col-12 text-center">
+                                        <span class="round_prob_info" style="display:inline-block;line-height:26px;vertical-align:middle;">Round</span> <span class="et_result_round" style="display:inline-block;line-height:26px;vertical-align:middle;">@temp.round</span>
+                                    </div>
+                                    <div class="col-12 text-center">
+                                        <span class="round_prob_info" style="display:inline-block;line-height:26px;vertical-align:middle;">Ride Probabliity</span> <span class="et_result_round" style="display:inline-block;line-height:26px;vertical-align:middle;">@((temp.prp*100)?.ToString("0.##"))%</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+    }
+    <partial name="../Shared/_Sponsors.cshtml" />
+    @await Component.InvokeAsync("SubscibeNewsLetterComponent")
+}
+
+else
+{
+    <section class="section section-variant-1 bg-gray-100 custom-float-width contest_pg">
+        <div class="container">
+            <div class="text-center">
+                <article class="heading-component mt-20">
+                    <div class="heading-component-inner1">
+                        <h5 style="text-align:center">
+                            Contest has not opened yet
+                        </h5>
+
+                    </div>
+                </article>
+                <a href="/events" class='button button-primary mt-20' type="button" aria-label="Send">Back</a>
+            </div>
+        </div>
+    </section>
+}
+
+
+@section Scripts{
+    <script src="~/js/jquery-ui.min.js"></script>
+    <script src="~/js/PagingSheet.js"></script>
+    <script src="~/js/bootbox.min.js"></script>
+
+
+    <script>
+        var event_id_temp = '@ViewBag.EventId';
+        console.log(event_id_temp);
+        function setCookie(th) {
+            document.cookie = 'Team' + event_id_temp + "=" + JSON.stringify(th);
+        }
+        function delete_cookie() {
+            document.cookie = 'Team' + event_id_temp + '=; Path=/; Expires=Thu, 01 Jan 1970 00:00:01 GMT;';
+        }
+        function getCookie(cname) {
+            var name = cname + "=";
+            var ca = document.cookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+        var teamCreationArrDB = [[], [], [], [], [], []];
+        var isExistChanged = false;
+        $(document).ready(function () {
+
+            var success = '@msg';
+
+            if (success != ""  ) {
+                swal("Oops! you do not have enough cowboy coins to join the contest. Please co-ordinate with admin at info@rankridefantasy.com", {
+                        icon: "warning",
+                    });
+
+            }
+            //finished events
+            $("#_teamBillings").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                    "url": '/joinedcontestsajax/@Model.Item5.ContestId/@Model.Item5.EventId',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "item1", "name": "item1", "autoWidth": false,
+                        "render": function (value, type, row) {
+
+                            var rowHtml = "<div class='row'>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item1);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item2);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item3);
+                            rowHtml += "</div>";
+                            rowHtml += "</div>";
+                            return rowHtml;
+                        }
+                    }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 9
+
+            });
+
+
+            var drawList = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item5.DrawList));
+
+            for (var i = 0; i < drawList.length; i++) {
+                
+                if (drawList[i].RiderIsSelected == true) {
+                    var item = {};
+                    item.EventId = drawList[i].EventId;
+                    item.RiderId = drawList[i].RiderId;
+                    item.IsSubstitute = false;
+                    item.bullId = 0;
+                    item.RRTotalpoint = parseFloat(drawList[i].RRTotalpoint);
+                    item.WorldRanking = drawList[i].WorldRanking;
+                    item.RiderPower = parseFloat(drawList[i].RiderPower);
+                    item.RiderAvatar = drawList[i].RiderAvatar;
+                    item.RiderTier = drawList[i].RiderTier;
+                    item.RiderName = drawList[i].RiderName;
+                    item.RiderIsSelected = drawList[i].RiderIsSelected;
+                    item.IsChanged = false;
+                    var pos = -1;
+                    if (drawList[i].RiderTier == 3) {
+                        pos = teamCreationArrDB[2].map(function (e) { return e.RiderId; }).indexOf(item.RiderId);
+                        if (pos === -1) {
+                            teamCreationArrDB[2].push(item);
+                        }
+
+                    }
+                    else if (drawList[i].RiderTier == 2) {
+                        pos = teamCreationArrDB[1].map(function (e) { return e.RiderId; }).indexOf(item.RiderId);
+                        if (pos === -1) {
+                            teamCreationArrDB[1].push(item);
+                        }
+                    }
+                    else {
+                        pos = teamCreationArrDB[0].map(function (e) { return e.RiderId; }).indexOf(item.RiderId);
+                        if (pos === -1) {
+                            teamCreationArrDB[0].push(item);
+                        }
+                    }
+                }
+                if (drawList[i].BullIsSelected == true) {
+                    var item1 = {};
+                    item1.EventId = drawList[i].EventId;
+                    item1.BullId = drawList[i].BullId;
+                    item1.IsSubstitute = false;
+                    item1.riderId = 0;
+                    item1.BullOwner = drawList[i].BullOwner;
+                    item1.BullPowerRating = parseFloat(drawList[i].BullPowerRating);
+                    item1.BullAverageMark = parseFloat(drawList[i].BullAverageMark);
+                    item1.BullRankRideScore = parseFloat(drawList[i].BullRankRideScore);
+                    item1.BullAvatar = drawList[i].BullAvatar;
+                    item1.BullTier = drawList[i].BullTier;
+                    item1.BullName = drawList[i].BullName;
+                    item1.BullIsSelected = drawList[i].BullIsSelected;
+                    item1.IsChanged = false;
+                    if (drawList[i].BullTier == 3) {
+                        teamCreationArrDB[5].push(item1);
+                    }
+                    else if (drawList[i].BullTier == 2) {
+                        teamCreationArrDB[4].push(item1);
+                    }
+                    else {
+                        teamCreationArrDB[3].push(item1);
+                    }
+                }
+            }
+
+            var bullList = @Html.Raw(Newtonsoft.Json.JsonConvert.SerializeObject(Model.Item5.BullList));
+            for (var i = 0; i < bullList.length; i++) {
+                if (bullList[i].BullIsSelected == true) {
+                    bullList[i].IsChanged = false;
+                    if (bullList[i].BullTier == 3) {
+                        teamCreationArrDB[5].push(bullList[i]);
+                    }
+                    else if (bullList[i].BullTier == 2) {
+                        teamCreationArrDB[4].push(bullList[i]);
+                    }
+                    else {
+                        teamCreationArrDB[3].push(bullList[i]);
+                    }
+                }
+            }
+            if (getCookie('Team' + event_id_temp) != "") {
+                var data = getCookie('Team' + event_id_temp);
+                if (data == JSON.stringify([[], [], [], [], [], []])) {
+                    setCookie(teamCreationArrDB);
+                } else {
+                    var dataArr = JSON.parse(data);
+                    for (var i = 0; i < 6; i++) {
+                        for (var j = 0; j < dataArr[i].length; j++) {
+                            var isChanged = true;
+                            for (var k = 0; k < teamCreationArrDB[i].length; k++) {
+                                if (i == 0 || i == 1 || i == 2) {// Rider
+                                    if (dataArr[i][j].RiderId == teamCreationArrDB[i][k].RiderId) {
+                                        isChanged = false;
+                                    }
+                                } else { // Bull
+                                    if (dataArr[i][j].BullId == teamCreationArrDB[i][k].BullId) {
+                                        isChanged = false;
+                                    }
+                                }
+
+                            }
+                            if (isChanged) {
+                                isExistChanged = true;
+                            }
+                            dataArr[i][j].IsChanged = isChanged;
+                        }
+                    }
+                    setCookie(dataArr);
+                }
+                
+            } else {
+                setCookie(teamCreationArrDB);
+                console.log(teamCreationArrDB);
+            }
+
+            refreshSelection();
+
+
+        });
+
+        function getOneCard(item) {
+            if (item == null) {
+                return "";
+            }
+            var team_name = item.teamName == null || item.teamName == "" ? item.userName : item.teamName;
+            var rowHtml = "<div class='card rank-card' >";
+            rowHtml += "<div class='row'>";
+            rowHtml += "<div class='col-2 px-1'>";
+
+            rowHtml += '<img src="' + item.avatar + '" style="width:50px; height:50px;" onerror=this.onerror=null; this.src="images/home/team_icon.png"  />';
+            rowHtml += "</div>";
+            rowHtml += "<div class='col-8 px-1'>";
+            rowHtml += '<span class="rank-name"><a href="/usercontest/' + item.userId + '/@Model.Item5.ContestId/' + item.teamId + '">' + team_name + '</a></span><br>';
+            rowHtml += '<span class="rank-owner mt-3">Team</span>';
+            rowHtml += "</div>";
+            rowHtml += "<div class='col-1 px-1 text-right'>";
+
+            rowHtml += "</div>";
+            rowHtml += "</div>";
+            rowHtml += "<div class='row pt-4'>";
+            rowHtml += "<div class='col-4 px-1'>";
+            rowHtml += '<span class="rank-info-title">Rank:</span><br>';
+            rowHtml += '<span class="rank-info-value">' + item.teamRank + '</span>';
+            rowHtml += "</div>";
+            rowHtml += "<div class='col-4 px-1'>";
+            rowHtml += '<span class="rank-info-title">Number of Contest:</span><br>';
+            rowHtml += '<span class="rank-info-value">' + item.numberOfContest + '</span>';
+            rowHtml += "</div>";
+            rowHtml += "<div class='col-4 px-1'>";
+            rowHtml += '<span class="rank-info-title">Team Point:</span><br>';
+            rowHtml += '<span class="rank-info-value">' + item.teamPoint + '</span>';
+            rowHtml += "</div>";
+            rowHtml += "</div>";
+            rowHtml += "</div>";
+            return rowHtml;
+        }
+        function showRiderDlg(tier_val) {
+            $("#riderTier_'" + tier_val + "'_Modal").show();
+        }
+        $(".sp_ignore").on('click', function () {
+            setCookie(teamCreationArrDB);
+            isExistChanged = false;
+            refreshSelection();
+        });
+        function refreshSelection() {
+            console.log("refresh Selection");
+            $('.btn_rider').removeClass("btn_remove");
+            $('.btn_rider').addClass("btn_select");
+            $('.btn_rider').html("Select");
+            $('.btn_bull').removeClass("btn_remove");
+            $('.btn_bull').addClass("btn_select");
+            $('.btn_bull').html("Select");
+            var data = getCookie('Team' + event_id_temp);
+            var teamCreationArr = JSON.parse(data);
+            console.log(teamCreationArr);
+            if (teamCreationArr[0].length == 2) {
+                $("#rider1_1").html(getOneRiderCard(teamCreationArr[0][0]));
+                $("#rider1_2").html(getOneRiderCard(teamCreationArr[0][1]));
+            } else if (teamCreationArr[0].length == 1) {
+                $("#rider1_1").html(getOneRiderCard(teamCreationArr[0][0]));
+                $("#rider1_2").html(`<div class="card et_detail_blank w-100" data-toggle="modal" data-target="#riderTierModal_1"><span class="et_sp_select">Select Rider<br><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>`);
+            } else {
+                $("#rider1_1").html(`<div class="card et_detail_blank w-100" data-toggle="modal" data-target="#riderTierModal_1"><span class="et_sp_select">Select Rider<br><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>`);
+                $("#rider1_2").html(`<div class="card et_detail_blank w-100" data-toggle="modal" data-target="#riderTierModal_1"><span class="et_sp_select">Select Rider<br><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>`);
+            }
+            if (teamCreationArr[1].length == 2) {
+                $("#rider2_1").html(getOneRiderCard(teamCreationArr[1][0]));
+                $("#rider2_2").html(getOneRiderCard(teamCreationArr[1][1]));
+            } else if (teamCreationArr[1].length == 1) {
+                $("#rider2_1").html(getOneRiderCard(teamCreationArr[1][0]));
+                $("#rider2_2").html(`<div class="card et_detail_blank w-100" data-toggle="modal" data-target="#riderTierModal_2"><span class="et_sp_select">Select Rider<br><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>`);
+            } else {
+                $("#rider2_1").html(`<div class="card et_detail_blank w-100" data-toggle="modal" data-target="#riderTierModal_2"><span class="et_sp_select">Select Rider<br><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>`);
+                $("#rider2_2").html(`<div class="card et_detail_blank w-100" data-toggle="modal" data-target="#riderTierModal_2"><span class="et_sp_select">Select Rider<br><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>`);
+            }
+            if (teamCreationArr[2].length == 2) {
+                $("#rider3_1").html(getOneRiderCard(teamCreationArr[2][0]));
+                $("#rider3_2").html(getOneRiderCard(teamCreationArr[2][1]));
+            } else if (teamCreationArr[2].length == 1) {
+                $("#rider3_1").html(getOneRiderCard(teamCreationArr[2][0]));
+                $("#rider3_2").html(`<div class="card et_detail_blank w-100" data-toggle="modal" data-target="#riderTierModal_3"><span class="et_sp_select">Select Rider<br><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>`);
+            } else {
+                $("#rider3_1").html(`<div class="card et_detail_blank w-100" data-toggle="modal" data-target="#riderTierModal_3"><span class="et_sp_select">Select Rider<br><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>`);
+                $("#rider3_2").html(`<div class="card et_detail_blank w-100" data-toggle="modal" data-target="#riderTierModal_3"><span class="et_sp_select">Select Rider<br><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>`);
+            }
+
+            if (teamCreationArr[3].length == 1) {
+                $("#bull1").html(getOneBullCard(teamCreationArr[3][0]));
+            } else {
+                $("#bull1").html(`<div class="card et_detail_blank w-100" data-toggle="modal" data-target="#bullTierModal_1"><span class="et_sp_select">Select Bull<br><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>`);
+            }
+            if (teamCreationArr[4].length == 1) {
+                $("#bull2").html(getOneBullCard(teamCreationArr[4][0]));
+            } else {
+                $("#bull2").html(`<div class="card et_detail_blank w-100" data-toggle="modal" data-target="#bullTierModal_2"><span class="et_sp_select">Select Bull<br><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>`);
+            }
+            if (teamCreationArr[5].length == 1) {
+                $("#bull3").html(getOneBullCard(teamCreationArr[5][0]));
+            } else {
+                $("#bull3").html(`<div class="card et_detail_blank w-100" data-toggle="modal" data-target="#bullTierModal_3"><span class="et_sp_select">Select Bull<br><i class="fa fa-arrow-down" aria-hidden="true"></i></span></div>`);
+            }
+            $("#totalRiders").html(teamCreationArr[0].length + teamCreationArr[1].length + teamCreationArr[2].length);
+            $("#totalBulls").html(teamCreationArr[3].length + teamCreationArr[4].length + teamCreationArr[5].length);
+
+            if (isExistChanged) {
+                $("#btn_team_save").show();
+                $("#team_unsaved_sp").show();
+            } else {
+                $("#btn_team_save").hide();
+                $("#team_unsaved_sp").hide();
+            }
+        }
+        getRiderPic = function (elm, id) {
+            var urlRider = '@Url.Action("GetGetPic", "Riders", new { id = "-1" })'.replace("-1", id);
+            $.get(urlRider, function (data) {
+                $(elm).attr('src', data);
+            })
+        }
+        getBullPic = function (elm, id) {
+            var urlBull = '@Url.Action("GetBullPic", "Riders", new { id = "-1" })'.replace("-1", id);
+            $.get(urlBull, function (data) {
+                $(elm).attr('src', data);
+            })
+        }
+        function getOneRiderCard(data) {
+            if ($('.btn_rider[data-riderid="' + data.RiderId + '"]').hasClass("btn_select")) {
+                $('.btn_rider[data-riderid="' + data.RiderId + '"]').removeClass("btn_select");
+                $('.btn_rider[data-riderid="' + data.RiderId + '"]').addClass("btn_remove");
+                $('.btn_rider[data-riderid="' + data.RiderId + '"]').html("Remove");
+            }
+
+            var tmpHtml = `
+                <div class="card et_detail_card w-100" style="background:${data.IsChanged ? "#C4C4C4;" : "#FFFFFF;"}">
+                    <div class="row">
+                        <div class="col-3 px-1">
+                            <img src="${data.RiderAvatar}" width="80" height="80"/>
+                        </div>
+                        <div class="col-7 px-1">
+                            <span class="rank-name"><a href="/rider/detail/${data.RiderId}" >${data.RiderName}</a></span><br /><br />
+                            <span class="mt-3 et_detail_yellow">Tier ${data.RiderTier}</span><br />
+                            @*<span class="et_detail_yellow">Potential Point: +17</span>*@
+                        </div>
+                        <div class="col-2 px-1 text-right">
+                            <button class="${data.RiderIsSelected ? "btn_remove" : "btn_select"} btn" data-riderid="${data.RiderId}" onclick="addSelRiders(this)" role="button">
+                                ${data.RiderIsSelected ? "Remove" : "Select"}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row pt-4">
+                        <div class="col-4 px-1">
+                            <span class="rank-info-title">Rank Ride Total</span><br>
+                            <span class="rank-info-value">${data.RRTotalpoint}</span>
+                        </div>
+                        <div class="col-4 px-1">
+                            <span class="rank-info-title">World Ranking</span><br>
+                            <span class="rank-info-value">${data.WorldRanking}</span>
+                        </div>
+                        <div class="col-4 px-1">
+                            <span class="rank-info-title">Rider Rating</span><br>
+                            <span class="rank-info-value">${data.RiderPower}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return tmpHtml;
+        }
+
+        function getOneBullCard(data) {
+            if ($('.btn_bull[data-bullid="' + data.BullId + '"]').hasClass("btn_select")) {
+                $('.btn_bull[data-bullid="' + data.BullId + '"]').removeClass("btn_select");
+                $('.btn_bull[data-bullid="' + data.BullId + '"]').addClass("btn_remove");
+                $('.btn_bull[data-bullid="' + data.BullId + '"]').html("Remove");
+            }
+
+            var tmpHtml = `
+                <div class="card et_detail_card w-100" style="background:${data.IsChanged ? "#C4C4C4;" : "#FFFFFF;"}">
+                    <div class="row">
+                        <div class="col-3 px-1">
+                            <img src="${data.BullAvatar}" width="80" height="80" />
+                        </div>
+                        <div class="col-7 px-1">
+                            <span class="rank-name"><a href="/bull/detail/${data.BullId}">${data.BullName}</a></span><br />
+                            <span class="mt-3 et_detail_yellow">Tier ${data.BullTier}</span><br />
+                            @*<span class="mt-3 et_detail_yellow">Potential Point: +17 </span>*@
+                        </div>
+                        <div class="col-2 px-1 text-right">
+                            <button class="${data.BullIsSelected ? "btn_remove" : "btn_select"} btn" data-bullid="${data.BullId}" onclick="addSelBulls(this)" role="button">
+                                ${data.BullIsSelected ? "Remove" : "Select"}
+                            </button>
+                        </div>
+                    </div>
+                    <div class="row mt-0">
+                        <div class="col-3 px-1"></div>
+                        <div class="col-9 px-1">
+                            <span class="mt-3 et_detail_owner">Owner: ${data.BullOwner} </span>
+                        </div>
+                    </div>
+                    <div class="row pt-4">
+                        <div class="col-4 px-1">
+                            <span class="rank-info-title">Power Rating</span><br>
+                            <span class="rank-info-value">${data.BullPowerRating}</span>
+                        </div>
+                        <div class="col-4 px-1">
+                            <span class="rank-info-title">Average Mark</span><br>
+                            <span class="rank-info-value">${data.BullAverageMark}</span>
+                        </div>
+                        <div class="col-4 px-1">
+                            <span class="rank-info-title">Rank Ride Score</span><br>
+                            <span class="rank-info-value">${data.BullRankRideScore}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+            return tmpHtml;
+        }
+
+        function addSelRiders(elm) {
+            var x = $(elm);
+            var riderId = x.attr('data-riderid');
+            $('.btn_rider[data-riderid="' + riderId + '"]').first().click();
+        }
+        function addSelBulls(elm) {
+            var x = $(elm);
+            var bullId = x.attr('data-bullid');
+            $('.btn_bull[data-bullid="' + bullId + '"]').first().click();
+        }
+        function addRiders(th) {
+            isExistChanged = true;
+            var data = getCookie('Team' + event_id_temp);
+            var teamCreationArr = JSON.parse(data);
+            var x = $(th);
+            var i, j, item = {};
+
+            item.EventId = x.attr('data-eventid');
+            item.ContestType = x.attr('data-contesttype');
+            item.RiderId = x.attr('data-riderid');
+            item.IsSubstitute = false;
+            item.bullId = 0;
+            item.RRTotalpoint = parseFloat(x.attr('data-rrtotalpoint'));
+            item.WorldRanking = x.attr('data-worldranking');
+            item.RiderPower = parseFloat(x.attr('data-riderpower'));
+            item.RiderAvatar = x.attr('data-avatar');
+            item.RiderTier = x.attr("data-tier");
+            item.RiderName = x.attr("data-ridername");
+            if (x.attr("data-tier") == 1) {
+                i = 0;
+            }
+            else if (x.attr("data-tier") == 2) {
+                i = 1;
+            }
+            else {
+                i = 2;
+            }
+
+            if (item.ContestType == 1) {
+                item.TeamNumber = 1;
+            }
+            else {
+                item.TeamNumber = 2;
+            }
+
+            var riderId = teamCreationArr[i].map(function (el) { return Number(el.RiderId) });
+
+            idx = jQuery.inArray(Number(item.RiderId), riderId);
+            if (idx == -1) {
+                if (item.ContestType == 2 ? teamCreationArr[i].length < 1 : teamCreationArr[i].length < 2) {
+                    if ($(th).hasClass("btn_select")) {
+                        item.RiderIsSelected = true;
+                        item.IsChanged = true;
+                        teamCreationArr[i].push(item);
+                        $(th).removeClass("btn_select");
+                        $(th).addClass("btn_remove");
+                        $(th).html("Remove");
+
+                        if (teamCreationArr[i].length >= 2) {
+                            $("#riderTierModal_" + (i+1)).modal('hide');
+                        }
+                    }
+
+                }
+                else {
+                    bootbox.alert("The Required riders are selected in this Tier!");
+                }
+            }
+            else {
+                if ($(th).hasClass("btn_remove")) {
+                    console.log("remove rider");
+                    teamCreationArr[i].splice(idx, 1);
+                    $(th).removeClass("btn_remove");
+                    $(th).addClass("btn_select");
+                    $(th).html("Select");
+                }
+            }
+            setCookie(teamCreationArr);
+            refreshSelection();
+        }
+
+        function addBulls(th) {
+            isExistChanged = true;
+            var data = getCookie('Team' + event_id_temp);
+            var teamCreationArr = JSON.parse(data);
+            var x = $(th);
+            var i, item = {};
+
+            item.EventId = x.attr('data-eventid');
+            item.ContestType = x.attr('data-contesttype');
+            item.BullId = x.attr('data-bullid');
+            item.IsSubstitute = false;
+            item.riderId = 0;
+            item.BullOwner = x.attr('data-owner');
+            item.BullPowerRating = parseFloat(x.attr('data-powerrating'));
+            item.BullAverageMark = parseFloat(x.attr('data-averagemark'));
+            item.BullRankRideScore = parseFloat(x.attr('data-rankridescore'));
+            item.BullAvatar = x.attr('data-avatar');
+            item.BullTier = x.attr("data-tier");
+            item.BullName = x.attr("data-bullname");
+
+            if (x.attr("data-tier") == 1) {
+                i = 3;
+            }
+            else if (x.attr("data-tier") == 2) {
+                i = 4;
+            }
+            else {
+                i = 5;
+            }
+            if (item.ContestType == 1) {
+                item.TeamNumber = 1;
+            }
+            else {
+                item.TeamNumber = 2;
+            }
+
+            var bullId = teamCreationArr[i].map(function (el) { return Number(el.BullId) });
+
+            idx = jQuery.inArray(Number(item.BullId), bullId);
+            if (idx == -1) {
+                if (teamCreationArr[i].length < 1) {
+                    if ($(th).hasClass("btn_select")) {
+                        item.BullIsSelected = true;
+                        item.IsChanged = true;
+                        teamCreationArr[i].push(item);
+                        $(th).removeClass("btn_select");
+                        $(th).addClass("btn_remove");
+                        $(th).html("Remove");
+                        if (teamCreationArr[i].length >= 1) {
+                            $("#bullTierModal_" + (i-2)).modal('hide');
+                        }
+                    }
+                }
+                else {
+                    if (x.attr("data-tier") == 3) {
+                        bootbox.alert("The Required Bulls are selected in this Tier!");
+                    }
+                    else {
+                        bootbox.alert("Required bulls/riders for this tier have been selected. Please select now from Tier 2/Tier 3!");
+                    }
+                }
+            }
+            else {
+
+                if ($(th).hasClass("btn_remove")) {
+                    teamCreationArr[i].splice(idx, 1);
+                    $(th).removeClass("btn_remove");
+                    $(th).addClass("btn_select");
+                    $(th).html("Select");
+
+                }
+
+            }
+            setCookie(teamCreationArr);
+            refreshSelection();
+        }
+        function validateContestJoin1(type, fee) {
+
+            var tokenVal = parseFloat($("#hdn_walletToken").val());
+            if (type === "Token" && fee > tokenVal) {
+                swal("Oops! you do not have enough token to join the contest. Please co-ordinate with admin at info@rankridefantasy.com", {
+                    icon: "warning",
+                });
+                return false;
+            }
+            else {
+                var url = $("#btn_build").attr('data-url');
+                window.location.href = url;
+            }
+        }
+        function myFunction() {
+            var x = document.getElementById("Myteam_scoring");
+            var y = document.getElementById("arr_up");
+            if (x.style.display === "none") {
+                x.style.display = "block";
+                y.classList.remove('fa-angle-down');
+                y.classList.add('fa-angle-up');
+            } else {
+                x.style.display = "none";
+                y.classList.remove('fa-angle-up');
+                y.classList.add('fa-angle-down');
+            }
+        }
+        function getContestAwards(th) {
+            var x = $(th);
+            var modal = $("#awardModal");
+            $.ajax({
+                url: "@Url.Action("getcontestawards", "contest")",
+                data: {
+                    contestId: x.attr("data-contest"),
+                    eventId: x.attr("data-event")
+                },
+                type:"POST",
+                success: function (result) {
+
+                    $("#awardModal").html('');
+                    $("#awardModal").html(result);
+                    modal.modal('show');
+                    setTimeout(function () {
+                        initDataTable();
+                    },1000)
+                    //modal.find(".awards").html("");
+                    //if (result != null) {
+                    //    $("#close").off().on("click", function () {
+                    //        modal.modal('hide');
+                    //    });
+                    //    modal.find(".list-statictics").append('<li class="_parent">\
+                    //        <a href = "#" style = "font-weight: bold;"> Award Name</a> \
+                    //        <a href="#" style="font-weight: bold;">Rank From</a> \
+                    //        <a href="#" style="font-weight: bold;">Rank To</a>\
+                    //        <span class="list-statictics-counter" style="font-weight: bold;">Actual Payout</span></li>');
+                    //    if (result.item1 != null && result.item1.length > 0) {
+                    //        $(result.item1).each(function (index, value) {
+                    //            modal.find("ul").append('<li class="awards">\
+                    //            <a href = "#" class= "awardName" >' + value.awardName + '</a>\
+                    //            <a href="#" class="rankFrom">'+ value.rankFrom + '</a>\
+                    //            <a href="#" class="rankTo">' + value.rankTo + '</a>\
+                    //            <span class= "list-statictics-counter awardPrice" > '+ value.price + '</span></li>');
+                    //        });
+                    //    }
+                    //    else {
+                    //        modal.find("ul").append('<li class="awards">\
+                    //            <a href = "#" class= "awardName">---</a>\
+                    //            <a href="#" class="rankFrom">---</a>\
+                    //            <a href="#" class="rankTo">---</a>\
+                    //            <span class= "list-statictics-counter awardPrice">---</span></li>');
+                    //    }
+                    //    $("#teams").append("<ul><li><b>Number Of Teams:</b> " + result.item2 + "");
+                    //    $("#players").append("<ul><li><b>Number Of Players:</b> " + result.item3 + "");
+                    //    modal.modal('show');
+                    //}
+                },
+                error: function () {
+                    alert("error");
+                }
+            });
+        }
+        function generateCode(length) {
+            var result = '';
+            var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            var charactersLength = characters.length;
+            for (var i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * charactersLength));
+            }
+            return result;
+        }
+        function createTeam(th, isLoginUser, type, fee) {
+            if (isLoginUser.toLowerCase() === 'false') {
+                swal("You should login at first", {
+                    icon: "warning",
+                    className: "notify-alert",
+                    button: false,
+                    timer: 5000,
+                });
+
+                setTimeout(function () {
+                    window.location.href = "/Login";
+                }, 5300);
+                return false;
+            }
+            var tokenVal = parseFloat($("#hdn_walletToken").val());
+            if (type === "Token" && fee > tokenVal) {
+                swal("Oops! you do not have enough token to join the contest. Please co-ordinate with admin at info@rankridefantasy.com", {
+                    icon: "warning",
+                });
+                return false;
+            }
+
+            var data = getCookie('Team' + event_id_temp);
+            var teamCreationArr = JSON.parse(data);
+
+            var EventId = $(th).data('eventid');
+            var ContestType = $(th).data('contesttype');
+            var TeamNumber = 1;
+
+            if (ContestType == 1) {
+                TeamNumber = 1;
+            }
+            else {
+                TeamNumber = 2;
+            }
+            for (var i = 0; i < 6; i++) {
+                for (var j = 0; j < teamCreationArr[i].length; j++) {
+
+                    teamCreationArr[i][j].TeamNumber = TeamNumber;
+                    teamCreationArr[i][j].IsSubstitute = false;
+                    teamCreationArr[i][j].EventId = EventId;
+                    teamCreationArr[i][j].ContestType = ContestType;
+                    teamCreationArr[i][j].TeamId = @ViewBag.TeamId;
+                }
+            }
+
+            var teamList = [];
+            for (var i = 0; i < 6; i++) {
+                if (i == 0 || i == 1 || i == 2) {
+                    if (teamCreationArr[i].length > 0) {
+                        if (teamCreationArr[i] < 2) {
+                            bootbox.alert("Number Of riders selected are not valid!");
+                            return false;
+                        }
+                    }
+                    else {
+                        bootbox.alert("Number Of riders selected are not valid!");
+                        return false;
+                    }
+                }
+                else {
+                    if (teamCreationArr[i].length > 0) {
+                        if (teamCreationArr[i] < 1) {
+                            bootbox.alert("Number Of bulls/riders are not valid!");
+                            return false;
+                        }
+                    }
+                    else {
+                        bootbox.alert("Number Of bulls/riders are not valid!");
+                        return false;
+                    }
+                }
+
+                for (var j = 0; j < teamCreationArr[i].length; j++) {
+
+                    teamList.push(teamCreationArr[i][j]);
+                }
+            }
+
+            var eveID = parseInt($(th).attr('data-eventid'));
+            $("#btn_team_save").hide();
+            $("#team_unsaved_sp").hide();
+            $.ajax({
+                url: '@Url.Action("CreateTeam", "Team")',
+                data: {
+                    teamData: JSON.stringify(teamList),
+                    eventId: eveID
+                },
+                type: "POST",
+                success: function (result) {
+                    if (result != null) {
+
+                        if (result.timeout) {
+                            $("#btn_team_save").show();
+                            $("#team_unsaved_sp").show();
+                            swal(result.message, {
+                                icon: "warning",
+                                className: "notify-alert",
+                                button: false,
+                                timer: 5000,
+                            });
+                            @*setTimeout(function () {
+                                window.location.reload();
+                            }, 5300);*@
+                        }
+                        else {
+                            
+                            $("#team_saved_sp").show();
+
+                            delete_cookie();
+                            swal("Team successfully created!!", {
+                                icon: "success",
+                                className: "notify-alert",
+                                button: false,
+                                timer: 5000,
+                            });
+
+                            setTimeout(function () {
+                                location.replace("/checkout/" + result.teamId + "/@ViewBag.ContestIdd/"
+                                    + result.eventId + "/" + generateCode(5));
+                            }, 5300)
+                        }
+
+                    }
+                    else {
+                        swal("You may First Login!!", {
+                            icon: "info",
+                            className: "notify-alert",
+                            button: false,
+                            timer: 5000,
+                        });
+                        setTimeout(function () {
+                            window.location.href ="/Login";
+                        }, 5300);
+                    }
+                },
+                error: function (error) {
+                    $("#btn_team_save").show();
+                    $("#team_unsaved_sp").show();
+                    swal(error, {
+                        icon: "error",
+                        className: "notify-alert",
+                        button: false,
+                        timer: 5000,
+                    });
+                }
+            });
+        }
+    </script>
+}
+

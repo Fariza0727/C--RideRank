@@ -1,0 +1,63 @@
+﻿
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Notification Management </h4>
+                </div>
+                <div class="card-body">
+                    <form id="NotifiForm" asp-action="Notifications" data-ajax-begin="onBegin" asp-controller="UserManagement" method="POST"
+                          data-ajax="true" data-ajax-success="onNotifySuccess"
+                          data-ajax-update="response" enctype="multipart/form-data">
+
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-wrap is-focused">
+                                    <label for="Excel" class="bmd-label-floating">Select Players Excel Data <b>*</b></label>
+                                    <input required type="file" name="Excel" accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel,text/comma-separated-values, text/csv, application/csv" class="form-control" />
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class="form-wrap is-focused">
+                                    <label for="Notify" class="bmd-label-floating">Enter Notification Message <b>*</b></label>
+                                    <textarea required name="Notify" class="form-control" rows="5" cols="5"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btnSubmit" type="submit">Sent Notification</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+                    @section scripts {
+                        <script>
+                            function onNotifySuccess(response) {
+                                debugger;
+                                if (!response.status) {
+                                    alert(response.message);
+                                    console.log(response.message);
+                                }
+                                else {
+                                    swal("Notifications successfully sent!", {
+                                        icon: "success",
+                                    });
+                                }
+                                $('#NotifiForm .btnSubmit').prop('disabled', false);
+                                $('#NotifiForm')[0].reset();
+                            }
+
+                            function onBegin() {
+                                if (confirm('Are you sure? you want to sent notifications!')) {
+                                    $('#NotifiForm .btnSubmit').prop('disabled', true);
+                                    return true;
+                                }
+                                else {
+                                    return false;
+                                }
+                            }
+                        </script>
+                    }

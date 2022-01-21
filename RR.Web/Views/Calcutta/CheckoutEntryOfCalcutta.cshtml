@@ -1,0 +1,253 @@
+﻿@using RR.Core;
+@model RR.Dto.Calcutta.CalcuttaCheckoutDetailDto
+@{
+    ViewData["Title"] = "Checkout Of Calcutta Event";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    
+}
+@section Styles{
+    <link href="~/css/newstatic.css" rel="stylesheet" />
+    <link href="~/css/newdesign.css" rel="stylesheet" />
+
+}
+
+    
+<section class="section section-variant-1 custom-bg-gray-100 custom-float-width contest_pg pb-1">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-1">
+                <b class="btn rank-btn-back" onclick="history.back();">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                </b>
+                <span class="rank-back-span">Back</span>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-11 text-lg-center">
+                <span class="et_detail_title">Shopping Cart</span>
+            </div>
+            <div class="col-lg-2 col-md-2">
+
+            </div>
+        </div>
+    </div>
+</section>
+@if (Model.EntryList.Count > 0)
+{
+    <section class="section custom-float-width">
+        <div class="container">
+            <div class="row mt-0">
+                <div class="col-md-7">
+                    @foreach (var temp in Model.EntryList.OrderByDescending(x => x.ShopCartId))
+                    {
+                        <div class="row mt-1 entry_card" data-id="@temp.ShopCartId">
+                            <div class="col-lg-12">
+                                <div class="card cal_ent_detail_card w-100 @(temp.IsSolded ? "card-sold" : "")">
+                                    <div class="row">
+                                        <div class="col-2 px-1">
+                                            <img src="@(Model.ContestType == "bullcomp" ? "/images/home/Bull-logo.png": "/images/home/Rider-logo.png")" width="80" height="80" />
+                                        </div>
+                                        <div class="col-6 px-1">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <span class="comp-name">
+                                                        @temp.CompetitorName
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <span class="comp-money">
+                                                        Total Money Won: $@temp.TotalWon
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <span class="comp-class">
+                                                        Class: @temp.EventClassName
+                                                    </span>
+                                                </div>
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    @if (temp.IsSolded == false && temp.CheckOutUsers > 0)
+                                                    { 
+                                                        <span class="comp-users">
+                                                            In @temp.CheckOutUsers other player's carts
+                                                        </span>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2 px-0 text-center">
+                                            <span class="comp-sold">
+                                                @(temp.IsSolded ?  "SOLD" : "")
+                                            </span><br />
+                                        </div>
+                                        <div class="col-2 px-1 text-right">
+                                            <span class="comp-price">
+                                                $@temp.CalcuttaPrice
+                                            </span><br />
+                                            @if (temp.IsSold == false)
+                                            {
+                                                <span class="comp-btn-remove" data-id="@temp.ShopCartId" data-price="@temp.CalcuttaPrice">
+                                                    Remove
+                                                </span> 
+                                            }
+
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+                <div class="col-md-5">
+                    <div class="row">
+                        <div class="col-12  mt-1">
+                            <div class="card cal_order_detail_card w-100">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <span class="order-title">Order Summary</span>
+                                    </div>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col-6">
+                                        <span class="order-subtitle">Subtotal (<span id="total_items">@Model.TotalItems</span> items)</span>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <span class="order-subtitle">US $<span id="total_price">@Model.TotalPrice</span></span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <span id="btn_checkout" data-id="@Model.Id" class="order-paypal btn-block "><span style="color: #0D3182;">Pay</span><span style="color: #439BD8;">Pal</span></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+            
+}
+    
+<partial name="../Shared/_Sponsors.cshtml" />
+@await Component.InvokeAsync("SubscibeNewsLetterComponent")
+
+@section Scripts{
+    <script src="~/js/jquery-ui.min.js"></script>
+    <script src="~/js/PagingSheet.js"></script>
+    <script src="~/js/bootbox.min.js"></script>
+
+
+    <script>
+
+        $(document).ready(function () {
+            var totalItems = parseInt('@Model.TotalItems');
+            var totalPrice = parseFloat('@Model.TotalPrice');
+            var isLoginedUser = '@(User.Identity.IsAuthenticated)';
+            $(".comp-btn-remove").on('click', function () {
+                if (isLoginedUser.toLowerCase() === 'false') {
+                    swal("You should login at first", {
+                        icon: "warning",
+                        className: "notify-alert",
+                        button: false,
+                        timer: 5000,
+                    });
+
+                    setTimeout(function () {
+                        window.location.href = "/Login";
+                    }, 5300);
+                    return false;
+                }
+                var price = parseFloat($(this).attr('data-price'));
+                var cartId = $(this).attr('data-id');
+                $.ajax({
+                    url: '@Url.Action("RemoveCart", "Calcutta")',
+                    data: {
+                        cartId: cartId
+                    },
+                    type: "POST",
+                    success: function (result) {
+                        if (result != null) {
+                            if (result.success) {
+                                swal("Removed cart succesffully!", {
+                                    icon: "success",
+                                    className: "notify-alert",
+                                    button: false,
+                                    timer: 3000,
+                                });
+                                totalItems -= 1;
+                                totalPrice -= price;
+                                $("#total_items").html(totalItems);
+                                $("#total_price").html(totalPrice);
+                                $(".entry_card[data-id='" + cartId + "']").remove();
+                            }
+                        }
+                        else {
+                            swal("You may First Login!!", {
+                                icon: "info",
+                                className: "notify-alert",
+                                button: false,
+                                timer: 5000,
+                            });
+                            setTimeout(function () {
+                                window.location.href ="/Login";
+                            }, 5300);
+                        }
+                    },
+                    error: function (error) {
+                        swal(error, {
+                            icon: "error",
+                            className: "notify-alert",
+                            button: false,
+                            timer: 5000,
+                        });
+                    }
+                });
+
+            });
+
+            $("#btn_checkout").on('click', function () {
+                var eventId = $(this).attr('data-id');
+                $("#btn_checkout").html('<div class="btn-comp-loader"></div>');
+                $.ajax({
+                    url: '@Url.Action("CreateOrder", "Calcutta")',
+                    data: {
+                        eventId: eventId
+                    },
+                    type: "POST",
+                    success: function (result) {
+                        if (result.success) {
+                            window.location.href = result.approvedUrl;
+                        } else {
+                            swal("You should checkout entry at first", {
+                                icon: "info",
+                                className: "notify-alert",
+                                button: false,
+                                timer: 5000,
+                            });
+                            $("#btn_checkout").html('<span style="color: #0D3182;">Pay</span><span style="color: #439BD8;">Pal</span>');
+                        }
+                    },
+                    error: function (error) {
+                        swal(error, {
+                            icon: "error",
+                            className: "notify-alert",
+                            button: false,
+                            timer: 5000,
+                        });
+                        $("#btn_checkout").html('<span style="color: #0D3182;">Pay</span><span style="color: #439BD8;">Pal</span>');
+                    }
+                });
+            });
+        });
+
+
+    </script>
+}
+

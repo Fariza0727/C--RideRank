@@ -1,0 +1,60 @@
+﻿@model Tuple<List<RR.Dto.AwardLiteDto>, RR.Dto.AwardLiteDescriptionDto>
+
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4>@Model.Item2.Title</h4>
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+        </div>
+        <div class="modal-body ">
+            <div class="col-md-12">
+                <div id="teams"><b>Total Joined Teams:-</b> @(Model.Item2.PlayerOfContest == 0 ? 0 : Model.Item2.PlayerOfContest)</div>
+                @*<div id="teams"><b>Total Winning Price:-</b> @(Model.Item2.Price == 0 ? "No Cash Awarded" : "$" + Model.Item2.Price)</div>
+                <div id="teams"><b>Total Winning Cowboy Coins:-</b> @(Model.Item2.Token == 0 ? 0 : Model.Item2.Token)</div>*@
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="text-center">
+
+                            <div class="panel-body mt-40">
+                                <div class="one-sec text-left">
+                                    <table class="table-custom table-standings table-classic table-dark dataTable no-footer responsive_dataTable " border="1">
+                                        <thead>
+                                            <tr>
+                                                <th width="15%">Rank From</th>
+                                                <th width="15%">Rank To</th>
+                                                @*<th width="15%">Price</th>
+                                                <th width="15%">Cowboy Coins</th>*@
+                                                <th width="20%">Merchendise</th>
+                                                <th width="20%">Other</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach (var item in Model.Item1.OrderBy(x => x.RankFrom))
+                                            {
+                                                <tr>
+                                                    <td>@item.RankFrom</td>
+                                                    <td>@item.RankTo</td>
+                                                    @*<td>@(item.Price != "" ? item.Price : "")</td>
+                                                    <td>@(item.Token != "" ? item.Token : "")</td>*@
+                                                    <td>@(item.Merchendise != "" ? item.Merchendise : "")</td>
+                                                    <td>@(item.AwardName != "" ? item.AwardName : "")</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div class="col-md-12 text-right">
+                <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+            </div>
+        </div>
+    </div>
+</div>

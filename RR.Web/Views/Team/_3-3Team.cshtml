@@ -1,0 +1,185 @@
+﻿@using RR.Core;
+@model RR.Dto.Team.TeamFormationDto
+<div class="tabs-custom tabs-horizontal tabs-modern custom-tab" id="tabs-modern">
+
+    <ul class="nav nav-tabs">
+        <li class="nav-item" role="presentation"><a class="nav-link custom-nav-link active" href="#tabs-modern-5" data-toggle="tab"> Riders <span class="number-selected">(3)</span></a></li>
+        @*<li class="nav-item" role="presentation"><a class="nav-link custom-nav-link" href="#tabs-modern-6" data-toggle="tab"> Substitute Rider <span class="number-selected">(1)</span></a></li>*@
+        <li class="nav-item" role="presentation"><a class="nav-link custom-nav-link" href="#tabs-modern-7" data-toggle="tab"> Bull Athletes <span class="number-selected">(3)</span></a></li>
+        @*<li class="nav-item" role="presentation"><a class="nav-link custom-nav-link" href="#tabs-modern-8" data-toggle="tab"> Substitute Bull <span class="number-selected">(1)</span></a></li>*@
+    </ul>
+    <div class="tab-content custom-account-pad mt-0">
+        <div class="tab-pane fade show active" id="tabs-modern-5">
+            <div class="card-standing card-group-custom card-standing-index" id="accordion1" role="tablist" aria-multiselectable="false">
+                <div class="card-standing-caption">
+                    <div class="card-standing-position">Pos</div>
+                    <div class="card-standing-caption-aside">
+                        <div class="card-standing-team width70">Rider Name</div>
+
+                    </div>
+                </div>
+                @for (int i = 1; i <= 3; i++)
+                {
+                    <article class="heading-component mt-20">
+                        <div class="heading-component-inner">
+                            <h5 class="heading-component-title">Tier @i</h5>
+                        </div>
+                    </article>
+                    foreach (var item in Model.RiderList.Where(x => x.RiderTier == i))
+                    {
+                        <article class="card card-custom">
+                            <div class="card-standing-position card-standing-counter"></div>
+                            <div class="card-header" id="accordion1Heading1" role="tab">
+                                <div class="card-standing-team-item">
+                                    <div class="card-standing-team width70">
+                                        <div class="card-standing-team-figure">
+                                            <img src="/images/team-img.png" alt="" width="46" height="36">
+                                        </div>
+                                        <div class="card-standing-team-title ">
+                                            <div class="card-standing-team-name">@item.RiderName</div>
+                                            <div class="card-standing-team-country">Team</div>
+                                        </div>
+                                    </div>
+                                    <div class="card-standing-button">
+                                        <button class="material-icons-add" data-tier="@i" data-eventid="@Model.EventId"
+                                                data-contesttype="@((int)Enums.ContestType.Contest)" data-riderid="@item.RiderId" onclick="addRiders(this)" role="button" style="background: #f5f7f9;padding: 10px;border: none;"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    }
+                }
+            </div>
+        </div>
+        @* <div class="tab-pane fade" id="tabs-modern-6">
+                <!-- Comment Modern-->
+                <div class="card-standing card-group-custom card-standing-index" id="accordion1" role="tablist" aria-multiselectable="false">
+                    <div class="card-standing-caption">
+                        <div class="card-standing-position">Pos</div>
+                        <div class="card-standing-caption-aside">
+                            <div class="card-standing-team width70">Rider Name</div>
+
+                        </div>
+                    </div>
+                    @for (int i = 1; i <= 3; i++)
+                    {
+                        <article class="heading-component mt-20">
+                            <div class="heading-component-inner">
+                                <h5 class="heading-component-title">Tier @i</h5>
+                            </div>
+                        </article>
+                        foreach (var item in Model.RiderList.Where(x => x.RiderTier == i))
+                        {
+                            <article class="card card-custom">
+                                <div class="card-standing-position card-standing-counter"></div>
+                                <div class="card-header" id="accordion1Heading1" role="tab">
+                                    <div class="card-standing-team-item">
+                                        <div class="card-standing-team width70">
+                                            <div class="card-standing-team-figure">
+                                                <img src="/images/team-img.png" alt="" width="46" height="36">
+                                            </div>
+                                            <div class="card-standing-team-title ">
+                                                <div class="card-standing-team-name">@item.RiderName</div>
+                                                <div class="card-standing-team-country">Team</div>
+                                            </div>
+                                        </div>
+                                        <div class="card-standing-button">
+                                            <button class="material-icons-add" data-tier="@i" data-eventid="@Model.EventId"
+                                                    data-contesttype="@((int)Enums.ContestType.Contest)" data-riderid="@item.RiderId" onclick="addSubstituteRiders(this)" role="button" style="background: #f5f7f9;padding: 10px;border: none;"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        }
+                    }
+                </div>
+            </div> *@
+        <div class="tab-pane fade" id="tabs-modern-7">
+            <!-- Comment Modern-->
+            <div class="card-standing card-group-custom card-standing-index" id="accordion1" role="tablist" aria-multiselectable="false">
+                <div class="card-standing-caption">
+                    <div class="card-standing-position">Pos</div>
+                    <div class="card-standing-caption-aside">
+                        <div class="card-standing-team width70">Bull Name</div>
+
+                    </div>
+                </div>
+                @for (int i = 1; i <= 3; i++)
+                {
+                    <article class="heading-component mt-20">
+                        <div class="heading-component-inner">
+                            <h5 class="heading-component-title">Tier @i</h5>
+                        </div>
+                    </article>
+                    foreach (var item in Model.BullList.Where(x => x.BullTier == i))
+                    {
+                        <article class="card card-custom">
+                            <div class="card-standing-position card-standing-counter"></div>
+                            <div class="card-header" id="accordion1Heading1" role="tab">
+                                <div class="card-standing-team-item">
+                                    <div class="card-standing-team width70">
+                                        <div class="card-standing-team-figure">
+                                            <img src="/images/team-img.png" alt="" width="46" height="36">
+                                        </div>
+                                        <div class="card-standing-team-title ">
+                                            <div class="card-standing-team-name">@item.BullName</div>
+                                            <div class="card-standing-team-country">Team</div>
+                                        </div>
+                                    </div>
+                                    <div class="card-standing-button">
+                                        <button class="material-icons-add" data-tier="@i" data-eventid="@Model.EventId"
+                                                data-contesttype="@((int)Enums.ContestType.Contest)" data-bullid="@item.BullId" onclick="addBulls(this)" role="button" style="background: #f5f7f9;padding: 10px;border: none;"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    }
+                }
+            </div>
+        </div>
+        @* <div class="tab-pane fade" id="tabs-modern-8">
+                <!-- Comment Modern-->
+                <div class="card-standing card-group-custom card-standing-index" id="accordion1" role="tablist" aria-multiselectable="false">
+                    <div class="card-standing-caption">
+                        <div class="card-standing-position">Pos</div>
+                        <div class="card-standing-caption-aside">
+                            <div class="card-standing-team width70">Bull Name</div>
+
+                        </div>
+                    </div>
+                    @for (int i = 1; i <= 3; i++)
+                    {
+                        <article class="heading-component mt-20">
+                            <div class="heading-component-inner">
+                                <h5 class="heading-component-title">Tier @i</h5>
+                            </div>
+                        </article>
+                        foreach (var item in Model.BullList.Where(x => x.BullTier == i))
+                        {
+                            <article class="card card-custom">
+                                <div class="card-standing-position card-standing-counter"></div>
+                                <div class="card-header" id="accordion1Heading1" role="tab">
+                                    <div class="card-standing-team-item">
+                                        <div class="card-standing-team width70">
+                                            <div class="card-standing-team-figure">
+                                                <img src="/images/team-img.png" alt="" width="46" height="36">
+                                            </div>
+                                            <div class="card-standing-team-title ">
+                                                <div class="card-standing-team-name">@item.BullName</div>
+                                                <div class="card-standing-team-country">Team</div>
+                                            </div>
+                                        </div>
+                                        <div class="card-standing-button">
+                                            <button class="material-icons-add" data-tier="@i" data-eventid="@Model.EventId"
+                                                    data-contesttype="@((int)Enums.ContestType.Contest)" data-bullid="@item.BullId" onclick="addSubstituteBulls(this)" role="button" style="background: #f5f7f9;padding: 10px;border: none;"></button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        }
+                    }
+                </div>
+            </div> *@
+    </div>
+</div>
+<p>Here you can read some details about a nifty little lifecycle of your order's journey from the time you place your order to your new treasures arriving at your doorstep. At first you choose the product you like. Then you put into your shopping cart and pass the checkout process in a few clicks. Our store offers several payment and delivery methods, so you have an opportunity to choose which one is the most convenient for you.</p>

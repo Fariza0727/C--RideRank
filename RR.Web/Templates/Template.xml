@@ -1,0 +1,55 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Template>
+  <Contactus>
+    <Subject>Rank Ride Enquiry</Subject>
+    <Body>
+      <![CDATA[
+      <html>
+      <body>
+      <div>
+      Hello Admin,
+      <br/>
+      <br/>
+      You received an enquiry from below information:
+       <br/>
+      <p><b>Name: </b> @@@Name
+      <br/>
+      <p><b>Phone: </b> @@@Phone
+      <br/>
+      <p><b>Email: </b> @@@Email
+      <br/>
+     <p><b>Message: </b> @@@Message
+    <br/>
+      <br/>
+    Regards
+<br/>
+Rank Ride
+    </div>
+      </body>      
+      </html>      
+      ]]>
+    </Body>
+  </Contactus>
+  <AccountActivation>
+    <Subject>Rank Ride email Confirmation</Subject>
+    <Body>
+      <![CDATA[
+      <html>
+      <body>
+      <div>
+      Hello @@@UserEmail,
+      <br/>
+      <br/>
+      <p>Please confirm your account by <a href='@@@Url'>clicking here</a>.</p>
+    <br/>
+      <br/>
+    Regards
+<br/>
+Rank Ride
+    </div>
+      </body>      
+      </html>      
+      ]]>
+    </Body>
+  </AccountActivation>
+</Template>

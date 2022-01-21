@@ -1,0 +1,281 @@
+﻿@model IEnumerable<RR.Dto.EventDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="/images/bg-breadcrumbs-1-1920x726.jpg">
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h3 class="breadcrumbs-custom-title">Contest</h3>
+        </div>
+    </div>
+</section>
+
+<section class="section section-variant-1 bg-gray-100 custom-float-width contest_pg">
+    <div class="container">
+        <div class="col-lg-12 custom-bg-gray-100 custom-float-width pad30">
+            <!-- Heading Component-->
+            <article class="heading-component pt-30">
+                <div class="heading-component-inner">
+                    <h5 class="heading-component-title">Contests Detail</h5>
+                </div>
+            </article>
+            <!-- Player Info Corporate-->
+            <!--  Block Player Info-->
+            <div class="tabs-custom tabs-horizontal tabs-corporate no-border no-shadow">
+                <div class="tabs-modern" id="tabs-modern">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item" role="presentation"><a class="nav-link custom-nav-link active" href="#tabs-modern-1" data-toggle="tab">Upcoming Contests </a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link custom-nav-link" href="#tabs-modern-2" data-toggle="tab">Currently Underway</a></li>
+                        <li class="nav-item" role="presentation"><a class="nav-link custom-nav-link" href="#tabs-modern-3" data-toggle="tab">Completed Contests</a></li>
+                    </ul>
+
+                    <div class="tab-content custom-tab-content-pad custom-float-width mt-0">
+                        @if (Model != null && Model.Count() > 0)
+                        {
+                            foreach (var item in Model)
+                            {
+                                <div class="tab-pane custom-float-width fade active show" id="tabs-modern-1">
+                                    <div class="contest-tab rider-background">
+                                        <a class="text-dark-theme" href="@Url.Action("eventdraw","events",new { @id=item.Id})">
+                                            <div class="col-md-6 float-left">
+                                                <article class="game-result pl-0 card card-custom">
+                                                    <div class="game-result-main">
+                                                        <div class="game-result-team game-result-team-first">
+                                                            <figure class="game-result-team-figure game-result-team-figure-big">
+                                                                <img src="/images/team-rogers-86x67.png" alt="" width="55" height="55">
+                                                            </figure>
+                                                            <div class="game-result-team-name">JACK WINDSOR</div>
+                                                            <div class="game-result-team-country">USA</div>
+                                                        </div>
+                                                        <div class="game-result-middle">
+                                                            <div class="game-result-score-wrap">
+                                                                <div class="game-result-score">
+                                                                    0
+                                                                </div>
+                                                                <div class="game-result-score-divider">
+                                                                    :
+                                                                </div>
+                                                                <div class="game-result-score">
+                                                                    0
+                                                                </div>
+                                                            </div>
+                                                            <div class="game-results-status">Home</div>
+                                                        </div>
+                                                        <div class="game-result-team game-result-team-second">
+                                                            <figure class="game-result-team-figure game-result-team-figure-big">
+                                                                <img src="/images/team-athletic-69x62.png" alt="" width="55" height="55">
+                                                            </figure>
+                                                            <div class="game-result-team-name">Will O’Brien</div>
+                                                            <div class="game-result-team-country">Ireland</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="game-result-footer">
+                                                        <ul class="game-result-details">
+                                                            <li>Family Billiards</li>
+                                                            <li>
+                                                                <time datetime="2018-04-14">April 14, 2018</time>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                            <div class="col-md-6 float-left">
+                                                <div class="table-game-info-wrap">
+                                                    <div class="table-game-info-main no-border table-custom-responsive">
+                                                        <table class="table-custom table-game-info">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="table-game-info-number">00(0)</td>
+                                                                    <td class="table-game-info-category">Time</td>
+                                                                    <td class="table-game-info-number">00(0)</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                    <td class="table-game-info-category">Average</td>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                    <td class="table-game-info-category">Saves</td>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                    <td class="table-game-info-category">Yellow cards</td>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="contest-tab rider-background">
+                                        <a class="text-dark-theme" href="draw.php">
+                                            <div class="col-md-6 float-left">
+                                                <article class="game-result pl-0 card card-custom">
+                                                    <div class="game-result-main">
+                                                        <div class="game-result-team game-result-team-first">
+                                                            <figure class="game-result-team-figure game-result-team-figure-big">
+                                                                <img src="/images/team-rogers-86x67.png" alt="" width="55" height="55">
+                                                            </figure>
+                                                            <div class="game-result-team-name">JACK WINDSOR</div>
+                                                            <div class="game-result-team-country">USA</div>
+                                                        </div>
+                                                        <div class="game-result-middle">
+                                                            <div class="game-result-score-wrap">
+                                                                <div class="game-result-score">
+                                                                    0
+                                                                </div>
+                                                                <div class="game-result-score-divider">
+                                                                    :
+                                                                </div>
+                                                                <div class="game-result-score">
+                                                                    0
+                                                                </div>
+                                                            </div>
+                                                            <div class="game-results-status">Home</div>
+                                                        </div>
+                                                        <div class="game-result-team game-result-team-second">
+                                                            <figure class="game-result-team-figure game-result-team-figure-big">
+                                                                <img src="/images/team-athletic-69x62.png" alt="" width="55" height="55">
+                                                            </figure>
+                                                            <div class="game-result-team-name">Will O’Brien</div>
+                                                            <div class="game-result-team-country">Ireland</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="game-result-footer">
+                                                        <ul class="game-result-details">
+                                                            <li>Family Billiards</li>
+                                                            <li>
+                                                                <time datetime="2018-04-14">April 14, 2018</time>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                            <div class="col-md-6 float-left">
+                                                <div class="table-game-info-wrap">
+                                                    <div class="table-game-info-main no-border table-custom-responsive">
+                                                        <table class="table-custom table-game-info">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="table-game-info-number">00(0)</td>
+                                                                    <td class="table-game-info-category">Time</td>
+                                                                    <td class="table-game-info-number">00(0)</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                    <td class="table-game-info-category">Average</td>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                    <td class="table-game-info-category">Saves</td>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                    <td class="table-game-info-category">Yellow cards</td>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                    <div class="contest-tab rider-background">
+                                        <a class="text-dark-theme" href="draw.php">
+                                            <div class="col-md-6 float-left">
+                                                <article class="game-result pl-0 card card-custom">
+                                                    <div class="game-result-main">
+                                                        <div class="game-result-team game-result-team-first">
+                                                            <figure class="game-result-team-figure game-result-team-figure-big">
+                                                                <img src="/images/team-rogers-86x67.png" alt="" width="55" height="55">
+                                                            </figure>
+                                                            <div class="game-result-team-name">JACK WINDSOR</div>
+                                                            <div class="game-result-team-country">USA</div>
+                                                        </div>
+                                                        <div class="game-result-middle">
+                                                            <div class="game-result-score-wrap">
+                                                                <div class="game-result-score">
+                                                                    0
+                                                                </div>
+                                                                <div class="game-result-score-divider">
+                                                                    :
+                                                                </div>
+                                                                <div class="game-result-score">
+                                                                    0
+                                                                </div>
+                                                            </div>
+                                                            <div class="game-results-status">Home</div>
+                                                        </div>
+                                                        <div class="game-result-team game-result-team-second">
+                                                            <figure class="game-result-team-figure game-result-team-figure-big">
+                                                                <img src="/images/team-athletic-69x62.png" alt="" width="55" height="55">
+                                                            </figure>
+                                                            <div class="game-result-team-name">Will O’Brien</div>
+                                                            <div class="game-result-team-country">Ireland</div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="game-result-footer">
+                                                        <ul class="game-result-details">
+                                                            <li>Family Billiards</li>
+                                                            <li>
+                                                                <time datetime="2018-04-14">April 14, 2018</time>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                            <div class="col-md-6 float-left">
+                                                <div class="table-game-info-wrap">
+                                                    <div class="table-game-info-main no-border table-custom-responsive">
+                                                        <table class="table-custom table-game-info">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="table-game-info-number">00(0)</td>
+                                                                    <td class="table-game-info-category">Time</td>
+                                                                    <td class="table-game-info-number">00(0)</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                    <td class="table-game-info-category">Average</td>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                    <td class="table-game-info-category">Saves</td>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                    <td class="table-game-info-category">Yellow cards</td>
+                                                                    <td class="table-game-info-number">0</td>
+                                                                </tr>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            }
+                        }
+
+                        <div class="text-right">
+                            <button class="button button-primary mt-20" type="submit" aria-label="Send" data-target="#pwdModal" data-toggle="modal">Special Event</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<div class="clearfix"></div>

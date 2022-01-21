@@ -1,0 +1,105 @@
+/* Root element */
+.json-document {
+    padding: 1em 2em;
+}
+
+/* Syntax highlighting for JSON objects */
+ul.json-dict, ol.json-array {
+    list-style-type: none;
+    margin: 0 0 0 1px;
+    border-left: 1px dotted #ccc;
+    padding-left: 2em;
+}
+
+.json-string {
+    color: #0B7500;
+}
+
+.json-literal {
+    color: #1A01CC;
+    font-weight: bold;
+}
+
+/* Toggle button */
+a.json-toggle {
+    position: relative;
+    color: inherit;
+    text-decoration: none;
+}
+
+    a.json-toggle:focus {
+        outline: none;
+    }
+
+    a.json-toggle:before {
+        font-size: 1.1em;
+        color: #c0c0c0;
+        content: "\25BC"; /* down arrow */
+        position: absolute;
+        display: inline-block;
+        width: 1em;
+        text-align: center;
+        line-height: 1em;
+        left: -1.2em;
+    }
+
+    a.json-toggle:hover:before {
+        color: #aaa;
+    }
+
+    a.json-toggle.collapsed:before {
+        /* Use rotated down arrow, prevents right arrow appearing smaller than down arrow in some browsers */
+        transform: rotate(-90deg);
+    }
+
+/* Collapsable placeholder links */
+a.json-placeholder {
+    color: #aaa;
+    padding: 0 1em;
+    text-decoration: none;
+}
+
+    a.json-placeholder:hover {
+        text-decoration: underline;
+    }
+
+.hideJson {
+    padding: 0;
+    font-size: 0;
+    opacity: 0;
+}
+
+.jsonCard {
+    display: none !important;
+    padding: 5px 25px;
+}
+
+    .jsonCard.active {
+        display: block !important;
+    }
+
+    .jsonCard * {
+    }
+
+#json-renderer {
+    max-height: 440px;
+}
+
+.jsonCard .options label {
+    font-size: 14px;
+    color: #000;
+    margin-right: 13px;
+    border: 1px solid #eee;
+    line-height: 1;
+    padding: 5px;
+    border-radius: 3px;
+    /* background: #eee; */
+}
+
+    .jsonCard .options label input {
+        margin-right: 8px !important;
+        margin: 0;
+        padding: 0;
+        position: relative;
+        top: 1px;
+    }

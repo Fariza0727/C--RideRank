@@ -1,0 +1,304 @@
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+for details on configuring this project to bundle and minify static web assets. */
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body { /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    white-space: nowrap; /* Set the fixed height of the footer here */
+    height: 60px;
+    line-height: 60px; /* Vertically center the text there */
+}
+
+
+/*CSS added ruby developer*/
+.dataTables_info {
+    width: 49%;
+}
+
+.dataTables_paginate {
+    width: 49%;
+}
+
+.pagination {
+    float: right;
+}
+
+.showpointer {
+    cursor: pointer;
+}
+
+.modal .figure-img {
+    width: 100%;
+    overflow: hidden;
+}
+
+    .modal .figure-img img {
+        width: 100%;
+    }
+
+.logdetail {
+    position: relative;
+    margin: auto;
+    z-index: 99;
+    background: #fff;
+    display: inline-block;
+    padding: 0;
+    border-radius: 3px;
+    max-width: 100%;
+}
+
+#logModal .modal-body {
+    max-height: 500px;
+    overflow-y: scroll;
+}
+
+.logrow {
+    display: inline-block;
+    width: 100%;
+    overflow: hidden;
+    font-size: 14px;
+}
+
+    .logrow label {
+        font-weight: 500;
+        color: #000;
+        text-transform: capitalize;
+        margin: 0;
+        width: 100%;
+    }
+
+    .logrow span {
+        width: 100%;
+        display: inherit;
+    }
+
+span.loglevel {
+    border: 1px solid;
+    display: inline-block !important;
+    width: auto;
+    border-radius: 3px;
+    padding: 2px 8px;
+    line-height: 19px;
+    background: #333;
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.logrow span:empty {
+    display: none;
+}
+
+.logdetail .card-category {
+    margin: 0;
+    padding: 15px 0px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #333 !important;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 10px;
+    padding-top: 0;
+}
+
+.logdetail .btn-danger {
+    position: absolute;
+    right: 0;
+    top: 0;
+    border-radius: 0;
+    margin: 0;
+    padding: 10px;
+    margin: 8px;
+}
+
+.logdetail table {
+    width: 100%;
+}
+
+    .logdetail table tbody {
+        display: block;
+        height: 540px;
+        overflow-y: scroll;
+    }
+
+        .logdetail table tbody tr {
+            width: 100%;
+            display: block;
+        }
+
+    .logdetail table td {
+        padding: 10px 10px;
+        text-align: left;
+        font-size: 14px;
+        color: #000;
+    }
+
+        .logdetail table td label, .logdetail table td span {
+            font-size: 14px;
+            color: #000;
+            text-align: left !important;
+            display: inline-block;
+        }
+
+        .logdetail table td label {
+            text-transform: capitalize;
+            font-weight: 500;
+        }
+
+        .logdetail table td span {
+            width: 100%;
+        }
+
+.team-figure {
+    width: 40px;
+    float: left;
+}
+
+.player-title, .team-title {
+    text-align: left;
+    line-height: 1.15;
+    font-weight: 500;
+    letter-spacing: .05em;
+}
+
+.team-title {
+    margin-left: 8px;
+    margin-top: 5px;
+}
+
+img.cericle-img {
+    width: 30px;
+    height: 30px;
+    border-radius: 100px;
+    /* border: 1px solid #000; */
+}
+
+.rider-name {
+    font-weight: 600;
+    color: #191818;
+}
+
+td.btnColumn {
+}
+
+    td.btnColumn a {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        text-align: center;
+        margin: 0 3px;
+        padding: 4px 0;
+        font-size: 12px;
+        border: 1px solid;
+        border-radius: 3px;
+        cursor: pointer;
+        transition: all ease-in-out 0.3s;
+        -webkit-transition: all ease-in-out 0.3s;
+    }
+
+        td.btnColumn a:hover {
+            background: #333;
+            color: #fff !important;
+        }
+
+        td.btnColumn a i {
+            font-size: 14px;
+        }
+
+        td.btnColumn a:before, td.btnColumn a:after {
+            font-size: 12px !important;
+        }
+
+td.btnColumnNone a {
+    margin: 0 1px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.dt-buttons {
+    display: block;
+    width: 100%;
+    padding: 10px 0;
+}
+
+    .dt-buttons .dt-buttons {
+        background: #919191;
+    }
+
+    .dt-buttons .dt-button {
+        background: #5cb85c;
+        color: #fff;
+        border: none;
+        padding: 3px 10px;
+        border-radius: 3px;
+        font-weight: bold;
+    }
+.btn-sm.checkbox-custom {
+    width: 15px;
+}
+.label-success, .label-warning {
+    color: #fff;
+}
+button.removeBtn {
+    position: absolute;
+    right: 0;
+    background: red;
+    color: #fff;
+    font-size: 14px;
+    font-weight: bold;
+    border: none;
+    padding: 0 8px;
+    top: 0;
+}
+
+.sociallinks {
+    width: 100%;
+    display: inline-block;
+    position: relative;
+}

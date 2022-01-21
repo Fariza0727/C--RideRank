@@ -1,0 +1,115 @@
+﻿@model RR.Dto.RiderDto
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "EditRider";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Rider Detail</h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("updateriderdetail", "rider", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken();
+                        @Html.HiddenFor(x => x.Id)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Name</label>
+                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Name)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">RidePerc</label>
+                                    @Html.TextBoxFor(x => x.RidePerc, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.RidePerc)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Mounted</label>
+                                    @Html.TextBoxFor(x => x.Mounted, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Mounted)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Hand</label>
+                                    @Html.TextBoxFor(x => x.Hand, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Hand)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Ride Prec Curent</label>
+                                    @Html.TextBoxFor(x => x.RidePrecCurent, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.RidePrecCurent)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Rider Power</label>
+                                    @Html.TextBoxFor(x => x.RiderPower, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.RiderPower)
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Rider Power Current</label>
+                                    @Html.TextBoxFor(x => x.RiderPowerCurrent, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.RiderPowerCurrent)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Rode</label>
+                                    @Html.TextBoxFor(x => x.Rode, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Rode)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Streak</label>
+                                    @Html.TextBoxFor(x => x.Streak, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Streak)
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <a href="/riders" class="btn btn-primary pull-right">Close</a>
+                        <button type="submit" class="btn btn-primary pull-right">Update</button>
+                        <div class="clearfix"></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/assets/theme/ckeditor/ckeditor.js"></script>
+
+    <script>
+
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace('PageContent');
+    </script>
+}
+

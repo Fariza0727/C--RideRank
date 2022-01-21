@@ -1,0 +1,225 @@
+﻿@model Tuple<IEnumerable<RR.Dto.RiderContestLiteDto>, IEnumerable<RR.Dto.BullContestLiteDto>, string, string, decimal>
+@{
+    ViewData["Title"] = "History";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles{
+    <link href="~/css/newdesign.css" rel="stylesheet" />
+    <script src="~/js/core.min.js" type="text/javascript"></script>
+    <script>
+         getRiderPic = function (elm, id) {
+            var urlRider = '@Url.Action("GetGetPic", "Riders", new { id = "-1" })'.replace("-1", id);
+            $.get(urlRider, function (data) {
+                $(elm).attr('src', data);
+            })
+         }
+         getBullPic = function (elm, id) {
+            var urlBull = '@Url.Action("GetBullPic", "Riders", new { id = "-1" })'.replace("-1", id);
+            $.get(urlBull, function (data) {
+                $(elm).attr('src', data);
+            })
+         }
+    </script>
+}
+
+<section class="section section-variant-1 team_selection custom-float-width" style="background:#C4C4C4;">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-1">
+                <b class="btn rank-btn-back" onclick="history.back();">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                </b>
+                <span class="rank-back-span">Back</span>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-11 text-center">
+                <span class="et_detail_title">Contest Detail</span>
+                <p class="et_placed">Position @ViewBag.Position out of @ViewBag.NumberOfEntries Entries</p>
+            </div>
+            <div class="col-lg-2 col-md-2">
+
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-lg-2 col-5">
+                <span class="rank-info-title">Team:</span><br />
+                <span class="rank-name">@(string.IsNullOrEmpty(ViewBag.TeamName)? Model.Item3 : ViewBag.TeamName)</span>
+                @*<span class="rank-name">@Model.Item3</span>*@
+            </div>
+            <div class="col-lg-2 col-3">
+                <span class="rank-info-title">Joining Fees:</span><br />
+                <span class="rank-name">@Model.Item5</span>
+            </div>
+            <div class="col-lg-2 col-4">
+                <span class="rank-info-title">Team Points:</span><br />
+                <span class="rank-name">@Model.Item1.FirstOrDefault()?.TeamPoint</span>
+            </div>
+            <div class="col-lg-2 col-4">
+                <span class="rank-info-title">Joining Date:</span><br />
+                <span class="rank-name">@Model.Item1.FirstOrDefault()?.jDate</span>
+            </div>
+            <div class="col-lg-4 col-8">
+                <span class="rank-info-title">Event:</span><br />
+                <span class="rank-name">@Model.Item4</span>
+            </div>
+        </div>
+        <div class="row mt-3">
+            @for (int i = 1; i < 4; i++)
+            {
+                <div class="col-lg-4 col-md-4">
+                    <div class="et_detail_tire w-100">
+                        <span class="">Tier @i</span>
+                    </div>
+                    <div class="et_desktop w-100">
+                        <span class="et_detail_info">@(i==1 ? "Selected Riders" : "") &nbsp;</span>
+                    </div>
+                    @if (Model != null && Model.Item1.Count() > 0)
+                    {
+                        var riderTier = Model.Item1.Where(x => x.RiderTier == i);
+                        if (riderTier != null && riderTier.Count() > 0)
+                        {
+                            foreach (var item in riderTier.OrderByDescending(d => d.RiderPoint))
+                            {
+                                <div>
+                                    <div class="card et_detail_card w-100" style="min-height: 140px;">
+                                        <div class="row">
+                                            <div class="col-3 px-1">
+                                                <img src="" width="80" height="80" onerror="getRiderPic(this, @item.RiderId)" />
+                                            </div>
+                                            <div class="col-7 px-1">
+                                                <span class="rank-name">@item.RiderName</span><br /><br />
+                                                <span class="mt-3 et_detail_yellow">Tier @item.RiderTier</span><br />
+                                                <span class="mt-3 et_point">Total Point: @item.RiderPoint </span>
+                                            </div>
+                                            <div class="col-2 px-1 text-right">
+                                                @if (!item.IsAddedFavorite)
+                                                {
+                                                    <span class="rank-bookmark"><i class="fa fa-bookmark-o" title="Add as favorite rider" onclick="addFavorite(this, @item.RiderId)"></i></span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="rank-bookmark"><i class="fa fa-bookmark" title="Already added as favorite"></i></span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+
+                    <div class="et_desktop w-100">
+                        <span class="et_detail_info">@(i==1 ? "Selected Bulls" : "") &nbsp;</span>
+                    </div>
+                    @if (Model != null && Model.Item2.Count() > 0)
+                    {
+                        var bullTier = Model.Item2.Where(x => x.BullTier == i);
+                        if (bullTier != null && bullTier.Count() > 0)
+                        {
+                            foreach (var item in bullTier.OrderByDescending(d => d.BullPoint))
+                            {
+                                <div>
+                                    <div class="card et_detail_card w-100" style="min-height: 140px;">
+                                        <div class="row">
+                                            <div class="col-3 px-1">
+                                                <img src="" width="80" height="80" onerror="getBullPic(this, @item.BullId)" />
+                                            </div>
+                                            <div class="col-7 px-1">
+                                                <span class="rank-name">@item.BullName</span><br /><br />
+                                                <span class="mt-3 et_detail_yellow">Tier @item.BullTier</span><br />
+                                                <span class="mt-3 et_point">Total Point: @item.BullPoint </span>
+                                            </div>
+                                            <div class="col-2 px-1 text-right">
+                                                @if (!item.IsAddedFavorite)
+                                                {
+                                                    <span class="rank-bookmark"><i class="fa fa-bookmark-o" title="Add as favorite rider" onclick="addBullFavorite(this, @item.BullId)"></i></span>
+                                                }
+                                                else
+                                                {
+                                                    <span class="rank-bookmark"><i class="fa fa-bookmark" title="Already added as favorite"></i></span>
+                                                }
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<partial name="../Shared/_Sponsors.cshtml" />
+@await Component.InvokeAsync("SubscibeNewsLetterComponent")
+@section Scripts{
+    <script>
+        $(function () {
+
+            addFavorite = function (elm, id) {
+                if($(elm).hasClass("fa-bookmark")){
+                    return;
+                }
+                if (typeof id != "undefined" && parseInt(id) > 0) {
+                    $.post("@Url.Action("AddFavorite", "Riders")", { riderId: id }, function (result) {
+                        if (result.status) {
+
+                            swal(result.message, {
+                                icon: "success",
+                                className: "notify-alert",
+                                button: false,
+                                timer: 3000,
+                            });
+                            $(elm).addClass("fa-bookmark");
+                            $(elm).removeClass("fa-bookmark-o");
+                            $(elm).attr("title", "Already added as favorite");
+                        }
+                        else {
+                            swal(result.message, {
+                                icon: "warning",
+                                className: "notify-alert",
+                                button: false,
+                                timer: 5000,
+                            });
+                        }
+                    })
+                }
+            }
+
+            addBullFavorite = function (elm, id) {
+                if ($(elm).hasClass("fa-bookmark")) {
+                    return;
+                }
+                if (typeof id != "undefined" && parseInt(id) > 0) {
+                    $.post("@Url.Action("AddFavorite", "Bulls")", { bullId: id }, function (result) {
+                        if (result.status) {
+
+                            swal(result.message, {
+                                icon: "success",
+                                className: "notify-alert",
+                                button: false,
+                                timer: 3000,
+                            });
+                            $(elm).addClass("fa-bookmark");
+                            $(elm).removeClass("fa-bookmark-o");
+                            $(elm).attr("title", "Already added as favorite");
+                        }
+                        else {
+                            swal(result.message, {
+                                icon: "warning",
+                                className: "notify-alert",
+                                button: false,
+                                timer: 5000,
+                            });
+                        }
+                    })
+                }
+            }
+
+
+
+        });
+
+
+    </script>
+}

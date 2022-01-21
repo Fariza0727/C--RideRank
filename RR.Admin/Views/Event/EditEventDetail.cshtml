@@ -1,0 +1,103 @@
+﻿@model RR.Dto.EventDto
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "EditEvent";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Event Detail</h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("updateeventdetail", "event", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken();
+                        @Html.HiddenFor(x => x.Id)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Title</label>
+                                    @Html.TextBoxFor(x => x.Title, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Title)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Location</label>
+                                    @Html.TextBoxFor(x => x.Location, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Location)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">City</label>
+                                    @Html.TextBoxFor(x => x.City, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.City)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">State</label>
+                                    @Html.TextBoxFor(x => x.State, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.State)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Perf Time</label>
+                                    @Html.TextBoxFor(x => x.PerfTime, "{0:yyyy-MM-ddTHH:mm:ss}", new { @class = "form-control", @type = "datetime-local" })
+                                    @Html.ValidationMessageFor(x => x.PerfTime)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Start Date</label>
+                                    @Html.TextBoxFor(x => x.StartDate, "{0:yyyy-MM-dd}", new { @class = "form-control", @type = "date" })
+                                    @Html.ValidationMessageFor(x => x.StartDate)
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Type</label>
+                                    @Html.TextBoxFor(x => x.Type, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Type)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Sanction</label>
+                                    @Html.TextBoxFor(x => x.Sanction, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Sanction)
+                                </div>
+                            </div>
+                        </div>
+
+                        <a href="/events" class="btn btn-primary pull-right">Close</a>
+                        <button type="submit" class="btn btn-primary pull-right">Update</button>
+                        <div class="clearfix"></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/assets/theme/ckeditor/ckeditor.js"></script>
+
+    <script>
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace('PageContent');
+    </script>
+}
+

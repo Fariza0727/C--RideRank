@@ -1,0 +1,126 @@
+﻿@using RR.Dto;
+@model PictureManagerDto
+@{
+
+    Layout = null;
+    TempData["IsBull"] = Model.IsBull;
+
+}
+
+
+<form id="formPictureManager" asp-action="AddEditPicture" asp-controller="PicturesManagers" method="POST"
+      data-ajax="true" data-ajax-success="onPictureSuccess" enctype="multipart/form-data">
+
+    <input type="hidden" value="@Model.Id" name="Id" />
+    <input type="hidden" value="@Model.IsBull.ToString()" name="IsBull" />
+
+    <div class="row">
+
+        @if (Model.IsBull)
+        {
+            if (Model.Id > 0)
+            {
+                <input type="hidden" value="@Model.BullId" name="@(nameof(PictureManagerDto.BullId))" />
+            }
+            else
+            {
+                <div class="col-md-12">
+                    <div class="bmd-label-floating">
+                        <label class="bmd-label-floating">Select Bull (*)</label>
+                        @Html.DropDownListFor(m => m.BullId, Model.Bulls.OrderBy(d=>d.Text), "Select bull", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.BullId)
+                    </div>
+                </div>
+            }
+
+        }
+        else
+        {
+            if (Model.Id > 0)
+            {
+                <input type="hidden" value="@Model.RiderId" name="@(nameof(PictureManagerDto.RiderId))" />
+            }
+            else
+            {
+                <div class="col-md-12">
+                    <div class="bmd-label-floating">
+                        <label class="bmd-label-floating">Select Riders (*)</label>
+                        @Html.DropDownListFor(m => m.RiderId, Model.Riders.OrderBy(d => d.Text), "Select riders", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(x => x.RiderId)
+                    </div>
+                </div>
+            }
+
+            
+
+        }
+
+
+
+        <div class="col-md-12">
+            <div class="bmd-label-floating">
+                <label class="bmd-label-floating">Upload Image (*)</label>
+                <div class="figure-img">
+                    @if (Model.Id > 0)
+                    {
+                        if (Model.IsBull)
+                        {
+                            <img id="ShowImage" src="@Model.BullPicture" />
+                        }
+                        else
+                        {
+                            <img id="ShowImage" src="@Model.RiderPicture" />
+                        }
+                    }
+                    else
+                    {
+                        <img id="ShowImage" src="" />
+                    }
+
+                </div>
+                @Html.TextBoxFor(x => x.File, null, new { @class = "form-control", type = "file", onchange = "document.getElementById('ShowImage').src = window.URL.createObjectURL(this.files[0])" })
+                @Html.ValidationMessageFor(x => x.File)
+
+                @if (!Model.IsBull)
+                {
+                    <br />
+                    <label class="bmd-label-floating">Rider Social LInks</label>
+                    @for (int i = 0; i < Model.RiderManager.SocialLinks.Count; i++)
+                    {
+                        
+
+                        <div class="sociallinks">
+                            <div class="row">
+                                <div class="col-md-4">
+                                    @Html.HiddenFor(d => Model.RiderManager.SocialLinks[i].Id)
+                                    @Html.DropDownListFor(d => Model.RiderManager.SocialLinks[i].Type, Html.GetEnumSelectList(typeof(RR.Dto.SocialType)), new { @class = "form-control", placeholder = "Social Type" })
+                                </div>
+                                <div class="col-md-8">
+                                    @Html.TextBoxFor(d => Model.RiderManager.SocialLinks[i].Sociallink, "", new { @class = "form-control", placeholder = "Enter social link" })
+                                </div>
+                            </div>
+                            
+                            <button type="button" data-index="@i" class="removeBtn" onclick="removelink(this)">-</button>
+                            
+                        </div>
+                    }
+
+                    @*@foreach (var item in Model.RiderManager?.SocialLinks)
+                    {
+                        @Html.HiddenFor(d => item.Id);
+
+                        <div class="sociallinks">
+                            @Html.DropDownListFor(d => item.Type, Html.GetEnumSelectList(typeof(RR.Dto.SocialType)), new { @class = "form-control", placeholder = "Social Type" })
+                            @Html.TextBoxFor(d => item.Sociallink, "", new { @class = "form-control", placeholder = "Enter social link" })
+                        </div>
+                    }*@
+
+                    <button onclick="addmorelink(this)" type="button" class="btn btn-primary"> Addmore</button>
+                }
+            </div>
+        </div>
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary pull-right">Save changes</button>
+</form>
+

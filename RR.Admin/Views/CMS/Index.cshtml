@@ -1,0 +1,195 @@
+﻿@model List<RR.Dto.CmsDto>
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section styles{
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">CMS List <a href="@Url.Action("createeditcms","cms")" class="btn pull-right">Add CMS</a></h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" width="100%" id="userDataTable">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th style="font-size: 13px;">Page Name</th>
+                                    <th style="font-size: 13px;">Page Url</th>
+                                    <th style="font-size: 13px;">Meta Title</th>
+                                    <th style="font-size: 13px;">Meta Keyword</th>
+                                    <th style="font-size: 13px;">Meta Description</th>
+                                    <th style="font-size: 13px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script>
+
+        $(document).ready(function() {
+
+            var count ;
+            var success = '@ViewBag.Message';
+
+
+            if (success != "" && count != 1 ) {
+
+                if (success == "Added") {
+                    swal("Success! Page Record Added successfully!", {
+                        icon: "success",
+                    });
+
+                }
+                else if (success == "Updated") {
+                    swal("Success! Page Record Updated successfully!", {
+                        icon: "success",
+                    });
+                }
+                count = 1;
+            }
+    });
+
+        $(function () {
+            $('.dataTables_filter input').attr('placeholder', 'Search...').hide();
+            var table = $("#userDataTable").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "order": [[0, "desc"]],
+                "columnDefs": [
+                    { "targets": [5], "orderable": false }
+                ],
+                "ajax": {
+                    "url": '/Cms/GetAllCMS',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+
+                    { "data": "pageName", "name": "pageName", "autoWidth": false },
+                    { "data": "pageUrl", "name": "pageUrl", "autoWidth": false },
+                    { "data": "metaTitle", "name": "metaTitle", "autoWidth": false },
+                    { "data": "metaKeyword", "name": "metaKeyword", "autoWidth": false },
+                    { "data": "metaDescription", "name": "metaDescription", "autoWidth": false },
+
+                    {
+                        "data": "id", "name": "id", "render": function (value) {
+                            return '<a href="/cms/createeditcms/?id=' + value + '" data-token=' + value + ' class="btn btn-primary btn-link btn-sm" rel="tooltip" title="Add/Edit CMS"  data-original-title="Edit Task"><i class="material-icons">edit</i><div class="ripple-container"></div></a> <a style="cursor:pointer;" onclick="DeleteRecord(' + value + ')" tooltip="Delete" title="Delete CMS" data-original-title="Edit Task"><i class="material-icons">delete_forever</i></a>'
+                    }, "autoWidth": true
+                    }
+                ],
+                dom: "Bfrtip",
+                 "pageLength": 10
+            });
+
+            $('.search-input').on('keyup change', function () {
+                var index = $(this).attr('data-column'),
+                    val = $(this).val();
+                table.columns(index).search(val.trim()).draw();
+            });
+
+
+        });
+
+        function DeleteRecord(id) {
+          swal({
+                title: "Are you sure?",
+                text: "You Want Delete Of This Page!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                          $.ajax({
+                    type: "Delete",
+                    url: "@Url.Action("deletecms", "cms")",
+                    data: {id: id },
+                              success: function (result) {
+                                  if (result != null) {
+
+
+                                      if (result.indexOf('alert-danger') > -1) {
+                                          if (result.includes("Access Denied")) {
+                                              swal("You Do Not Have Permission To Delete!", {
+
+                                                  icon: "warning",
+                                              });
+                                          } else {
+                                              swal("Not Deleted,Something Went Wrong!", {
+
+                                                  icon: "warning",
+                                              });
+                                          }
+                                      }
+                                      else {
+                                          swal("Page Record has been deleted successfully!", {
+                                              icon: "success",
+                                          });
+                                          setTimeout(function () { window.location.href = "/cms" }, 1500);
+                                      }
+                                      $("#awardDataTable").DataTable().draw();
+                                  }
+                              },
+                    error: function () {
+                     alert("error");
+                    }
+                });
+                    }
+
+                });
+        }
+
+        function GetRecord() {
+          swal({
+                title: "Are you sure?",
+                text: "You Want Delete Of This Page!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                          $.ajax({
+                    type: "POST",
+                    url: "@Url.Action("getallcms", "cms")",
+
+                   success: function (result) {
+                        if (result != null) {
+                              swal("Poof! Page has been changed!", {
+                            icon: "success",
+                              });
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                     alert("error");
+                    }
+                });
+                    }
+                    else {
+                        swal("Your imaginary file is safe!");
+                    }
+                });
+        }
+
+    </script>
+}
+

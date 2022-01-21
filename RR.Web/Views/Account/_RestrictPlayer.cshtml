@@ -1,0 +1,49 @@
+﻿@model RR.Dto.StateValidationDto
+<link href="~/css/jquery.datetimepicker.min.css" rel="stylesheet" />
+<div id="response"></div>
+<style>
+    .field-validation-error { display: block; }
+
+    .field-validation-valid { display: none; }
+</style>
+<form id="restrictPlayer" asp-action="EnableValidPlayer" asp-controller="Account" method="POST" data-ajax="true" data-ajax-update="" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+      data-ajax-failure="onFailed" data-ajax-success="restrictPlayer" enctype="multipart/form-data">
+    <div id="invalidStateResponse" class="alert alert-danger" style="display:none;">
+
+    </div>
+
+    <div class="row row-10 row-narrow">
+        <div class="col-md-6">
+            <div class="form-wrap">
+                @Html.LabelFor(x => x.State, "State")
+                @Html.TextBoxFor(x => x.State, new { @class = "form-input form-control-has-validation form-control-last-child", autocomplete = "off" }) @*placeholder = "State i.e. Tx for Texas",*@
+                @Html.ValidationMessageFor(x => x.State)
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="form-wrap">
+                @Html.LabelFor(x => x.ZipCode, "ZipCode")
+                @Html.TextBoxFor(x => x.ZipCode, new { @class = "form-input form-control-has-validation form-control-last-child", autocomplete = "off", @onkeypress = "return isNumber(event)", maxlength = "5" }) @*placeholder = "ZipCode",*@
+                @Html.ValidationMessageFor(x => x.ZipCode)
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-wrap">
+                @Html.LabelFor(x => x.City, "City")
+                @Html.TextBoxFor(x => x.City, new { @class = "form-input form-control-has-validation form-control-last-child", autocomplete = "off" })  @*placeholder = "City",*@
+                @Html.ValidationMessageFor(x => x.City)
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-wrap">
+                @Html.LabelFor(x => x.Date, "BirthDay Date")
+                @Html.TextBoxFor(x => x.Date, new { @type = "date", @class = "form-input form-control-has-validation form-control-last-child", autocomplete = "off" }) @*, placeholder = "BirthDay Date"*@
+                @Html.ValidationMessageFor(x => x.Date)
+            </div>
+        </div>
+        <div class="card-form card-form-login pad5">
+            <button class="button button-primary mt-20 float-right" type="submit">Next</button>
+        </div>
+    </div>
+</form>

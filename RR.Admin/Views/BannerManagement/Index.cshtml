@@ -1,0 +1,157 @@
+﻿@inject Microsoft.Extensions.Options.IOptions<RR.Core.AppSettings> settings;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var filePath = string.Concat(settings.Value.MainSiteURL, settings.Value.BannerSharedPath);
+}
+
+@section styles{
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Banner List <a href="/BannerManagement/AddEditBanner?id=0" class="btn pull-right"> Add Banner </a></h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" width="100%" id="bannerDataTable">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th>Id</th>
+                                    @*<th>Banner Name</th>
+                                        <th>Url</th>*@
+                                    <th>PicPath</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+         $(document).ready(function() {
+
+            var success = '@ViewBag.Message';
+
+            if (success != ""  ) {
+
+                if (success == "Added") {
+                    swal("Success! Banner Record Added successfully!", {
+                        icon: "success",
+                    });
+                }
+                else if (success == "Updated") {
+                    swal("Success! Banner Record Updated successfully!", {
+                        icon: "success",
+                    });
+                }
+            }
+    });
+
+        $(function () {
+            $('.dataTables_filter input').attr('placeholder', 'Search...').hide();
+            var table = $("#bannerDataTable").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "columnDefs": [
+                    { "targets": [2], "orderable": false }
+                ],
+                "ajax": {
+                    "url": '/bannermanagement/getallbanners',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+
+                    { "data": "id", "name": "id", "autoWidth": false },
+                    //{ "data": "title", "name": "title", "autoWidth": false },
+                    //{ "data": "url", "name": "url", "autoWidth": false },
+                    {
+                        "data": "picPath", "name": "picPath", "render": function (value) {
+                            return "<img src='@filePath.Replace(@"\",@"\\")"+value+"' height='50'/>"
+                        }, "autoWidth": false },
+                    {
+                        "data": "id", "name": "id", "render": function (value) {
+                            return '<a href="/BannerManagement/AddEditBanner?id=' + value + '" data-token=' + value + ' class="btn btn-primary btn-link btn-sm" rel="tooltip" data-original-title="Edit Task" title="Edit News"><i class="material-icons">edit</i><div class="ripple-container"></div></a> <a style="cursor:pointer;" onclick="DeleteRecord(' + value + ')" data-toggle="tooltip"  data-original-title="Delete Task" title="Delete News"><i class="material-icons">delete_forever</i></a>'
+                    }, "autoWidth": true
+                    }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 10
+
+            });
+
+            $('.search-input').on('keyup change', function () {
+                var index = $(this).attr('data-column'),
+                    val = $(this).val();
+                table.columns(index).search(val.trim()).draw();
+            });
+        });
+
+        function DeleteRecord(Id) {
+          swal({
+                title: "Are you sure?",
+                text: "You Want Delete Of This Banner Record!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                          $.ajax({
+                    type: "GET",
+                    url: "@Url.Action("deletebanner", "bannermanagement")",
+                    data: {id: Id },
+                   success: function (result) {
+                       if (result != null) {
+
+                                    if (result.indexOf('alert-danger') > -1) {
+                                        if (result.includes("Access Denied")) {
+                                            swal("You Do Not Have Permission To Delete!", {
+
+                                                icon: "warning",
+                                            });
+                                        } else {
+                                            swal("Not Deleted,Something Went Wrong!", {
+
+                                                icon: "warning",
+                                            });
+                                        }
+                                    }
+                                    else {
+                                        swal("Banner Record has been  deleted successfully!", {
+                                            icon: "success",
+                                        });
+                                        setTimeout(function () { window.location.reload(true);} , 1500);
+                                    }
+                                    $("#awardDataTable").DataTable().draw();
+                                }
+                            },
+                    error: function () {
+                     alert("error");
+                    }
+                });
+                    }
+                });
+        }
+
+    </script>
+}
+
+
+

@@ -1,0 +1,105 @@
+﻿@model IEnumerable<RR.Dto.UserTransactionDto>
+@{
+
+}
+<!-- Blog Alise-->
+<div class="block-aside">
+    <div class="tab-content-main">
+        <div class="row row-30">
+            <div class="col-lg-12">
+                <div class="main-component">
+                    <!-- Heading Component-->
+                    <article class="heading-component">
+                        <div class="heading-component-inner">
+                            <h5 class="heading-component-title">Transaction History</h5>
+                        </div>
+                    </article>
+                    <div class="player-info-corporate">
+                        <div class="player-info-main">
+                            <div class="player-info-table">
+                                <div class="table-custom-wrap">
+                                    <table class="table-custom table-classic table-dark dataTable no-footer" border="1" id="userDataTable">
+                                        <thead>
+                                            <tr class="trans">
+                                                <th>Player</th>
+                                                <th width="15%">Amount</th>
+                                                <th>Date</th>
+                                                @*<th>CurrentWallet</th>*@
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if (Model != null && Model.Count() > 0)
+                                            {
+                                                var record = new List<RR.Dto.UserTransactionDto>();
+                                                foreach (var item in Model)
+                                                {
+                                                    var transaction = Model.Where(x => x.TransactionId == item.TransactionId).ToList();
+                                                    if (!record.Any(x => x.TransactionId == item.TransactionId))
+                                                    {
+                                                        <tr>
+                                                            <td>@item.UserName</td>
+                                                            <td>@(item.TransactionAmount.HasValue ? (transaction.Count > 1 ? item.TransactionAmount.Value.ToString("T0.00") : item.TransactionAmount.Value.ToString("$0.00")) : "$0.00")</td>
+                                                            <td>@item.TransactionDate.ToString("dd MMM yyyy")</td>
+                                                            @*<td>@item.CurrentWallet</td>*@
+                                                        </tr>
+                                                        record.Add(item);
+                                                    }
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <tr>
+                                                    <td colspan="5">No Transaction History Found!!</td>
+                                                </tr>
+                                            }
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @*<script>
+            $(function () {
+                $('.dataTables_filter input').attr('placeholder', 'Search...').hide();
+                var table = $("#userDataTable").DataTable({
+                    "paging": true,
+                    "processing": true, // for show progress bar
+                    "serverSide": true, // for process server side
+                    "filter": true, // this is for disable filter (search box)
+                    "orderMulti": false, // for disable multiple column at once
+
+                    //"dom": '<"top"i>rt<"bottom"lp><"clear">',
+                    "ajax": {
+                        "url": '/TransactionHistoryComponent/TransactionHistory',
+                        "type": "POST",
+                        "datatype": "json"
+                    },
+                    "columns": [
+                        { "data": "userName", "name": "userName", "autoWidth": false },
+                        { "data": "transactionAmount", "name": "transactionAmount", "autoWidth": false },
+                        { "data": "transactionDate", "name": "transactionDate", "autoWidth": false },
+
+                        { "data": "responseMessage", "name": "responseMessage", "autoWidth": false },
+                        { "data": "currentWallet", "name": "currentWallet", "autoWidth": false }
+                    ],
+                    dom: "Bfrtip",
+                    "pageLength": 10
+                });
+
+                $('.search-input').on('keyup change', function () {
+                    var index = $(this).attr('data-column'),
+                        val = $(this).val();
+                    table.columns(index).search(val.trim()).draw();
+                });
+
+
+            });
+        </script>*@
+}

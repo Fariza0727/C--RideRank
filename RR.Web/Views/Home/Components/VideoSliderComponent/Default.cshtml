@@ -1,0 +1,40 @@
+﻿@model IEnumerable<RR.Dto.VideoSliderDto>
+@{
+    @inject Microsoft.Extensions.Options.IOptions<RR.Core.AppSettings> appSettings
+}
+
+
+
+@if (Model != null && Model.Count() > 0)
+{
+    <div class="owl-carousel owl-theme video-owl-slider">
+        @foreach (var item in Model)
+        {
+            if (item.IsUrl)
+            {
+                    int pos = item.VideoUrl.LastIndexOf("/") + 1;
+                    var ytId = item.VideoUrl.Substring(pos, item.VideoUrl.Length - pos); 
+
+                    <a class="item venoboxvid" 
+                       data-gall="gall-video" data-autoplay="true" 
+                       data-vbtype="video"
+                       href="@item.VideoUrl">
+                        @*hqdefault.jpg,maxresdefault.jpg*@ 
+                    <img style="width:100%" class="img-responsive" src="http://i3.ytimg.com/vi/@ytId/maxresdefault.jpg" /></a>
+            }
+            else
+            {
+
+                    <a class="item venoboxvid" data-url="@item.VideoPath" data-gall="gall1" data-title="inline content" data-vbtype="inline" href="#inline-content"><img class="img-responsive" style="width:100%" src="@appSettings.Value.StaticContents.HowtoplayThumb" /></a>
+                
+            }
+
+        }
+
+    </div>
+
+    <div id="inline-content" style="display:none;">
+       
+    </div>
+    
+}

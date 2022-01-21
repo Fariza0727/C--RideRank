@@ -1,0 +1,87 @@
+﻿@model RR.Dto.SponsorDto
+@{
+    ViewData["Title"] = "CreateEditPartner";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Add Partner</h4>
+                </div>
+
+                <div class="card-body">
+                    @using (Html.BeginForm("CreateSponsor", "SponsorManagement", FormMethod.Post, new { enctype = "multipart/form-data", @id = "submitForm" }))
+                    {
+                        @Html.AntiForgeryToken();
+                        @Html.HiddenFor(x => x.Id)
+                        @Html.HiddenFor(x => x.SponsorLogo)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img id="ShowImage" src="@Model.ShowImage" alt="No Image" width="100" height="100" /><input style="margin-left:15px;" type="button" onclick="removeImage()" value="Delete" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <label class="bmd-label-floating">Sponsor Logo</label>
+                                @Html.TextBoxFor(x => x.Image, null, new { @class = "form-control", type = "file", onchange = "document.getElementById('ShowImage').src = window.URL.createObjectURL(this.files[0])" })
+                                @Html.ValidationMessageFor(x => x.Image)
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Sponsor Name</label>
+                                    @Html.TextBoxFor(x => x.SponsorName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.SponsorName)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label class="bmd-label-floating">Sponsor Website</label>
+                                    @Html.TextBoxFor(x => x.WebUrl, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.WebUrl)
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="checkbox-inline">
+                                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-control btn-sm" })
+                                   
+                                    <label for="IsActive" class="form-check-label">
+                                        IsActive
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                            <a href="/partners" class="btn btn-primary pull-right">Close</a>
+                            if (Model.Id > 0)
+                            {
+                            <button type="submit" class="btn btn-primary pull-right">Update</button>
+
+                            }
+                            else
+                            {
+                            <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                            }
+                            <div class="clearfix"></div>
+                            }
+                        </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script>
+      $(document).ready(function () {
+            if ('@Model.SponsorLogo' != '') {
+                $("#Image").rules("remove", "required")
+            }
+      })
+
+       function removeImage() {
+            $('#ShowImage').attr("src", "#");
+            $('#Image').val(null);
+        }
+    </script>
+}

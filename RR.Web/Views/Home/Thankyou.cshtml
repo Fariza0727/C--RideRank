@@ -1,0 +1,29 @@
+﻿
+@{
+    ViewData["Title"] = "Thank you";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string msg = ViewBag.Message;
+}
+
+<section class="section section-variant-1 bg-gray-100 pt-50 text-center">
+    <div class="container">
+
+        <div class="row row-30 justify-content-center">
+            <div class="col-xl-10">
+                <img class="thankyou-img" height="150" src="~/images/check.png">
+                <h2><span class="text-primary">Thank</span> You</h2>
+                <p class="big text-gray-800">@msg</p>
+                @if (msg == "Contest joined successfully.")
+                {
+                    <a class="button button-lg button-primary" href="/MyAccount">Go to My Account</a>
+                }
+                else
+                {
+                    <a class="button button-lg button-primary" href="/">Go to HomePage</a>
+                }
+            </div>
+        </div>
+
+    </div>
+</section>

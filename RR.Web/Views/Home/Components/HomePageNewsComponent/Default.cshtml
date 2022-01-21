@@ -1,0 +1,269 @@
+﻿@model Tuple<IEnumerable<RR.Dto.NewsDto>, IEnumerable<RR.Dto.NewsDto>, IEnumerable<RR.Dto.NewsDto>>
+@{
+    string basePath = ViewBag.NewsPicPath;
+}
+
+<!-- Latest News-->
+<section class="section section-md custom-bg-gray-100">
+    <div class="container">
+        <div class="row row-50">
+            <div class="col-lg-8">
+                <div class="main-component">
+                    <!-- Heading Component-->
+                    <article class="heading-component">
+                        <div class="heading-component-inner">
+                            <h5 class="heading-component-title">
+                                News Feed
+                            </h5><a class="button button-xs button-gray-outline" href="/news">See all news</a>
+                        </div>
+                    </article>
+                    <!-- Owl Carousel-->
+                    <div class="row row-30">
+                        <div class="col-sm-12">
+                            <!-- Swiper-->
+                            <div class="swiper-container swiper-slider post-slider" data-loop="true" data-autoplay="false" data-simulate-touch="false">
+                                <div class="swiper-wrapper">
+                                    @if (Model != null && Model.Item1 != null && Model.Item1.Count() > 0)
+                                    {
+                                        foreach (var item in Model.Item1.OrderByDescending(x => x.NewsDate).Take(3))
+                                        {
+                                            string path = "/shared/news/" + item.PicPath;
+                                            string url = "/news/" + item.Title.Replace(" ", "-").ToLower() + "/" + item.Id;
+
+                                            <div class="swiper-slide">
+                                                <!-- Post Alice-->
+                                                <article class="post-alice">
+                                                    <img src="@path" alt="" width="769" height="397" />
+                                                    <div class="post-alice-main">
+                                                        <!-- Badge-->
+                                                        <div class="badge badge-primary">
+                                                            @item.NewsTag
+                                                        </div>
+                                                        <h3 class="post-alice-title"><a href="@url">@item.Title</a></h3>
+                                                        <div class="divider"></div>
+                                                        <div class="post-alice-time">
+                                                            <span class="fa fa-calendar"></span>
+                                                            <time datetime="2018">@item.NewsDate.ToString("MMM dd,yyyy")</time>
+                                                        </div>
+                                                    </div>
+                                                </article>
+                                            </div>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="swiper-slide">
+                                            <!-- Post Alice-->
+                                            <article class="post-alice">
+                                                <img src="" alt="" width="769" height="397" />
+                                                <div class="post-alice-main">
+                                                    <!-- Badge-->
+                                                    <div class="badge badge-primary">
+
+                                                    </div>
+                                                    <h3 class="post-alice-title"><a href="javascript:void(0)">No Record Found</a></h3>
+                                                    <div class="divider"></div>
+                                                    <div class="post-alice-time">
+                                                        <span class="fa fa-calendar"></span>
+                                                    </div>
+                                                </div>
+                                            </article>
+                                        </div>
+                                    }
+                                </div>
+                                <!-- Swiper Pagination-->
+                                <div class="swiper-pagination"></div>
+                                <!-- Swiper Navigation-->
+                                <div class="swiper-button-prev"></div>
+                                <div class="swiper-button-next"></div>
+                            </div>
+                        </div>
+                        @if (Model != null && Model.Item1 != null && Model.Item1.Count() > 0)
+                        {
+                            foreach (var item in Model.Item1.OrderByDescending(x => x.NewsDate).Skip(3).Take(2))
+                            {
+                                string path = "/shared/news/" + item.PicPath;
+                                string url = "/news/" + item.Title.Replace(" ", "-").ToLower() + "/" + item.Id;
+
+                                <div class="col-sm-6">
+                                    <!-- Post Carmen-->
+                                    <article class="post-carmen">
+                                        <img src="@path" alt="" width="369" height="343" />
+                                        <div class="post-carmen-header">
+                                            <!-- Badge-->
+                                            <div class="badge badge-red">
+                                                <span>@item.NewsTag</span>
+                                            </div>
+                                        </div>
+                                        <div class="post-carmen-main">
+                                            <h4 class="post-carmen-title"><a href="@url">@item.Title</a></h4>
+                                            <div class="post-carmen-meta">
+                                                <div class="post-carmen-time">
+                                                    <span class="fa fa-calendar"></span>
+                                                    <time datetime="2018">@item.NewsDate.ToString("MMM dd,yyyy")</time>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </article>
+                                </div>
+                            }
+                        }
+                        else
+                        {
+                            <div class="swiper-slide">
+                                <!-- Post Alice-->
+                                <article class="post-alice">
+                                    <img src="" alt="" width="769" height="397" />
+                                    <div class="post-alice-main">
+                                        <!-- Badge-->
+                                        <div class="badge badge-primary">
+
+                                        </div>
+                                        <h3 class="post-alice-title"><a href="javascript:void(0)">No Record Found</a></h3>
+                                        <div class="divider"></div>
+                                        <div class="post-alice-time">
+                                            <span class="fa fa-calendar"></span>
+                                        </div>
+                                    </div>
+                                </article>
+                            </div>
+                        }
+                    </div>
+                </div>
+                <!-- CODE HERE -->
+            </div>
+            <div class="col-lg-4">
+                <aside class="aside-components">
+                    <div class="aside-component">
+                        <!-- Heading Component-->
+                        <article class="heading-component">
+                            <div class="heading-component-inner">
+                                <h5 class="heading-component-title">
+                                    Popular posts
+                                </h5><a class="button button-xs button-gray-outline" href="/news">All news</a>
+                            </div>
+                        </article>
+                        <!-- List Post Classic-->
+                        <div class="list-post-classic">
+                            @if (Model != null && Model.Item2 != null && Model.Item2.Count() > 0)
+                            {
+                                foreach (var item in Model.Item2)
+                                {
+                                    string path = "/shared/news/" + item.PicPath;
+                                    string url = "/news/" + item.Title.Replace(" ", "-").ToLower() + "/" + item.Id;
+                                    <!-- Post Classic-->
+                                    <article class="post-classic">
+                                        <div class="post-classic-aside">
+                                            <a class="post-classic-figure" href="@url"><img src="@path" alt="" width="94" height="94" /></a>
+                                        </div>
+                                        <div class="post-classic-main">
+                                            <p class="post-classic-title"><a href="@url">@item.Title</a></p>
+                                            <div class="post-classic-time">
+                                                <i class="fa fa-calendar"></i>
+                                                <time datetime="2018">@item.NewsDate.ToString("MMM dd,yyyy")</time>
+                                            </div>
+                                        </div>
+                                    </article>
+                                    <!-- Post Classic-->
+                                }
+                            }
+                            else
+                            {
+                                <article class="post-classic">
+                                    <div class="post-classic-aside">
+                                    </div>
+                                    <div class="post-classic-main">
+                                        <p class="post-classic-title">No Record Found!!</p>
+                                        <div class="post-classic-time">
+                                            <i class="fa fa-calendar"></i>
+                                        </div>
+                                    </div>
+                                </article>
+                            }
+                        </div>
+                        <!-- Heading Component-->
+                        <article class="heading-component mt-50">
+                            <div class="heading-component-inner">
+                                <h5 class="heading-component-title">
+                                    News &amp; publications
+                                </h5><a class="button button-xs button-gray-outline" href="/news">See all</a>
+                            </div>
+                        </article>
+                        <!-- Tabs Modern-->
+                        <div class="tabs-custom tabs-horizontal tabs-modern" id="tabs-modern">
+                            <ul class="nav nav-tabs">
+                                <li class="nav-item" role="presentation"><a class="nav-link active" href="#tabs-modern-1" data-toggle="tab">New</a></li>
+                                <li class="nav-item" role="presentation"><a class="nav-link" href="#tabs-modern-2" data-toggle="tab">Trending</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div class="tab-pane fade show active" id="tabs-modern-1">
+                                    @if (Model != null && Model.Item1 != null && Model.Item1.Count() > 0)
+                                    {
+                                        foreach (var item in Model.Item1.OrderByDescending(x => Guid.NewGuid()).Take(2))
+                                        {
+                                            string path = "/shared/news/" + item.PicPath;
+                                            string url = "/news/" + item.Title.Replace(" ", "-").ToLower() + "/" + item.Id;
+
+                                            <!-- Comment Modern-->
+                                            <div class="comment-modern">
+                                                <svg version="1.1" x="0px" y="0px" width="6.888px" height="4.68px" viewbox="0 0 6.888 4.68" enable-background="new 0 0 6.888 4.68" xml:space="preserve">
+                                                <path fill="#171617" d="M1.584,0h1.8L2.112,4.68H0L1.584,0z M5.112,0h1.776L5.64,4.68H3.528L5.112,0z"></path>
+                                        </svg>
+                                                <p class="comment-modern-title"><a href="@url"><span class="text-primary">@item.Title</span></a></p>
+                                                <time class="comment-modern-time" datetime="@item.NewsDate.Year">
+                                                    <i class="fa fa-calendar"></i> @item.NewsDate.ToString("MMM dd,yyyy")
+                                                </time>
+                                            </div>
+                                            <!-- Comment Modern-->
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="comment-modern">
+                                            <svg version="1.1" x="0px" y="0px" width="6.888px" height="4.68px" viewbox="0 0 6.888 4.68" enable-background="new 0 0 6.888 4.68" xml:space="preserve">
+                                            <path fill="#171617" d="M1.584,0h1.8L2.112,4.68H0L1.584,0z M5.112,0h1.776L5.64,4.68H3.528L5.112,0z"></path>
+                                        </svg>
+                                            <p class="comment-modern-title"><span class="text-primary">No Record Found!!</span></p>
+                                        </div>
+                                    }
+                                </div>
+                                <div class="tab-pane fade" id="tabs-modern-2">
+                                    @if (Model != null && Model.Item3 != null && Model.Item3.Count() > 0)
+                                    {
+                                        foreach (var item in Model.Item3.OrderByDescending(x => Guid.NewGuid()).Take(2))
+                                        {
+                                            string path = "/shared/news/" + item.PicPath;
+                                            string url = "/news/" + item.Title.Replace(" ", "-").ToLower() + "/" + item.Id;
+
+                                            <!-- Comment Modern-->
+                                            <div class="comment-modern">
+                                                <svg version="1.1" x="0px" y="0px" width="6.888px" height="4.68px" viewbox="0 0 6.888 4.68" enable-background="new 0 0 6.888 4.68" xml:space="preserve">
+                                                <path fill="#171617" d="M1.584,0h1.8L2.112,4.68H0L1.584,0z M5.112,0h1.776L5.64,4.68H3.528L5.112,0z"></path>
+                                        </svg>
+                                                <p class="comment-modern-title"><a href="@url"><span class="text-primary">@item.Title</span></a></p>
+                                                <time class="comment-modern-time" datetime="@item.NewsDate.Year">
+                                                    <i class="fa fa-calendar"></i> @item.NewsDate.ToString("MMM dd,yyyy")
+                                                </time>
+                                            </div>
+                                            <!-- Comment Modern-->
+                                        }
+                                    }
+                                    else
+                                    {
+                                        <div class="comment-modern">
+                                            <svg version="1.1" x="0px" y="0px" width="6.888px" height="4.68px" viewbox="0 0 6.888 4.68" enable-background="new 0 0 6.888 4.68" xml:space="preserve">
+                                            <path fill="#171617" d="M1.584,0h1.8L2.112,4.68H0L1.584,0z M5.112,0h1.776L5.64,4.68H3.528L5.112,0z"></path>
+                                        </svg>
+                                            <p class="comment-modern-title"><span class="text-primary">No Record Found!!</span></p>
+                                        </div>
+                                    }
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </div>
+</section>

@@ -1,0 +1,599 @@
+﻿@using RR.Dto;
+@{
+    ViewData["Title"] = "MyAccount";
+    bool isPaidmember = (bool)ViewBag.isPaidMember;
+}
+@section Styles{
+    <link href="~/css/newdesign.css" rel="stylesheet" />
+    <style>
+        ._dtCustom thead {
+            display: none;
+        }
+
+        ._dtCustom td {
+            padding: 0px 0px;
+            border: none;
+        }
+
+        .dataTables_wrapper {
+            margin-top: 0px !important;
+        }
+    </style>
+}
+
+<section class="section section-variant-1 custom-bg-gray-100 my_account">
+    <div class="container px-1">
+        <div class="row mt-0 mb-2">
+            <div class="col-12 text-center">
+                <div class="div_paypal_span">
+                    <p class="span_paypal">You have <span style="color: black;">7 days to collect prize</span>. Please click this link <a style="color: black;" href="https://www.paypal.me/rankridefnatsy" target="_blank">PayPal</a> to collect your prize.</p>
+                    <p class="span_paypal">You must provide team name and request accurate amount of winnings. All payouts are audited and checked for payouts to appropriate winners</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-0 mb-2">
+            <div class="col-12 text-center">
+                <span class="rank-bread-title">Profile</span>
+            </div>
+        </div>
+        <div class="row mt-1 mb-1">
+            <div class="col-12 pb-0 pt-20">
+                <div class="tabs-custom tabs-horizontal tabs-corporate no-border no-shadow">
+                    <div class="tabs-modern" id="tabs-product">
+                        <ul class="nav nav-tabs eventsListing-tab-box">
+
+                            <li class="nav-item"><a class="nav-link custom-nav-link active" href="#tabs-product-1" data-toggle="tab"><span>Event </span>History</a></li>
+
+                            <li class="nav-item"><a class="nav-link custom-nav-link" href="#tabs-product-2" data-toggle="tab">Awards</a></li>
+
+                            <li class="nav-item"><a class="nav-link custom-nav-link" href="#tabs-product-3" data-toggle="tab">Settings</a></li>
+
+                            <li class="nav-item"><a class="nav-link custom-nav-link" href="#tabs-product-4" data-toggle="tab"><span>Year End </span>Standings</a></li>
+
+                            <li class="nav-item"><a class="nav-link custom-nav-link" href="#tabs-product-8" data-toggle="tab">Favorite<span> Bulls/Riders</span></a></li>
+
+                        </ul>
+                        <div class="tab-content tab-content-mb mt-0 custom-account-pad">
+                            <div class="tab-pane active show fade" id="tabs-product-1" role="tabpanel">
+                                <div class="tabs-modern calcutta_tabs">
+                                    <ul class="nav nav-tabs calcutta_nav">
+                                        <li class="nav-item"><a class="nav-link calcutta_nav_link custom-nav-link  active" href="#tabs-event" data-toggle="tab">Fantasy Events</a></li>
+                                        <li class="nav-item"><a class="nav-link calcutta_nav_link custom-nav-link" href="#tabs-calcutta" data-toggle="tab">Calcutta</a></li>
+                                        <li class="nav-item"><a class="nav-link calcutta_nav_link custom-nav-link" href="#tabs-pick-team" data-toggle="tab">Bull team Games</a></li>
+                                    </ul>
+                                    <div class="tab-content tab-content-mb mt-3 p-0 text-left">
+                                        <div class="tab-pane active show fade" id="tabs-event" role="tabpanel">
+                                            <table class="table dt-responsive nowrap _dtCustom" id="_dtEventHistory">
+                                                <thead class="card-standing-caption">
+                                                    <tr>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane" id="tabs-calcutta" role="tabpanel">
+                                            <div class="row mt-0 mb-2">
+                                                <div class="col-12 text-center">
+                                                    <span class="span_award" style="font-family: Proxima Nova;">RIDER AND BULL AUCTION JACKPOT</span>
+                                                </div>
+                                            </div>
+                                            <table class="table dt-responsive nowrap _dtCustom" id="_dtCalcuttaEventHistory">
+                                                <thead class="card-standing-caption">
+                                                    <tr>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane" id="tabs-pick-team" role="tabpanel">
+                                            <table class="table dt-responsive nowrap _dtCustom" id="_dtPickTeamHistory">
+                                                <thead class="card-standing-caption">
+                                                    <tr>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="tabs-product-2" role="tabpanel">
+                                <div class="row mt-0 mb-2">
+                                    <div class="col-12 text-center">
+                                        <span class="span_award">YOU HAVE 7 DAYS TO COLLECT YOUR PRIZE PLEASE CONTACT <span style="color:#DF6A2E;">INFO@RANKRIDEFANTASY.COM</span></span>
+                                    </div>
+                                </div>
+                                <div class="tabs-modern calcutta_tabs">
+                                    <ul class="nav nav-tabs calcutta_nav">
+                                        <li class="nav-item"><a class="nav-link calcutta_nav_link custom-nav-link  active" href="#tabs-event-award" data-toggle="tab">Fantasy Events</a></li>
+                                        <li class="nav-item"><a class="nav-link calcutta_nav_link custom-nav-link" href="#tabs-calcutta-award" data-toggle="tab">Calcutta</a></li>
+                                    </ul>
+                                    <div class="tab-content tab-content-mb mt-3 p-0 text-left">
+                                        <div class="tab-pane active show fade" id="tabs-event-award" role="tabpanel">
+                                            <table class="table dt-responsive nowrap _dtCustom" id="_dtAwards">
+                                                <thead class="card-standing-caption">
+                                                    <tr>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                        <div class="tab-pane" id="tabs-calcutta-award" role="tabpanel">
+                                            <div class="row mt-0 mb-2">
+                                                <div class="col-12 text-center">
+                                                    <span class="span_award" style="font-family: Proxima Nova;">RIDER AND BULL AUCTION JACKPOT</span>
+                                                </div>
+                                            </div>
+                                            <table class="table dt-responsive nowrap _dtCustom" id="_dtCalcuttaAwards">
+                                                <thead class="card-standing-caption">
+                                                    <tr>
+                                                        <th></th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody></tbody>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    
+                                </div>
+                            </div>
+                            <div class="tab-pane fade" id="tabs-product-3" role="tabpanel">
+                                @await Component.InvokeAsync("ProfileSettingComponent")
+                            </div>
+                            <div class="tab-pane fade" id="tabs-product-4" role="tabpanel">
+                                @await Component.InvokeAsync("YearStandingsComponent")
+                            </div>
+                            <div class="tab-pane fade" id="tabs-product-8" role="tabpanel">
+                                @await Component.InvokeAsync("FavoriteBullsRidersComponent")
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<partial name="../Shared/_Sponsors.cshtml" />
+<!--modal-->
+<div id="levelCost" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="text-center">Plans</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body ">
+                <div class="col-md-12">
+
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="text-center">
+
+                                <div class="panel-body mt-40">
+                                    <div class="one-sec text-left">
+                                        <div class="form-wrap">
+                                            <p class="become-player-box"><input class="become-a-player-input" type="radio" name="Amount" value="jSsUE" checked />100 CowBoy Coins for $10</p>
+                                            <p class="become-player-box"><input class="become-a-player-input" type="radio" name="Amount" value="BlLML" />1000 CowBoy Coins for $85</p>
+                                            <p class="become-player-box"><input class="become-a-player-input" type="radio" name="Amount" value="smAmE" />5000 CowBoy Coins for $350</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12 text-right">
+                    <button class="btn" type="button" onclick="return buyToken()">Proceed</button>
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MODAL -->
+
+@section scripts{
+
+    <script>
+        //set cookies
+        function setCookie(cname, cvalue, exdays) {
+            var d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            var expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        //get cookies
+        function getCookie(cname) {
+            var name = cname + "=";
+            var decodedCookie = decodeURIComponent(document.cookie);
+            var ca = decodedCookie.split(';');
+            for (var i = 0; i < ca.length; i++) {
+                var c = ca[i];
+                while (c.charAt(0) == ' ') {
+                    c = c.substring(1);
+                }
+                if (c.indexOf(name) == 0) {
+                    return c.substring(name.length, c.length);
+                }
+            }
+            return "";
+        }
+
+        //To set onclick event on each of event tab
+        $('#tabs-product > .nav-tabs li a').each(function () {
+            $(this).click(function () {
+
+                var value_ = $(this).attr('href');
+                setCookie("accountCookie", value_, 1);
+
+            })
+        })
+
+        //To get the cookie and set current tab
+        $(window).load(function () {
+            var id_ = getCookie("accountCookie");
+            if (id_ != "") {
+                $('#tabs-product > .nav-tabs li a').removeClass('active');
+                $('.custom-account-pad > .tab-pane').removeClass('active show');
+                $('#tabs-product > .nav-tabs li a[href="' + id_ + '"]').addClass('active');
+                $(id_).addClass('active show');
+            }
+
+        });
+
+
+        $(function () {
+            $("#_dtCalcuttaEventHistory").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                    "url": '/getcalcuttauserhistoryajax',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "item1", "name": "item1", "autoWidth": false,
+                        "render": function (value, type, row) {
+
+                            var rowHtml = "<div class='row'>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCalcuttaCard(row.item1);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCalcuttaCard(row.item2);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCalcuttaCard(row.item3);
+                            rowHtml += "</div>";
+                            rowHtml += "</div>";
+                            return rowHtml;
+                        }
+                    }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 9
+            });
+
+            $("#_dtCalcuttaAwards").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                    "url": '/getcalcuttauserawardhistoryajax',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "item1", "name": "item1", "autoWidth": false,
+                        "render": function (value, type, row) {
+
+                            var rowHtml = "<div class='row'>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCalcuttaCard(row.item1);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCalcuttaCard(row.item2);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCalcuttaCard(row.item3);
+                            rowHtml += "</div>";
+                            rowHtml += "</div>";
+                            return rowHtml;
+                        }
+                    }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 9
+            });
+            function getOneCalcuttaCard(item) {
+                if (item == null) {
+                    return "";
+                }
+                var joinDate = new Date(item.joiningDateUTCString);
+                const options = { day: 'numeric', month: 'short', year: 'numeric' };
+                var rowHtml = "<div class='card rank-card' >";
+                rowHtml += "<div class='row'>";
+                rowHtml += "<div class='col-10 px-1'>";
+                if (item.eventClassName != "") {
+                    rowHtml += '<span class="comp-name" style="font-style:italic;">' + item.eventClassName + '</span><br>';
+                }
+
+                rowHtml += '<span class="comp-name mt-2" style="font-style:italic;text-transform: none;color: #DF6A2E;">Calcutta</span><br>';
+                if (item.money >= 0) { // no result
+                    rowHtml += '<span class="comp-prize-string mt-3" style="color:#565554;">Prize:</span><span class="comp-prize-money mt-3" style="color:#565554;"> $' + item.money + '</span>';
+                }
+                rowHtml += "</div>";
+
+                rowHtml += "<div class='col-2 px-0 text-right'>";
+                rowHtml += `<div class='${item.money > 0 ? "comp-rounded-rank" : ""}'><span class='comp-rounded-rank-num'>${item.realPlace > 0 ? item.realPlace : ""}</span></div>`;
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                rowHtml += "<div class='row pt-1'>";
+                rowHtml += "<div class='col-8 px-0'>";
+                rowHtml += '<span class="rank-name">' + item.eventName + '</span><br>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-4 px-0 text-right'>";
+                if (item.isFinished) {
+                    rowHtml += '<span class="rank-placed">Place Finished</span><br>';
+                }
+                rowHtml += "</div>";
+
+                rowHtml += "</div>";
+                rowHtml += "<div class='row pt-1'>";
+                rowHtml += "<div class='col-6 px-0'>";
+                rowHtml += '<span class="rank-info-value">' + joinDate.toLocaleDateString('en-US', options) + '</span>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-6 px-0 text-right'>";
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                return rowHtml;
+            }
+
+            $("#_dtEventHistory").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                    "url": '/getcontestofcurrentuserajax',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "item1", "name": "item1", "autoWidth": false,
+                        "render": function (value, type, row) {
+
+                            var rowHtml = "<div class='row'>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item1);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item2);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item3);
+                            rowHtml += "</div>";
+                            rowHtml += "</div>";
+                            return rowHtml;
+                        }
+                    }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 9
+
+            });
+            function getOneCard(item) {
+                if (item == null) {
+                    return "";
+                }
+
+                var team_name = '@(string.IsNullOrEmpty(ViewBag.TeamName) ? ViewBag.UserName : ViewBag.TeamName )';
+                var joinDate = new Date(item.joiningDateUTCString);
+                const options = { day: 'numeric', month: 'short', year: 'numeric' };
+                var rowHtml = "<div class='card rank-card' >";
+                rowHtml += "<div class='row'>";
+                rowHtml += "<div class='col-2 px-0'>";
+
+                rowHtml += '<img src="' + item.avtar + '" style="width:50px; height:50px;" onerror=this.onerror=null; this.src="images/home/team_icon.png"  />';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-8 px-1'>";
+                rowHtml += '<span class="rank-name"><a href="/usercontest/' + item.userId + '/' + item.contestId + '/' + item.teamId + '">'+team_name+'</a></span><br>';
+                rowHtml += '<span class="rank-owner mt-3">Team</span>';
+                rowHtml += "</div>";
+
+                rowHtml += "<div class='col-2 px-0 text-right'>";
+                rowHtml += `<div class='${item.isAward ? "rounded_rank" : ""}'><span class='${item.isAward ? "rounded_rank_num" : "rank_num"}'>${item.rank}</span></div>`;
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                rowHtml += "<div class='row pt-3'>";
+                rowHtml += "<div class='col-8 px-0'>";
+                rowHtml += '<span class="rank-name">' + item.contestName + '</span><br>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-4 px-0 text-right'>";
+                if (item.eventStatus == "Completed") {
+                    rowHtml += '<span class="rank-placed">Place Finished</span><br>';
+                }
+                rowHtml += "</div>";
+
+                rowHtml += "</div>";
+                rowHtml += "<div class='row pt-3'>";
+                rowHtml += "<div class='col-6 px-0'>";
+                rowHtml += '<span class="rank-info-value">' + joinDate.toLocaleDateString('en-US', options) + '</span>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-6 px-0 text-right'>";
+                rowHtml += '<span class="rank-info-value">' + joinDate.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', hour12: true }) + '</span>';
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                return rowHtml;
+            }
+
+            $("#_dtAwards").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                    "url": '/GetCurrentUserWinningsAjax',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "item1", "name": "item1", "autoWidth": false,
+                        "render": function (value, type, row) {
+
+                            var rowHtml = "<div class='row'>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneAwardCard(row.item1);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneAwardCard(row.item2);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneAwardCard(row.item3);
+                            rowHtml += "</div>";
+                            rowHtml += "</div>";
+                            return rowHtml;
+                        }
+                    }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 9
+
+            });
+            function getOneAwardCard(item) {
+                if (item == null) {
+                    return "";
+                }
+                var team_name = '@(string.IsNullOrEmpty(ViewBag.TeamName) ? ViewBag.UserName : ViewBag.TeamName )';
+                var joinDate = new Date(item.createdDate);
+                const options = { day: 'numeric', month: 'short', year: 'numeric' };
+                var rowHtml = "<div class='card rank-card' >";
+                rowHtml += "<div class='row'>";
+                rowHtml += "<div class='col-2 px-1'>";
+                rowHtml += `<div class='rounded_rank'><span class='rounded_rank_num'>${item.teamRank}</span></div>`;
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-2 px-1'>";
+                rowHtml += '<img src="@ViewBag.UserAvatar" style="width:50px; height:50px;" onerror=this.onerror=null; this.src="images/home/team_icon.png"  />';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-7 px-1'>";
+                rowHtml += '<span class="rank-name"><a href="/usercontest/' + item.userId + '/' + item.contestId + '/' + item.teamId + '">'+team_name+'</a></span><br>';
+                rowHtml += '<span class="rank-owner mt-3">Team</span>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-1 px-1 text-right'>";
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                rowHtml += "<div class='row pt-3'>";
+                rowHtml += "<div class='col-12'>";
+                rowHtml += '<span class="rank-name">' + item.contestTitle + '</span><br>';
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                rowHtml += "<div class='row pt-3'>";
+                rowHtml += "<div class='col-6 px-1'>";
+                rowHtml += '<span class="rank-info-value">' + joinDate.toLocaleDateString('en-US', options) + '</span>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-6 px-1 text-right'>";
+
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                return rowHtml;
+            }
+
+
+            $("#_dtPickTeamHistory").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                    "url": '/joined-current-user-teamajax',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "item1", "name": "item1", "autoWidth": false,
+                        "render": function (value, type, row) {
+
+                            var rowHtml = "<div class='row'>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOnePickTeamCard(row.item1);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOnePickTeamCard(row.item2);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOnePickTeamCard(row.item3);
+                            rowHtml += "</div>";
+                            rowHtml += "</div>";
+                            return rowHtml;
+                        }
+                    }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 9
+            });
+            function getOnePickTeamCard(item) {
+                if (item == null) {
+                    return "";
+                }
+                var team_name = item.teamName == null || item.teamName == "" ? item.userName : item.teamName;
+                var rowHtml = "<div class='card rank-card' >";
+                rowHtml += "<div class='row'>";
+                rowHtml += "<div class='col-2 px-1'>";
+
+                rowHtml += '<img src="' + item.avatar + '" style="width:50px; height:50px;" onerror=this.onerror=null; this.src="images/home/team_icon.png"  />';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-8 px-1'>";
+                rowHtml += '<span class="rank-name"><a href="/userteam/' + item.userId + '/' + item.contestId + '/' + item.teamId + '">' + team_name + '</a></span><br>';
+                rowHtml += '<span class="rank-owner mt-3">Team</span>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-1 px-1 text-right'>";
+
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                rowHtml += "<div class='row pt-4'>";
+                rowHtml += "<div class='col-4 px-1'>";
+                rowHtml += '<span class="rank-info-title">Rank:</span><br>';
+                rowHtml += '<span class="rank-info-value">' + item.teamRank + '</span>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-4 px-1'>";
+                rowHtml += '<span class="rank-info-title">Number of Contest:</span><br>';
+                rowHtml += '<span class="rank-info-value">' + item.numberOfContest + '</span>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-4 px-1'>";
+                rowHtml += '<span class="rank-info-title">Team Point:</span><br>';
+                rowHtml += '<span class="rank-info-value">' + item.teamPoint + '</span>';
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                return rowHtml;
+            }
+
+        });
+    </script>
+
+}
+

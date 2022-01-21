@@ -1,0 +1,95 @@
+﻿
+@{
+    ViewData["Title"] = "Chatroom";
+    Layout = null;
+    var eventId = ViewBag.EventId;
+    var eventName = ViewBag.EventName;
+    var contestId = ViewBag.ContestId;
+    var eventStatus = ViewBag.EventStatus;
+}
+
+<!DOCTYPE html>
+<html class="wide wow-animation" lang="en">
+<head>
+    <!-- Site Title-->
+    <title>RankRide</title>
+    <meta name="format-detection" content="telephone=no">
+    <meta name="viewport" content="width=device-width, height=device-height, initial-scale=1.0, user-scalable=1">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta charset="utf-8">
+    <meta name="description" content="@ViewBag.Description">
+    <meta name="keywords" content="@ViewBag.Keywords" />
+    <!-- Stylesheets-->
+    <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Kanit:300,400,500,500i,600%7CRoboto:400,900">
+    <script>var _rootURL = '@Url.Content("~/")';</script>
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/fonts.css" />
+    <link rel="stylesheet" href="~/css/style.css" id="main-styles-link" />
+    <link rel="stylesheet" href="~/css/custom.css" />
+    <link href="~/css/jquery.mCustomScrollbar.css" rel="stylesheet" />
+    <link href="~/css/sweetalert.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/font-awesome.min.css" />
+    <link href="~/css/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <link href="~/css/material-design-iconic-font.min.css" rel="stylesheet" />
+    @*<link href="~/signalr/Chat.css" rel="stylesheet" />*@
+    <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5db0075498ab5213"></script>
+
+</head>
+
+<body>
+
+    <div class="ChatRooms" id="chatroom_@contestId">
+
+        @await Component.InvokeAsync("ChatUsersComponent", new RR.Dto.ChatUserInvokeRequestDto { ContestId = contestId, EventId = eventId, EventName = eventName })
+
+    </div>
+
+    <script data-cfasync="false" src="~/js/email-decode.min.js"></script>
+    <script src="~/js/core.min.js" type="text/javascript"></script>
+    <script src="~/js/script.js" type="text/javascript"></script>
+    <script src="~/js/CustomFunction.js" type="text/javascript"></script>
+    <script src="~/js/jquery.mCustomScrollbar.js"></script>
+    <script src="~/signalr/signalr.js"></script>
+    <script src="~/signalr/chat.js"></script>
+
+    <script>
+        (function ($) {
+            $(window).on("load", function () {
+                $('#project-list').click(function () {
+                    $('.cus-tab-link .cus-tab-item').removeClass('active');
+                    $(this).addClass('active');
+                    $('.dashboard-content').removeClass('d-none');
+                    $('.dashboard-content').addClass('d-block');
+                    $('.add-connection').addClass('d-none');
+                    $('.add-connection').removeClass('d-block');
+                });
+                $('#connection-list').click(function () {
+                    $('.cus-tab-link .cus-tab-item').removeClass('active');
+                    $(this).addClass('active');
+                    $('.dashboard-content').addClass('d-none');
+                    $('.dashboard-content').removeClass('d-block');
+                    $('.add-connection').removeClass('d-none');
+                    $('.add-connection').addClass('d-block');
+                });
+                $(".content").mCustomScrollbar();
+            });
+        })(jQuery);
+
+        function empty(th) {
+            var x = $(th);
+            var data = x.closest("div").find("#_form").find("div").hasClass("cleared");
+            if (data) {
+                return false;
+            }
+            else {
+                return true;
+            }
+        }
+
+        joinChatRoom(@contestId,'@ViewBag.userId')
+    </script>
+
+</body>
+
+</html>

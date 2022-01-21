@@ -1,0 +1,167 @@
+﻿@model RR.StaticData.CalcuttaEvent
+@{
+    ViewData["Title"] = "JoinedUserContest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var eventId = Model.Id;
+    var eventName = Model.Title;
+    string time = Model != null ? Model.ContestUTCLockTime.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'") : "";
+}
+@section Styles{
+    <link href="~/css/newstatic.css" rel="stylesheet" />
+    <link href="~/css/newdesign.css" rel="stylesheet" />
+
+    <style>
+        ._dtTable thead {
+            display: none;
+        }
+
+        ._dtTable td {
+            padding: 0px 0px;
+            border: none;
+        }
+
+        .dataTables_wrapper {
+            margin-top: 5px;
+        }
+    </style>
+}
+<div class="rank-header">
+    <div class="rank-header-back" id="page_head_bg">
+        <img src="/images/home/rank-header-bg.jpg">
+    </div>
+    <span class="rank-header-title" id="page_head_title">Upcoming Events</span>
+</div>
+<section class="section section-variant-1 custom-bg-gray-100 custom-float-width contest_pg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2 col-md-2 col-sm-1">
+                <b class="btn rank-btn-back" onclick="history.back();">
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                </b>
+                <span class="rank-back-span">Events</span>
+            </div>
+            <div class="col-lg-8 col-md-8 col-sm-11 text-lg-center">
+                <span class="et_detail_title">@eventName</span>
+            </div>
+            <div class="col-lg-2 col-md-2">
+
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                @if (Model.ContestUTCLockTime > DateTime.UtcNow)
+                {
+                    <div class="promo-classic-countdown post-inline-time et_count_down">
+                        <div class="countdown countdown-classic countdown-classic-sm" data-type="until" data-time="@time" data-format="dhms" data-style="short"></div>
+                    </div>
+                }
+                else
+                {
+                    <span class="et_completed_days">Started <span style="font-size:24px; line-height: 29px;">@((DateTime.Now - Model.ContestUTCLockTime).Days)</span> Days ago </span>
+                }
+
+            </div>
+        </div>
+        <div class="row mt-3">
+            <div class="col-12 text-center">
+                <span class="num_entries">Number of Entries</span>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12">
+                <table class="table _dtTable dt-responsive nowrap" id="_teamBillings">
+                    <thead class="theme-dark-th">
+                        <tr>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</section>
+<partial name="../Shared/_Sponsors.cshtml" />
+@await Component.InvokeAsync("SubscibeNewsLetterComponent")
+
+@section Scripts{
+    <script src="~/js/jquery-ui.min.js"></script>
+    <script src="~/js/PagingSheet.js"></script>
+    <script>
+        $("#_teamBillings").DataTable({
+            "paging": true,
+            "processing": true, // for show progress bar
+            "serverSide": true, // for process server side
+            "filter": false, // this is for disable filter (search box)
+            "orderMulti": false, // for disable multiple column at once
+            "ajax": {
+                "url": '/joinedteamajax/@eventId',
+                "type": "POST",
+                "datatype": "json"
+            },
+            "columns": [
+                {
+                    "data": "item1", "name": "item1", "autoWidth": false,
+                    "render": function (value, type, row) {
+
+                        var rowHtml = "<div class='row'>";
+                        rowHtml += "<div class='col-lg-4'>";
+                        rowHtml += getOneCard(row.item1);
+                        rowHtml += "</div>";
+                        rowHtml += "<div class='col-lg-4'>";
+                        rowHtml += getOneCard(row.item2);
+                        rowHtml += "</div>";
+                        rowHtml += "<div class='col-lg-4'>";
+                        rowHtml += getOneCard(row.item3);
+                        rowHtml += "</div>";
+                        rowHtml += "</div>";
+                        return rowHtml;
+                    }
+                }
+            ],
+            dom: "Bfrtip",
+            "pageLength": 9
+
+        });
+        function getOneCard(item) {
+            if (item == null) {
+                return "";
+            }
+            var team_name = item.teamName == null || item.teamName == "" ? item.userName : item.teamName;
+            var rowHtml = "<div class='card rank-card' >";
+            rowHtml += "<div class='row'>";
+            rowHtml += "<div class='col-2 px-1'>";
+
+            rowHtml += '<img src="' + item.avatar + '" style="width:50px; height:50px;" onerror=this.onerror=null; this.src="images/home/team_icon.png"  />';
+            rowHtml += "</div>";
+            rowHtml += "<div class='col-8 px-1'>";
+            rowHtml += '<span class="rank-name"><a href="/userteam/' + item.userId + '/@eventId/' + item.teamId + '">' + team_name + '</a></span><br>';
+            rowHtml += '<span class="rank-owner mt-3">Team</span>';
+            rowHtml += "</div>";
+            rowHtml += "<div class='col-1 px-1 text-right'>";
+
+            rowHtml += "</div>";
+            rowHtml += "</div>";
+            rowHtml += "<div class='row pt-4'>";
+            rowHtml += "<div class='col-4 px-1'>";
+            rowHtml += '<span class="rank-info-title">Rank:</span><br>';
+            rowHtml += '<span class="rank-info-value">' + item.teamRank + '</span>';
+            rowHtml += "</div>";
+            rowHtml += "<div class='col-4 px-1'>";
+            rowHtml += '<span class="rank-info-title">Number of Contest:</span><br>';
+            rowHtml += '<span class="rank-info-value">' + item.numberOfContest + '</span>';
+            rowHtml += "</div>";
+            rowHtml += "<div class='col-4 px-1'>";
+            rowHtml += '<span class="rank-info-title">Team Point:</span><br>';
+            rowHtml += '<span class="rank-info-value">' + item.teamPoint + '</span>';
+            rowHtml += "</div>";
+            rowHtml += "</div>";
+            rowHtml += "</div>";
+            return rowHtml;
+        }
+
+
+    </script>
+}
+

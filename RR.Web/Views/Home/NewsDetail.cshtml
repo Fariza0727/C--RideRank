@@ -1,0 +1,95 @@
+﻿@model RR.Dto.NewsDto
+@{
+    ViewData["Title"] = Model.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string Url = Context.Request.Scheme + "://" + Context.Request.Host.Value + Context.Request.Path.Value;
+}
+<div id="fb-root"></div>
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v4.0&appId=364117877870489&autoLogAppEvents=1"></script>
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="/images/bg-breadcrumbs-1-1920x726.jpg">
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h3 class="breadcrumbs-custom-title">News Detail</h3>
+        </div>
+    </div>
+</section>
+<section class="section section-variant-1 bg-gray-100">
+    <div class="container">
+        <div class="row custom-bg-gray-100 custom-bg-light-pad">
+            <div class="col-lg-8">
+                <h5 class="heading-component-title mb-10">News Detail</h5>
+                @if (Model != null)
+                {
+                <div class="blog-post">
+                    <!-- Badge-->
+                    <div class="badge badge-secondary">
+                        @Model.NewsTag
+                    </div>
+                    <h3 class="blog-post-title">@Model.Title</h3>
+                    @if (!string.IsNullOrEmpty(Model.PicPath))
+                    {
+                        string path = ViewBag.NewsPicPath + Model.PicPath;
+                        <a class="post-creative-figure">
+                            <img src="@path" alt="" width="370" height="279">
+                        </a>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.VideoPath))
+                    {
+                        <video width="100%" controls src="@(string.Concat(ViewBag.NewsPicPath,Model.VideoPath))">
+                            Your browser does not support the video tag.
+                        </video>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.VideoUrl))
+                    {
+                        @if (Model.VideoUrl.Contains("https://www.youtube.com"))
+                        {
+                            string videoID = Model.VideoUrl.Split("watch?v=")[1];
+                            <iframe width="100%" height="360" src="https://www.youtube.com/embed/@videoID"></iframe>
+                        }
+                    }
+
+                    <div class="blog-post-header">
+                        <div class="blog-post-author">
+                            <p class="post-author"></p>
+                        </div>
+                        <div class="blog-post-meta">
+                            <time class="blog-post-time" datetime="2018">@Model.NewsDate.ToString("MMM dd,yyyy")</time>
+                        </div>
+                    </div>
+                    <div class="blog-post-share">
+                        <p>Share this post</p>
+                        <ul class="group">
+                            <li>
+                                <div class="fb-share-button" data-href="@Url" data-layout="button" data-size="small"><a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fdevelopers.facebook.com%2Fdocs%2Fplugins%2F&amp;src=sdkpreparse" class="fb-xfbml-parse-ignore">Share</a></div>
+                            </li>
+                            <li>
+                                <a class="icon fa-instagram" href="#"></a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="blog-post-content">
+                        @Html.Raw(Model.NewsContent)
+                    </div>
+                </div>
+                }
+                else
+                {
+                    <div class="blog-post">
+                        <!-- Badge-->
+                        <div class="badge badge-secondary">
+
+                        </div>
+                        <h3 class="blog-post-title">Nothing Is There To Show!!</h3>
+                    </div>
+                }
+            </div>
+            <div class="col-lg-4">
+                @await Component.InvokeAsync("TopRecentComponent")
+            </div>
+        </div>
+
+    </div>
+</section>

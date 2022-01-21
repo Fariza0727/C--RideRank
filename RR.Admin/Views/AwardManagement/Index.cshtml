@@ -1,0 +1,187 @@
+﻿
+@{
+    ViewData["Title"] = "Award Type";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">
+                        Award Type List
+                        <a href="javascript:void(0)" onclick="return AddEditAwardType(0)" class="btn pull-right"> Add Award Type </a>
+                    </h4>
+
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <div id="response">
+                        </div>
+                        <table class="table table-striped table-bordered" width="100%" id="awardTypeDataTable">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th style="font-size: 13px;">Name</th>
+                                    <th style="font-size: 13px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section Scripts
+    {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+
+
+
+
+        $(function () {
+            $('.dataTables_filter input').attr('placeholder', 'Search...').hide();
+            var table = $("#awardTypeDataTable").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "columnDefs": [
+                    { "targets": [1], "orderable": false }
+                ],
+                "ajax": {
+                    "url": '/awards/allawardtypes',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    { "data": "name", "name": "name", "autoWidth": false },
+                    {
+                        "data": "id", "name": "id", "render": function (value) {
+                            if (value > 3 && value != 5)
+                                return '<a href="javascript:void(0)" rel="tooltip" onclick="AddEditAwardType(' + value + ')" title="Edit Type" class="btn btn-primary btn-link btn-sm" data-original-title="Edit Type" title="Add/Edit Award Type"><i class="material-icons">edit</i><div class="ripple-container"></div></a> <a class="showpointer" onclick="DeleteRecord(' + value + ')" tooltip="Delete"  data-original-title="Delete Award Type"><i class="material-icons">delete_forever</i></a> '
+                            else
+                                return 'Can not be edit/delete';
+                        }, "autoWidth": true
+                    }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 10
+            });
+
+            $('.search-input').on('keyup change', function () {
+                var index = $(this).attr('data-column'),
+                    val = $(this).val();
+                table.columns(index).search(val.trim()).draw();
+            });
+        });
+
+        function AddEditAwardType(value) {
+            var url = "/addeditawardtype/" + value;
+            $.ajax({
+                url: url,
+                error: function (resp, text) {
+                },
+                success: function (resp) {
+                    $("#awardTypeModal").html('');
+                    $("#awardTypeModal").html(resp);
+                    $("#awardTypeModal").modal('toggle');
+                    $.validator.unobtrusive.parse("#formAwardType");
+                }
+            });
+        }
+
+        function onAwardTypeSuccess(response) {
+            $("#awardTypeModal").modal('toggle');
+            if (response.indexOf("alert-success") > -1) {
+                if (response.indexOf("added") > -1) {
+                    swal("Success! Award Type is added successfully!", {
+                        icon: "success",
+                    });
+                }
+                else {
+                    swal("Success! Award Type is updated successfully!", {
+                        icon: "success",
+                    });
+                }
+            }
+            else {
+                swal("Oops! Something went wrong, Please try again.", {
+                    icon: "warning",
+                });
+            }
+
+            $("#awardTypeDataTable").DataTable().draw();
+        }
+
+        function onBegin() {
+            $("#preloader").addClass('loaderActive');
+        }
+        function onComplete() {
+            $("#preloader").removeClass('loaderActive');
+        }
+        function onFailed() {
+            $("#preloader").removeClass('loaderActive');
+        }
+
+        function DeleteRecord(id) {
+            var url = "/deleteawardtype/" + id;
+            swal({
+                title: "Are you sure?",
+                text: "You Want Delete Of This Award Type?",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        $.ajax({
+                            type: "POST",
+                            url: url,
+                            success: function (result) {
+
+                                if (result.indexOf('alert-danger') > -1) {
+                                    if (result.includes("Access Denied")) {
+                                        swal("You Do Not Have Permission To Delete!", {
+
+                                            icon: "warning",
+                                        });
+                                    } else {
+                                        swal("Not Deleted,Something Went Wrong!", {
+
+                                            icon: "warning",
+                                        });
+                                    }
+                                }
+                                else {
+                                    swal("Success! Award Type is deleted successfully!", {
+                                        icon: "success",
+                                    });
+                                    setTimeout(function () { window.location.href = "/award-type" }, 1500);
+                                }
+                                $("#awardDataTable").DataTable().draw();
+
+                            },
+                            error: function () {
+                                alert("error");
+                            }
+                        });
+                    }
+                });
+        }
+    </script>
+}
+<div class="modal fade" id="awardTypeModal" role="dialog">
+</div>

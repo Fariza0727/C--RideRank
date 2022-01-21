@@ -1,0 +1,42 @@
+﻿@model RR.Dto.EventDto
+@{
+    string time = Model != null ? Model.PerfTimeUTC.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'") : "";
+}
+@if (Model != null && !string.IsNullOrEmpty(Model.Title))
+{
+<article class="post-inline">
+
+    <div class="header_background_time_city">
+        @if (Model.EventMode == 0)
+        {
+            <a class="header_background_time_city_a" href="@Url.Action("GetContestOfEvent", "Contest", new { eventId = Model.Id })">@(!string.IsNullOrEmpty(Model.Title) ? Model.Title.Length > 30 ? Model.Title.Substring(0, 28) + "..." : Model.Title : "")</a>
+        }
+        else
+        {
+            if (Model.EventMode == 1)
+            {
+                <a class="header_background_time_city_a" href="@Url.Action("GetEntryOfCalcutta", "Calcutta", new { eventId = Model.Id })">@(!string.IsNullOrEmpty(Model.Title) ? Model.Title.Length > 30 ? Model.Title.Substring(0, 28) + "..." : Model.Title : "")</a>
+            }
+            else
+            {
+                <a class="header_background_time_city_a" href="@Url.Action("GetEntryOfRCCalcutta", "Calcutta", new { eventId = Model.Id })">@(!string.IsNullOrEmpty(Model.Title) ? Model.Title.Length > 30 ? Model.Title.Substring(0, 28) + "..." : Model.Title : "")</a>
+            }
+
+        }
+
+    </div>
+    <div class="promo-classic-countdown post-inline-time">
+        <div class="countdown countdown-classic countdown-classic-sm" data-type="until" data-time="@time" data-format="dhms" data-style="short"></div>
+    </div>
+    
+</article>
+}
+else
+{
+    <article class="post-inline">
+        <div class="promo-classic-countdown post-inline-time">
+            <div class="countdown countdown-classic countdown-classic-sm" data-type="until" data-time="" data-format="dhms" data-style="short"></div>
+        </div>
+        <a href="javascript:void(0)" class="post-inline-title">No Event Available</a>
+    </article>
+}

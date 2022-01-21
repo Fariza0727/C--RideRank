@@ -1,0 +1,77 @@
+﻿@model RR.Dto.RegisterDto
+
+<form asp-action="Register" asp-controller="Account" method="POST" data-ajax="true" data-ajax-update="" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+    data-ajax-failure="onFailed" data-ajax-success="onSuccess">
+    @*@using (Html.BeginForm("Register", "Account", FormMethod.Post, new { area = "" }))
+        {*@
+    <div class="form-wrap">
+        @Html.TextBoxFor(x => x.UserName, new { @class = "form-input", autocomplete = "off", placeholder = "User Name" })
+        @Html.ValidationMessageFor(x => x.UserName)
+    </div>
+    <div class="form-wrap">
+        @Html.TextBoxFor(x => x.FullName, new { @class = "form-input", autocomplete = "off", placeholder = "Full Name" })
+        @Html.ValidationMessageFor(x => x.FullName)
+    </div>
+    <div class="form-wrap">
+        @Html.TextBoxFor(x => x.Email, new { @class = "form-input", autocomplete = "off", placeholder = "Email" })
+        @Html.ValidationMessageFor(x => x.Email)
+    </div>
+    <div class="form-wrap">
+        @Html.PasswordFor(x => x.Password, new { @class = "form-input", autocomplete = "off", placeholder = "Password" })
+        @Html.ValidationMessageFor(x => x.Password)
+    </div>
+    <div class="owl-carousel-outer-navigation">
+        <!-- Heading Component-->
+        <article class="heading-component">
+            <div class="heading-component-inner">
+                <h5 class="custom-select-avatar">Select Avatar</h5>
+                <div class="owl-carousel-arrows-outline">
+                    <div class="owl-nav">
+                        <button class="owl-arrow owl-arrow-prev"></button>
+                        <button class="owl-arrow owl-arrow-next"></button>
+                    </div>
+                </div>
+            </div>
+        </article>
+        <!-- Owl Carousel-->
+        <div class="owl-carousel owl-spacing-1" data-items="1" data-autoplay="true" data-autoplay-speed="4000" data-dots="false" data-nav="true" data-stage-padding="0" data-loop="true" data-margin="30" data-mouse-drag="false" data-nav-custom=".owl-carousel-outer-navigation">
+            <article class="custom-avatar">
+                <figure class="text-center">
+                    <img class="avatar-img" src="~/images/RR/user-n.png" alt="" width="91" height="91">
+                    <i class="fa fa-camera upload-button"></i>
+                    <input class="file-upload" type="file" accept="image/*" />
+                </figure>
+            </article>
+            <article class="custom-avatar">
+                <figure class="text-center">
+                    <img class="avatar-img" src="~/images/RR/user-n.png" alt="" width="91" height="91">
+                    <i class="fa fa-camera upload-button"></i>
+                    <input class="file-upload" type="file" accept="image/*" />
+                </figure>
+            </article>
+            <article class="custom-avatar">
+                <figure class="text-center">
+                    <img class="avatar-img" src="~/images/RR/user-n.png" alt="" width="91" height="91">
+                    <i class="fa fa-camera upload-button"></i>
+                    <input class="file-upload" type="file" accept="image/*" />
+                </figure>
+            </article>
+            <article class="custom-avatar">
+                <figure class="text-center">
+                    <img class="avatar-img" src="~/images/RR/user-n.png" alt="" width="91" height="91">
+                    <i class="fa fa-camera upload-button"></i>
+                    <input class="file-upload" type="file" accept="image/*" />
+                </figure>
+            </article>
+            <article class="custom-avatar">
+                <figure class="text-center">
+                    <img class="avatar-img" src="~/images/RR/user-n.png" alt="" width="91" height="91">
+                    <i class="fa fa-camera upload-button"></i>
+                    <input class="file-upload" type="file" accept="image/*" />
+                </figure>
+            </article>
+        </div>
+    </div>
+    <button class="button button-lg button-dark button-block custom-gold-btn" type="submit">Register</button>
+</form>
+

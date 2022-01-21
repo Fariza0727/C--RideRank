@@ -1,0 +1,74 @@
+﻿@model IEnumerable<RR.Dto.ContestUserWinnerDto>
+
+<div class="tab-content-main">
+    <div class="row row-30">
+        <div class="col-lg-12">
+            <div class="main-component">
+                <!-- Heading Component-->
+                <article class="heading-component">
+                    <div class="heading-component-inner">
+                        <h5 class="heading-component-title">Awards</h5>@*<span class="button button-xs button-gray-outline" href="#">All Awards</span>*@
+                    </div>
+                </article>
+                <!-- Tabs Modern-->
+                <div>
+                    <div class="custom-account-pad">
+                        <div class="">
+                            <!-- Comment Modern-->
+                            <div class="comment-classic">
+                                <svg version="1.1" x="0px" y="0px" width="6.888px" height="4.68px" viewBox="0 0 6.888 4.68" enable-background="new 0 0 6.888 4.68" xml:space="preserve">
+                                <path fill="#171617" d="M1.584,0h1.8L2.112,4.68H0L1.584,0z M5.112,0h1.776L5.64,4.68H3.528L5.112,0z"></path>
+                                </svg>
+                                <div class="comment-classic-body">
+                                    <div class="comment-classic-post-title"><a class="custom-event-title" href="">Winning Awards </a></div>
+                                </div>
+                            </div>
+                            @if (Model.Count() > 0)
+                            {
+                                foreach (var item in Model)
+                                {
+                                    <div class="comment-modern">
+                                        <svg version="1.1" x="0px" y="0px" width="6.888px" height="4.68px" viewbox="0 0 6.888 4.68" enable-background="new 0 0 6.888 4.68" xml:space="preserve">
+                                        <path fill="#171617" d="M1.584,0h1.8L2.112,4.68H0L1.584,0z M5.112,0h1.776L5.64,4.68H3.528L5.112,0z"></path>
+</svg>
+                                        @*<h6>Congrats!!! You are winner. You got @item.TeamRank rank for <b> @item.ContestWinningTitle (@item.ContestTitle) </b> Contest. Your winning are.</h6>
+                                        <h5>“You have 30 days to contact Rank Ride at <a href="mailto:info@rankridefantasy.com">info@rankridefantasy.com</a> and claim your prize!”</h5>*@
+                                        @if (!string.IsNullOrEmpty(item.Price))
+                                        {
+                                            <p class="comment-modern-title mt-0"><strong>You won @item.Price</strong></p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.Token) && item.Token != "T0")
+                                        {
+                                            <p class="comment-modern-title mt-0"><strong>You won @item.Token</strong></p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.Merchendise))
+                                        {
+                                            <p class="comment-modern-title mt-0"><strong>You won @item.Merchendise</strong></p>
+                                        }
+                                        @if (!string.IsNullOrEmpty(item.AwardMessage))
+                                        {
+                                            <p class="comment-modern-title mt-0"><strong>You won @item.AwardMessage</strong></p>
+                                        }
+
+                                        <time class="comment-modern-time" datetime="2018">
+                                            <i class="fa fa-calendar"></i> @item.CreatedDate.ToString("MMM dd, yyyy")
+                                        </time>
+                                    </div>
+                                }
+                            }
+                            else
+                            {
+                                <div class="comment-modern">
+                                    <svg version="1.1" x="0px" y="0px" width="6.888px" height="4.68px" viewbox="0 0 6.888 4.68" enable-background="new 0 0 6.888 4.68" xml:space="preserve">
+                                    <path fill="#171617" d="M1.584,0h1.8L2.112,4.68H0L1.584,0z M5.112,0h1.776L5.64,4.68H3.528L5.112,0z"></path>
+</svg>
+                                    <h5>Oops!!! you didn't win any contest yet. Join more contests for winning prizes.</h5>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

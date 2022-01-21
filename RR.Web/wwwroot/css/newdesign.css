@@ -1,0 +1,1330 @@
+
+@font-face {
+    font-family: 'Acumin Pro Condensed';
+    src: url("../fonts/Acumin-Pro-Condensed.ttf");
+}
+@font-face {
+    font-family: 'Bebas Neue';
+    src: url("../fonts/BebasNeue-Regular.ttf");
+}
+@font-face {
+    font-family: 'Proxima Nova';
+    src: url("../fonts/FontsFree-Net-proxima_nova_reg-webfont.ttf");
+}
+
+.txt_hint {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 16px;
+    line-height: 19px;
+    /* Orange main */
+
+    color: #DF6A2E;
+}
+.rule-card {
+    background: #EEEEEE;
+    border: 1px solid #B5B0B0;
+    box-sizing: border-box;
+    /* Event Shadow */
+
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15), 0px 0px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+}
+.rule-desc {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    /* or 24px */
+
+
+    color: #000000;
+}
+.btn_modal_close {
+    position: absolute;
+    right: 12px;
+    color: #DF6A2E;
+}
+.login_span {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+    color: #000000;
+}
+.num_entries {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 36px;
+    line-height: 43px;
+    text-transform: uppercase;
+    /* Orange main */
+
+    color: #DF6A2E;
+}
+.div_paypal_span {
+    padding: 15px 15px 10px;
+    background: #DF6A2E;
+}
+.div_paypal_span a{
+    color: #FFFFFF;
+    text-decoration: underline;
+}
+.span_paypal {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    /* identical to box height */
+
+    text-align: center;
+    letter-spacing: 0.02em;
+    /* White */
+
+    color: #FFFFFF;
+}
+.span_paypal_submit {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 16px;
+    /* identical to box height, or 100% */
+    text-align: center;
+    /* Black main */
+    color: #000000;
+}
+.span_award {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    /* identical to box height */
+
+    text-align: center;
+    text-transform: uppercase;
+    /* Orange main */
+
+    color: #000000;
+}
+.et_placed {
+    font-family: Roboto;
+    font-style: normal;
+    font-weight: normal;
+    font-size: 18px;
+    line-height: 21px;
+    /* identical to box height */
+
+    text-align: center;
+    text-transform: uppercase;
+    color: #000000;
+}
+.dataTables_wrapper .dataTables_processing {
+    z-index: 100;
+}
+.num_entries_link {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    /* identical to box height */
+
+    letter-spacing: 0.02em;
+    text-decoration-line: underline;
+    text-transform: uppercase;
+    /* Orange main */
+
+    color: #DF6A2E;
+}
+.custom-login-btn {
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    /* White */
+    color: #FFFFFF;
+    background-color: #000000;
+    padding: 12px;
+}
+.custom-forgot-txt {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+    text-decoration-line: underline;
+    /* Gray Dark */
+
+    color: #565554;
+}
+.bg_login label {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+    color: #000000;
+}
+.year_end_card {
+    background: #F0D283;
+    padding: 10px 22px;
+    /* Event Shadow */
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15), 0px 0px 10px rgba(0, 0, 0, 0.15);
+}
+.rank-placed {
+    padding: 2px 4px;
+    border: 1px solid #F0D283;
+    box-sizing: border-box;
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 15px;
+    text-transform: uppercase;
+    /* Gray Dark */
+
+    color: #565554;
+}
+.rounded_rank {
+    background: #565554;
+    border-radius: 50%;
+    height: 45px;
+    width: 45px;
+    text-align: center;
+}
+.rank_num {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 31px;
+    text-align: center;
+    text-transform: uppercase;
+    /* Gray Dark */
+
+    color: #565554;
+}
+.rounded_rank_num {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 34px;
+    line-height: 40px;
+    text-align: center;
+    text-transform: uppercase;
+    /* White */
+
+    color: #FFFFFF;
+}
+.rank-header-back {
+    background: linear-gradient(270.27deg, #000000 0.26%, rgba(0, 0, 0, 0) 35.94%), linear-gradient(89.88deg, #000000 0.1%, rgba(0, 0, 0, 0) 28.97%), url(/images/home/rank-header-bg.jpg);
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.rank-header-back img {
+    vertical-align: top;
+    width: 100%; /* max width */
+    opacity: 0; /* make it transparent */
+}
+.rank-header-back-completed {
+    background: linear-gradient(270.27deg, #000000 0.26%, rgba(0, 0, 0, 0) 35.94%), linear-gradient(89.88deg, #000000 0.1%, rgba(0, 0, 0, 0) 28.97%), url(/images/home/rank-header-bg-completed.png);
+    width: 100%;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.rank-header-back-completed img {
+    vertical-align: top;
+    width: 100%; /* max width */
+    opacity: 0; /* make it transparent */
+}
+
+.rank-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.rank-header-title {
+    position: absolute;
+    font-family: 'Acumin Pro Condensed';
+    font-style: italic;
+    font-weight: bold;
+    font-size: 160px;
+    line-height: 192px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+}
+.rank-btn-back {
+    color: #DF6A2E;
+    padding: 3px 6px;
+    background: rgba(229, 229, 229, 0.7);
+    border-radius: 2px;
+    cursor: pointer;
+}
+.rank-btn-back:hover {
+    background: rgba(229, 229, 229, 0.9);
+}
+.rank-back-span {
+    font-family: Acumin Pro Condensed;
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    color: #DF6A2E;
+    padding-top: 7px;
+    padding-left: 7px;
+}
+
+
+.rank-detail-card {
+    background: #E5E5E5;
+    /* Event Shadow */
+
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15), 0px 0px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 4px;
+    /* Inside Auto Layout */
+
+    flex: none;
+    order: 1;
+    align-self: stretch;
+    flex-grow: 0;
+    margin: 0px 30px;
+    padding: 25px 30px;
+}
+
+.rank-detail-card .row {
+    margin-top: 20px;
+}
+.rank-detail-img {
+    margin: 0px 30px;
+    max-width: 100%;
+    max-height: 100%;
+}
+.rank-detail-title {
+    font-family: 'Acumin Pro Condensed';
+    font-style: italic;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 43px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    text-transform: uppercase;
+    /* Black main */
+
+    color: #000000;
+}
+.rank-detail-val {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 16px;
+    line-height: 19px;
+}
+.rank-detail-order {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 56px;
+    line-height: 67px;
+    /* Gray Dark */
+
+    color: #565554;
+}
+.rank-detail-info {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    /* identical to box height */
+    /* Black main */
+
+    color: #000000;
+}
+.rank-bread-title {
+    font-family: 'Acumin Pro Condensed';
+    font-style: italic;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 43px;
+    align-items: center;
+    text-align: center;
+    text-transform: uppercase;
+    /* Black main */
+
+    color: #000000;
+}
+.dataTables_wrapper {
+    box-shadow: none;
+}
+.rank-card {
+    box-shadow: 0px 0px 10px #dcdcdc;
+    padding: 20px 30px;
+    margin: 10px 0;
+}
+.rank-card a{
+    color: #000000;
+}
+.rank-card a:hover {
+    color: #bd9b60;
+}
+.rank-name {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-size: 19px;
+    line-height: 21px;
+    text-transform: uppercase;
+    color: #000000;
+}
+.rank-tier {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-size: 16px;
+    line-height: 16px;
+    color: #DF6A2E;
+}
+
+.rank-info-title {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-size: 12px;
+    line-height: 17px;
+    font-weight: 500;
+    color: #565554;
+}
+
+.rank-info-value {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 20px;
+    line-height: 24px;
+    text-transform: uppercase;
+    color: #565554;
+}
+.rank-info-unranked {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-size: 12px;
+    line-height: 14px;
+    color: #565554;
+}
+.rank-bookmark {
+    color: #DF6A2E;
+    cursor: pointer;
+    font-size: 16px;
+    float: right !important;
+}
+.rank-bookmark:hover {
+    color: #3F6A2E;
+}
+.et_card {
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15), 0px 0px 10px rgba(0, 0, 0, 0.15);
+    /* Inside Auto Layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 0;
+    margin: 10px 0px;
+    padding: 15px 25px;
+}
+
+.et_card a {
+    color: #000000;
+}
+
+.et_card a:hover {
+    color: #bd9b60;
+}
+
+.et_card_title {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 29px;
+    /* identical to box height */
+
+    text-transform: uppercase;
+    /* Black main */
+    color: #000000;
+}
+
+.et_card_location {
+    font-family: 'Acumin Pro Condensed';
+    font-style: italic;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    /* Orange main */
+
+    color: #DF6A2E;
+}
+
+.et_card_time {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 16px;
+    /* identical to box height, or 80% */
+
+    color: #000000;
+    text-transform: uppercase;
+}
+.et_skew_rect {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    transform: skew(-20deg);
+    display: inline-block;
+    padding: 5px 10px;
+    background: #E5E5E5;
+    color: #000000;
+}
+
+.et_card_type_LCS {
+    background: #565554;
+    color: #FFFFFF;
+}
+.et_card_type_15_15 {
+    
+    background: #E5E5E5;
+    color: #000000;
+}
+.et_card_type_Classic {
+    
+    background: #F0D283;
+    color: #000000;
+}
+.et_card_type_Finals {
+    
+    background: #DF6A2E;
+    color: #FFFFFF;
+}
+.et_card_pay {
+    font-family: 'Acumin Pro Condensed';
+    font-style: italic;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 29px;
+    /* identical to box height */
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #DF6A2E;
+}
+
+.et_card_pay_price {
+    font-family: 'Acumin Pro Condensed';
+    font-style: italic;
+    font-weight: bold;
+    font-size: 50px;
+    line-height: 60px;
+    /* identical to box height */
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #DF6A2E;
+    
+}
+.et_status_calcutta {
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    /* White */
+    text-align: center;
+    width: 120px;
+    display: inline-block;
+    color: #FFFFFF;
+    padding: 9px 15px 9px;
+    background: #DF6A2E;
+    border-radius: 2px;
+}
+
+.et_status_open {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 29px;
+    /* identical to box height */
+
+    text-transform: uppercase;
+    /* Black main */
+
+    color: #000000;
+    padding: 1px 15px 3px;
+    background: #F0D283;
+}
+.et_vertical_center {
+    display: flex;
+    align-items: center;
+}
+/* event detail page */
+.et_detail_title {
+    font-family: 'Acumin Pro Condensed';
+    font-style: italic;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 43px;
+    text-transform: uppercase;
+    /* Black main */
+
+    color: #000000;
+}
+.et_count_down {
+    color: #DF6A2E !important;
+}
+.countdown-amount {
+    font-family: 'Bebas Neue';
+    font-style: normal;
+    font-weight: normal;
+    font-size: 34px;
+    line-height: 41px;
+    text-align: center;
+    letter-spacing: 0.05em;
+    color: #DF6A2E !important;
+}
+.countdown-period {
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 15px;
+    letter-spacing: 0.05em;
+    /* Orange main */
+    text-transform: lowercase !important;
+    color: #DF6A2E !important;
+}
+.et_detail_pick {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 22px;
+    line-height: 27px;
+    /* identical to box height */
+
+    text-transform: uppercase;
+    /* Black main */
+
+    color: #000000;
+}
+.et_detail_tire {
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.1)), #FFFFFF;
+    border-radius: 4px;
+    border-bottom: 4px solid #DF6A2E;
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 24px;
+    /* identical to box height, or 100% */
+
+    text-transform: uppercase;
+    /* Black main */
+    text-align: center;
+    padding: 5px 10px;
+    color: #000000;
+}
+.et_detail_info {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    /* identical to box height */
+
+    text-transform: uppercase;
+    /* Orange main */
+
+    color: #DF6A2E;
+}
+.team_selection {
+    background: #565554;
+    box-shadow: inset 0px -4px 4px rgba(0, 0, 0, 0.25), inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+.et_desktop {
+    padding-top: 25px;
+    padding-bottom: 10px;
+    display: block;
+}
+
+.et_detail_card {
+    background: #FFFFFF;
+    /* Event Shadow */
+    padding: 15px 25px;
+    margin: 10px 0px;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15), 0px 0px 10px rgba(0, 0, 0, 0.15);
+    min-height: 190px;
+    border: none;
+    border-radius: 0;
+}
+.et_detail_card .row {
+    margin-top: 0px;
+}
+.et_detail_blank {
+    background: #FFF;
+    /* Gray Dark */
+    min-height: 190px;
+    border: 1px dashed #565554;
+    box-sizing: border-box;
+    border-radius: 4px;
+    margin: 10px 0px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    cursor: pointer;
+}
+.md_scroll {
+    max-height: 630px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+.et_sp_select {
+    vertical-align: middle !important;
+    font-family: Acumin Pro Condensed;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 25px;
+    line-height: 30px;
+    /* identical to box height */
+
+    text-transform: uppercase;
+    /* Orange main */
+
+    color: #DF6A2E;
+}
+.et_detail_btn {
+    color: #FFFFFF;
+    background: #DF6A2E;
+    border-radius: 2px;
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+.et_detail_info1 {
+    font-family: Proxima Nova;
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #FFFFFF;
+}
+.sp_ignore {
+    color: #DF6A2E;
+    text-decoration: underline;
+}
+.et_detail_yellow {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    /* Orange main */
+
+    color: #DF6A2E;
+}
+.round_prob {
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 44px;
+    /* identical to box height */
+
+    text-transform: uppercase;
+    color: #000000;
+}
+.et_detail_owner {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    /* Orange main */
+
+    color: #000000;
+}
+.round_prob_info {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    /* identical to box height, or 100% */
+
+    text-align: center;
+    /* Black main */
+
+    color: #000000;
+    text-transform: uppercase;
+}
+.btn_select {
+    background: #FFFFFF;
+    /* Gray Dark */
+    border: 1px solid #565554;
+    box-sizing: border-box;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    color: #000000;
+    padding: 3px 5px;
+}
+.et_completed_days {
+    font-family: 'Acumin Pro Condensed';
+    font-style: italic;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 19px;
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    /* Orange main */
+
+    color: #DF6A2E;
+}
+.et_result_round {
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 29px;
+    text-transform: uppercase;
+    color: #000000;
+}
+.btn_remove {
+    background: #F0D283;
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    color: #000000;
+    padding: 3px 5px;
+}
+.et_desktop_only {
+    display: block;
+}
+.et_desktop_only_inline {
+    display: inline-block;
+}
+.et_mobile_only {
+    display: none;
+}
+.bg_yellow {
+    background: #F0D283;
+    height: 10px;
+}
+.bg_orange {
+    background: #DF6A2E;
+    height: 10px;
+}
+.bg_yellow_orange {
+    height: 10px;
+    background: linear-gradient(90deg, #F0D283 0%, #F0D283 46.88%, #DF6A2E 100%);
+}
+.et_point {
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 16px;
+    line-height: 16px;
+    /* identical to box height, or 100% */
+    /* Black main */
+
+    color: #000000;
+}
+.btn-comp-loader {
+    display: inline-flex;
+    border: 3px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 3px solid #3498db;
+    width: 30px;
+    height: 30px;
+    -webkit-animation: spinn 1s linear infinite; /* Safari */
+    animation: spinn 1s linear infinite;
+}
+/* Safari */
+@-webkit-keyframes spinn {
+    0% {
+        -webkit-transform: rotate(0deg);
+    }
+
+    100% {
+        -webkit-transform: rotate(360deg);
+    }
+}
+
+@keyframes spinn {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+.comp-rounded-rank {
+    background: #F0D283;
+    border-radius: 50%;
+    height: 36px;
+    width: 36px;
+    text-align: center;
+    display: inline-block;
+}
+.comp-rounded-rank-num {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 32px;
+    text-align: center;
+    text-transform: uppercase;
+    /* Black main */
+
+    color: #000000;
+}
+.bg_white_important {
+    background: #FFF !important;
+}
+.bg_yellow_important {
+    background: #F0D283 !important;
+}
+.text-black-important {
+    color: #000 !important;
+}
+.card-sold {
+    opacity: 65%;
+}
+.comp-btn-go-cart {
+    background: #F0D283;
+    border-radius: 4px;
+    color: #000000;
+    padding: 6px 10px;
+    display: inline-block;
+    
+}
+.comp-mode {
+    font-family: 'Acumin Pro Condensed';
+    font-style: italic;
+    font-weight: bold;
+    font-size: 36px;
+    line-height: 43px;
+    text-transform: uppercase;
+    /* Orange main */
+
+    color: #DF6A2E;
+}
+.comp-sold {
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 22px;
+    /* identical to box height */
+
+    text-transform: uppercase;
+    /* Black main */
+
+    color: #000000;
+}
+.comp-btn-go-cart a {
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 14px;
+    line-height: 16px;
+    align-items: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    display: flex;
+}
+.cart-badge {
+    margin-right: 10px;
+    position: relative;
+}
+.cart-count {
+    background: #DF6A2E;
+    border-radius: 10px;
+    position: absolute;
+    padding: 1px 5px;
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: bold;
+    font-size: 12px;
+    line-height: 14px;
+    /* identical to box height */
+
+    display: flex;
+    align-items: flex-end;
+    text-align: center;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    /* White */
+
+    color: #FFFFFF;
+    top: 1px;
+    right: -4px;
+
+}
+.cal_ent_detail_card {
+    background: #FFFFFF;
+    /* Event Shadow */
+    padding: 10px 25px;
+    margin: 8px 0px;
+    box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.15), 0px 0px 10px rgba(0, 0, 0, 0.15);
+    border: none;
+    border-radius: 0;
+    min-height: 126px;
+}
+
+.cal_ent_detail_card .row {
+    margin-top: 0px;
+}
+
+.comp-class-title {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    /* identical to box height */
+
+    text-transform: uppercase;
+    color: #000000;
+}
+
+.comp-name {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    text-transform: uppercase;
+    /* Black main */
+
+    color: #000000;
+}
+
+.comp-id {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    /* identical to box height, or 100% */
+    /* Gray Dark */
+
+    color: #565554;
+}
+
+.comp-money {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    color: #000000;
+}
+
+.comp-string {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    color: #000000;
+}
+
+.comp-class {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    color: #000000;
+}
+
+.comp-prize-string {
+    font-family: 'Acumin Pro Condensed';
+    font-style: italic;
+    font-weight: bold;
+    font-size: 18px;
+    line-height: 26px;
+    /* or 87% */
+
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #DF6A2E;
+}
+.comp-prize-money {
+    font-family: 'Acumin Pro Condensed';
+    font-style: italic;
+    font-weight: bold;
+    font-size: 24px;
+    line-height: 26px;
+    /* or 87% */
+
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #DF6A2E;
+}
+.comp-price {
+    font-family: 'Acumin Pro Condensed';
+    font-style: italic;
+    font-weight: bold;
+    font-size: 30px;
+    line-height: 21px;
+    /* or 87% */
+
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    color: #DF6A2E;
+}
+
+.comp-users {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+    /* Orange main */
+
+    color: #DF6A2E;
+}
+
+.comp_btn_sold {
+    background: #E5E5E5;
+    border-radius: 2px;
+    padding: 8px 10px;
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+
+    text-transform: uppercase;
+    /* Black main */
+
+    color: #000000;
+}
+
+.comp_btn_view_cart {
+    background: #FFFFFF;
+    /* Gray Dark */
+    padding: 8px 10px;
+    border: 1px solid #565554;
+    box-sizing: border-box;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    /* identical to box height */
+
+    text-transform: uppercase;
+    /* Black main */
+
+    color: #000000;
+    cursor: pointer;
+}
+
+.comp_btn_add_cart {
+    background: #565554;
+    /* Gray Dark */
+    padding: 8px 10px;
+    border: 1px solid #565554;
+    box-sizing: border-box;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.15);
+    border-radius: 2px;
+    font-family: 'Proxima Nova';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 17px;
+    text-transform: uppercase;
+    color: #FFFFFF;
+    cursor: pointer;
+}
+
+.cal_order_detail_card {
+    margin: 10px 0px;
+    padding: 40px 20px;
+    background: #EEEEEE;
+    border: 1px solid #B5B0B0;
+    box-sizing: border-box;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.25);
+}
+
+.order-title {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 36px;
+    /* identical to box height */
+    color: #000000;
+}
+
+.order-subtitle {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 24px;
+    /* identical to box height */
+    color: #000000;
+}
+.order-paypal {
+    background: #F6C557;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 10px;
+    text-align: center;
+
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 29px;
+}
+.comp-btn-remove {
+    font-family: 'Acumin Pro Condensed';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 16px;
+    line-height: 16px;
+    /* identical to box height, or 100% */
+    /* Gray Dark */
+    cursor: pointer;
+    color: #565554;
+}
+.comp-btn-remove:hover {
+    color: #DF6A2E;
+}
+@media only screen and (max-width: 768px) {
+    .rank-header-title {
+        font-size: 60px;
+        line-height: 72px;
+    }
+
+    .rank-card {
+        margin: 5px 0px;
+    }
+    .rank-detail-card {
+        margin: 5px 3px;
+        padding: 5px 15px;
+    }
+
+    .rank-detail-img {
+        margin: 5px 3px;
+        object-fit: contain;
+    }
+    .et_card {
+        margin: 4px 0px;
+        padding: 10px 15px;
+    }
+    .et_card_title {
+        font-size: 16px;
+        line-height: 19px;
+        letter-spacing: 0.02em;
+    }
+    .et_status_open {
+        font-size: 14px;
+        line-height: 17px;
+        padding: 1px 8px 2px;
+    }
+    .et_card_location {
+        font-size: 14px;
+        line-height: 17px;
+    }
+    .et_card_time {
+        font-size: 16px;
+        line-height: 16px
+    }
+    .et_card_pay {
+        font-size: 16px;
+        line-height: 16px
+    }
+    .et_card_pay_price {
+        font-size: 30px;
+        line-height: 36px;
+    }
+    .et_skew_rect {
+        padding: 5px 8px;
+    }
+    .et_desktop {
+        display: none;
+    }
+    .round_prob {
+        font-size: 30px;
+        line-height: 37px;
+    }
+    .et_desktop_only {
+        display: none;
+    }
+    .et_desktop_only_inline {
+        display: none;
+    }
+    .et_mobile_only {
+        display: block;
+    }
+    .et_detail_title {
+        font-size: 32px;
+    }
+    .span_paypal {
+        font-size: 16px;
+        line-height: 19px;
+    }
+    .span_paypal_submit {
+        font-size: 14px;
+        line-height: 16px;
+    }
+    
+}

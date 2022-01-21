@@ -1,0 +1,75 @@
+﻿@model List<RR.Dto.PlayStandingLiteDto>
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<RR.Dto.PlayStandingLiteDto> data = new List<RR.Dto.PlayStandingLiteDto>();
+}
+
+<!-- Section Breadcrumbs-->
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="/images/bg-breadcrumbs-1-1920x726.jpg">
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h3 class="breadcrumbs-custom-title">Contest Standings</h3>
+        </div>
+    </div>
+</section>
+<section class="section section-md custom-bg-gray-100">
+    <div class="container">
+        <div class="row row-50">
+            <div class="col-lg-12">
+                @if (Model != null && Model.Count > 0)
+                {
+                    foreach (var item1 in Model)
+                    {
+                        if (!data.Any(x => x.ContestId == item1.ContestId))
+                        {
+                            <div class="main-component">
+                                <!-- Heading Component-->
+                                <article class="heading-component">
+                                    <div class="heading-component-inner">
+                                        <h5 class="heading-component-title">
+                                            @Model.FirstOrDefault(x => x.ContestId == item1.ContestId).ContestTitle
+                                        </h5>
+                                    </div>
+                                </article>
+                                <table class="table-custom table-standings table-classic table-dark dataTable no-footer table" id="userDataTable" role="grid" aria-describedby="userDataTable_info">
+                                    <thead class="card-standing-caption">
+
+                                        <tr role="row">
+
+                                            <th class="sorting" tabindex="0" aria-controls="userDataTable" rowspan="1" colspan="1" style="width: 257px;">Team</th>
+                                            <th class="sorting" tabindex="0" aria-controls="userDataTable" rowspan="1" colspan="1" style="width: 150px;">Points</th>
+                                            <th class="sorting" tabindex="0" aria-controls="userDataTable" rowspan="1" colspan="1" style="width: 61px;">Rank</th>
+
+                                        </tr>
+                                    </thead>
+                                    @foreach (var item in Model.Where(x => x.ContestId == item1.ContestId).ToList())
+                                    {
+                                        <tbody>
+                                            <tr role="row" class="odd">
+
+                                                <td class="card-standing-team-name sorting_1 table-team-name" style="width: 257px;"><span><img src="~/images/team-rogers-46x36.png" alt="" width="46" height="36" /> @item.UserName</span></td>
+                                                <td class="card-standing-team sorting_1">@item.TeamPoint</td>
+                                                <td class="card-standing-number">@item.Rank</td>
+                                            </tr>
+                                        </tbody>
+                                    }
+
+                                    @{var res = Model.Where(x => x.ContestId == item1.ContestId).ToList();
+                                        data.AddRange(res);
+                                    }
+                                </table>
+                            </div>
+
+                        }
+                    }
+                }
+                else
+                {
+                    <div class="main-component">No Record Found!!</div>
+                }
+                <!-- CODE HERE -->
+            </div>
+        </div>
+    </div>
+</section>

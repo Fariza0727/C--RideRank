@@ -1,0 +1,114 @@
+﻿@model RR.Dto.VideoSliderDto
+@{
+    ViewData["Title"] = "AddEditSlider";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Slider Management </h4>
+                </div>
+                <div class="card-body">
+                    <form id="sliderForm" asp-action="AddEditSlider" asp-controller="VideoSlider" method="POST" data-ajax="true" data-ajax-begin="onSliderBegin"
+                          data-ajax-success="onSliderSuccess"
+                          enctype="multipart/form-data">
+                       
+                            @Html.HiddenFor(x => x.Id)
+                            @Html.AntiForgeryToken();
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @if (!Model.IsUrl)
+                                    {
+                                        if (!string.IsNullOrEmpty(Model.VideoPath))
+                                        {
+                                        <video width="100%" height="200" id="videoPlayer" controls>
+                                            <source src="@Model.VideoPath" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>}
+                                    }
+                                    else { 
+                                        <iframe width="420" height="345" src="@Model.VideoUrl"></iframe>
+                                    }
+
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <label>Select Video</label>
+                                    @Html.TextBoxFor(x => x.File, null, new { @class = "form-control", type = "file"})
+                                    @Html.ValidationMessageFor(x => x.File)
+                                </div>
+                                <div class="col-md-7">
+                                    <label>Select Youtube Url</label>
+                                    @Html.TextBoxFor(x => x.VideoUrl, null, new { @class = "form-control"})
+                                    @Html.ValidationMessageFor(x => x.VideoUrl)
+                                </div>
+                                <div class="col-md-2">
+                                    <label>Youtube Url</label>
+                                    @Html.CheckBoxFor(x => x.IsUrl, new { @class = "form-control btn-sm", onchange = "onurlSelect(this)" })
+                                    @Html.ValidationMessageFor(x => x.IsUrl)
+                                </div>
+                                @if (Model.Id > 0)
+                                {
+                                    <div class="col-md-12">
+                                        <label>Confirm to active/deactive video</label>
+                                        @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-control btn-sm" })
+                                        @Html.ValidationMessageFor(x => x.IsActive)
+                                    </div>
+                                }
+                            </div>
+                            <input type="submit" class="btn btn-primary" value="Submit" />
+
+
+                        </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function onSliderBegin() {
+            //if ($('#File').val()) {
+            //    $('#VideoUrl').val('');
+            //}
+            //if ($('#File').val()) {
+            //    $('#VideoUrl').val('');
+            //}
+        }
+        function onurlSelect(elm) {
+            
+            if ($(elm).is(":checked")) {
+                $('#File').val('').prop('disabled', true);
+                $('#VideoUrl').prop('disabled', false);
+                
+            }
+            else {
+                $('#VideoUrl').val('').prop('disabled', true);
+                $('#File').prop('disabled', false);
+            }
+        }
+        function onSliderSuccess(result) {
+            if (result.status) {
+                swal("video upload successfully!", {
+                    icon: "success",
+                });
+                setTimeout(function () { window.location.href = "/videosliders" }, 1500);
+            }
+            else {
+                swal(result.message, {
+                    icon: "warning",
+                });
+            }
+        }
+
+        $(window).load(function () {
+            $('#IsUrl').change();
+        })
+    </script>
+}
+
+

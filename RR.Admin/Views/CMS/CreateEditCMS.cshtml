@@ -1,0 +1,113 @@
+﻿@model RR.Dto.CmsDto
+@{
+
+    ViewData["Title"] = "CMS";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title">CMS Management</h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("createeditcms", "Cms", FormMethod.Post, new { @id = "submitForm" }))
+                    {
+                        @Html.HiddenFor(x => x.Id)
+                        @*@Html.Hidden(initialProductCode, Model.Id)*@
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">PageName</label>
+                                    @Html.TextBoxFor(x => x.PageName, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.PageName)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">PageUrl</label>
+                                    @Html.TextBoxFor(x => x.PageUrl, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.PageUrl)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Meta Title</label>
+                                    @Html.TextBoxFor(x => x.MetaTitle, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.MetaTitle)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Meta Keyword</label>
+                                    @Html.TextBoxFor(x => x.MetaKeyword, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.MetaKeyword)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Meta Description</label>
+                                    @Html.TextAreaFor(x => x.MetaDescription, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.MetaDescription)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label>Page Content</label>
+                                    <div class="form-group bmd-form-group is-focused" id="PageContent1">
+                                        @Html.TextAreaFor(x => x.PageContent, new { @Id = "PageContent", @class = "form-control", @required = "required", @style = "height:250px !important;" })
+                                        @Html.ValidationMessageFor(x => x.PageContent)
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <a href="/cms" class="btn btn-primary pull-right">Close</a>
+                        if (Model.Id > 0)
+                        {
+                            <button type="submit" class="btn btn-primary pull-right">Update</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                        }
+                        <div class="clearfix"></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/assets/theme/ckeditor/ckeditor.js"></script>
+
+    <script>
+        CKEDITOR.replace('PageContent');
+        CKEDITOR.config.allowedContent = true;
+        $("#submitForm").submit(function (e) {
+
+            var messageLength = CKEDITOR.instances['PageContent'].getData().replace(/<[^>]*>/gi, '').length;
+            if (!messageLength) {
+                $("#PageContent1").append("<span class='field-validation-error' data-valmsg-for='PageContent' data-valmsg-replace='true'>\
+                                           <span id='PageContent-error' class=''>Page content is required</span></span>");
+                e.preventDefault();
+                return false;
+            }
+            else {
+                $("#PageContent-error").removeAttr();
+                return true;
+            }
+        });
+
+
+    </script>
+}
+

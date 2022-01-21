@@ -1,0 +1,14 @@
+﻿@model RR.Dto.SubscribeDto
+<form class="rd-mailform rd-form rd-inline-form-creative" asp-action="Subscribe" asp-controller="Home" id="subscribeForm" method="POST" data-ajax="true" data-ajax-begin="onBeginSubscribe" data-ajax-complete="onCompleteSubscribe"
+      data-ajax-failure="onFailedSubscribe" data-ajax-success="onSuccessSubscribe" data-ajax-update="response">
+    <div class="form-wrap newslettersubscribe">
+        <div class="form-input-wrap has-error">
+            @Html.TextBoxFor(x => x.Email, new { @class = "form-input form-control-has-validation", @id = "footer-form-email", @autocomplete = "off",@placeholder= "Subscribe to our Newsletter" })
+            @Html.ValidationMessageFor(x => x.Email, "", new { @class = "form-validation" })
+        </div>
+    </div>
+    <div class="form-button">
+        <button class="button button-primary-outline" type="submit" aria-label="Send"><span class="icon fl-budicons-launch-right164"></span></button>
+    </div>
+</form>
+

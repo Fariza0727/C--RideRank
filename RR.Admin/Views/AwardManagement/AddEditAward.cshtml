@@ -1,0 +1,46 @@
+﻿@model RR.Dto.Award.AwardDto
+@{
+    string Title = Model.Id == 0 ? "Add Award" : "Edit Award";
+}
+<div class="modal-dialog" style="top:30px;">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">
+                @Title
+            </h4>
+            <span class="pull-right">
+                <i class="material-icons" data-dismiss="modal">close</i>
+            </span>
+
+        </div>
+        <div class="modal-body">
+
+            <form id="formAward" asp-action="AddEditAward" asp-controller="AwardManagement" method="POST" data-ajax="true" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+                  data-ajax-failure="onFailed" data-ajax-success="onAwardSuccess" data-ajax-update="response" enctype="multipart/form-data">
+
+                @Html.HiddenFor(x => x.Id)
+                <div class="form-wrap">
+                    @Html.DropDownListFor(x => x.AwardTypeId, Model.AwardTypes, new { @class = "form-control" })
+                    @Html.ValidationMessageFor(x => x.AwardTypeId)
+                </div>
+                <div class="form-wrap">
+                    @Html.TextBoxFor(x => x.Message, new { @class = "form-control", autocomplete = "off", placeholder = "Message" })
+                    @Html.ValidationMessageFor(x => x.Message)
+                </div>
+                <div class="form-wrap">
+                    @Html.TextBoxFor(x => x.Token, new { @class = "form-control", autocomplete = "off", placeholder = "Cowboy Coins" })
+                </div>
+                <div class="form-wrap">
+                    @if (!string.IsNullOrEmpty(Model.Image))
+                    {
+                        <img class="avatar-img" src="@Model.Image" alt="" width="91" height="91">
+                    }
+                    <input class="file-upload" name="file" type="file" accept="image/*">
+                </div>
+                <button class="btn btn-primary" type="submit">Save</button>
+            </form>
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+﻿@model IEnumerable<RR.Dto.PlayStandingLiteDto>
+@{
+}
+
+
+@if (Model != null && Model.Count() > 0)
+{
+            
+    @foreach (var item in Model)
+    {
+
+            <tr >
+
+                <td >
+                    @item.UserName
+                   
+                </td>
+                <td >@item.TeamPoint</td>
+                <td >@item.Rank</td>
+            </tr>
+
+    }
+            
+}
+
+
+

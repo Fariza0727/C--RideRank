@@ -1,0 +1,135 @@
+﻿@model Tuple<IEnumerable<RR.Dto.ContestLiteDto>, List<long>, int>
+@{
+    string eventStatus = ViewBag.EventStatus;
+}
+@if (Model != null && Model.Item1.Count() > 0)
+{
+
+    foreach (var item in Model.Item1)
+    {
+        <div class="unit unit-md-horizontal align-items-center align-items-md-stretch">
+            <div class="unit-body col-md-3">
+                <div class="promo-creative-meta">
+                    @*<h5 style="text-align:center">@item.ContestCategoryName</h5>*@
+                    @*<div class="promo-creative-meta-description"><span class="text-primary">Prize Pool</span></div>*@
+                    @if (String.IsNullOrEmpty(eventStatus))
+                    {
+                        if (Model.Item2.Where(x => x == item.ContestId).Count() > 0)
+                        {
+                            <a href="@Url.Action("JoinedUserContest","Contest",new { eventId = item.EventId, contestId = item.ContestId, eventStatus=eventStatus})" class="button button-primary pull-right">View Contest</a>
+                            @*@using (Html.BeginForm("JoinedUserContest", "Contest", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                            {
+                                <input type="hidden" name="EventStatus" value="@eventStatus" />
+                                <input type="hidden" name="eventId" value="@item.EventId" />
+                                <input type="hidden" name="contestId" value="@item.ContestId" />
+                                <input type="hidden" name="eventName" value="@ViewBag.Title" />
+                                <button class="button button-primary pull-right"
+                                        type="submit" aria-label="Send">
+                                    View Contest
+                                </button>
+                            }*@
+                        }
+                        else
+                        {
+                            string url = "/team-formation/" + item.ContestId + "/" + item.EventId + "/0";
+                            if (User.Identity.IsAuthenticated)
+                            {
+                                <a onclick="return validateContestJoin('@item.EntryFeeType', @item.JoiningFee,@Model.Item3, this)" href="javascript:void(0)" data-url="@url" class="button button-primary mt-0 join-contest-button">Build Team</a>
+                            }
+                            else
+                            {
+                                <a href="@url" class="button button-primary mt-0 join-contest-button">Build Team</a>
+                            }
+                        }
+                    }
+                </div>
+            </div>
+            <div class="unit-right col-md-9">
+                <div class="promo-creative-details">
+                    <div class="col-md-6 float-left pad-0">
+                        <h4 class="promo-creative-title" id="_winner">
+                            @*@if (!String.IsNullOrEmpty(eventStatus))
+                                {*@
+                            <a onclick="getContestAwards(this)" data-event="@item.EventId" data-contest="@item.ContestId" data-toggle="modal" href="javascript:void();" class="post-inline-title">@item.WinnerTitle</a>
+                            @*}
+                                else
+                                {
+                                    @item.WinnerTitle
+                                }*@
+                        </h4>
+                        <p class="promo-creative-location">
+                            <span class="fa fa-location"></span>
+                        </p>
+                    </div>
+                    <div class="col-md-6 float-left pad-0 mt-0">
+                        <a href="@Url.Action("JoinedUserContest","Contest",new { eventId = item.EventId, contestId = item.ContestId,  eventStatus=eventStatus})" class="button button-primary pull-right">Event Detail</a>
+                        @*@using (Html.BeginForm("JoinedUserContest", "Contest", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                        {
+                            <input type="hidden" name="EventStatus" value="@eventStatus" />
+                            <input type="hidden" name="eventId" value="@item.EventId" />
+                            <input type="hidden" name="contestId" value="@item.ContestId" />
+                            <input type="hidden" name="eventName" value="@ViewBag.Title" />
+                            <button class="button button-primary pull-right"
+                                    type="submit" aria-label="Send">
+                                Event Detail
+                            </button>
+                        }*@
+                        @*<div class="text-right">
+            <span class="text-primary">Entry Fee</span>
+            @if (item.JoiningFee == 0)
+            {
+                <span class="price-tag">Free</span>
+            }
+            else
+            {
+                <span class="price-tag">@(item.EntryFeeType == "Token" ? "C" : "$")@item.JoiningFee</span>
+            }
+        </div>*@
+                    </div>
+                    <div class="clearfix"></div>
+
+                    @*<div class="player-info-corporate">
+                            <div class="player-info-main">
+                                <div class="player-info-progress">
+                                    @using (Html.BeginForm("JoinedUserContest", "Contest", FormMethod.Post, new { enctype = "multipart/form-data" }))
+                                    {
+                                        <input type="hidden" name="EventStatus" value="@eventStatus" />
+                                        <input type="hidden" name="eventId" value="@item.EventId" />
+                                        <input type="hidden" name="contestId" value="@item.ContestId" />
+                                        <input type="hidden" name="eventName" value="@ViewBag.Title" />
+                                        <button class="button button-primary pull-right"
+                                                type="submit" aria-label="Send">
+                                            Contest Detail
+                                        </button>
+                                    }
+                                </div>
+                            </div>
+                        </div>*@
+                </div>
+            </div>
+        </div>
+        <br />
+    }
+}
+
+<!--modal-->
+<div id="awardModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+
+</div>
+<!-- END MODAL -->
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Join Private Contest</h4>
+            </div>
+            <div class="modal-body">
+                @await Component.InvokeAsync("JoinPrivateContestComponent")
+            </div>
+        </div>
+
+    </div>
+</div>

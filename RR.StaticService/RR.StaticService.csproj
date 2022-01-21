@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Templates\test.html" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Templates\test.html">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RR.Core\RR.Core.csproj" />
+    <ProjectReference Include="..\RR.Dto\RR.Dto.csproj" />
+    <ProjectReference Include="..\RR.Repo\RR.Repo.csproj" />
+    <ProjectReference Include="..\RR.StaticData\RR.StaticData.csproj" />
+    <ProjectReference Include="..\RR.StaticMapper\RR.StaticMapper.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Templates\Template.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

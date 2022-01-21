@@ -1,0 +1,225 @@
+﻿@model RR.Dto.BullDto
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "EditBull";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Bull Detail</h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("updatebulldetail", "bull", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken();
+                        @Html.HiddenFor(x => x.Id)
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Name</label>
+                                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Name)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Mounted</label>
+                                    @Html.TextBoxFor(x => x.Mounted, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Mounted)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Historical Rank</label>
+                                    @Html.TextBoxFor(x => x.HistoricalRank, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.HistoricalRank)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Registered</label>
+                                    @Html.TextBoxFor(x => x.IsRegistered, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.IsRegistered)
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Outs Vs Top Riders</label>
+                                    @Html.TextBoxFor(x => x.OutsVsTopRiders, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.OutsVsTopRiders)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Out Vs Left Hand Rider</label>
+                                    @Html.TextBoxFor(x => x.OutVsLeftHandRider, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.OutVsLeftHandRider)
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Out Vs Right Hand Rider</label>
+                                    @Html.TextBoxFor(x => x.OutVsRightHandRider, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.OutVsRightHandRider)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Sanction</label>
+                                    @Html.TextBoxFor(x => x.Owner, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Owner)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Power Rating</label>
+                                    @Html.TextBoxFor(x => x.PowerRating, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.PowerRating)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Rode</label>
+                                    @Html.TextBoxFor(x => x.Rode, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Rode)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">BuckOff Perc Vs TopRider</label>
+                                    @Html.TextBoxFor(x => x.BuckOffPercVsTopRider, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.BuckOffPercVsTopRider)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">BuckOff Perc Vs Right HandRider</label>
+                                    @Html.TextBoxFor(x => x.BuckOffPercVsRightHandRider, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.BuckOffPercVsRightHandRider)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">BuckOff Perc Vs Left HandRider</label>
+                                    @Html.TextBoxFor(x => x.BuckOffPercVsLeftHandRider, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.BuckOffPercVsLeftHandRider)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Buck Off Perc</label>
+                                    @Html.TextBoxFor(x => x.BuckOffPerc, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.BuckOffPerc)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Brand</label>
+                                    @Html.TextBoxFor(x => x.Brand, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Brand)
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Average Mark</label>
+                                    @Html.TextBoxFor(x => x.AverageMark, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.AverageMark)
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Active Rank</label>
+                                    @Html.TextBoxFor(x => x.ActiveRank, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.ActiveRank)
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">BuckOff Perc</label>
+                                    @Html.TextBoxFor(x => x.BuckOffPerc, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.BuckOffPerc)
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Outs Vs TopRiders</label>
+                                    @Html.TextBoxFor(x => x.OutsVsTopRiders, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.OutsVsTopRiders)
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Out Vs LeftHand Rider</label>
+                                    @Html.TextBoxFor(x => x.OutVsLeftHandRider, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.OutVsLeftHandRider)
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <div class="form-group bmd-form-group is-focused">
+                                    <label class="bmd-label-floating">Out Vs Right HandRider</label>
+                                    @Html.TextBoxFor(x => x.OutVsRightHandRider, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.OutVsRightHandRider)
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                        <a href="/bulls" class="btn btn-primary pull-right">Close</a>
+                        <button type="submit" class="btn btn-primary pull-right">Update</button>
+                        <div class="clearfix"></div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@section Scripts{
+    <script src="~/assets/theme/ckeditor/ckeditor.js"></script>
+
+    <script>
+
+        // Replace the <textarea id="editor1"> with a CKEditor
+        // instance, using default configuration.
+        CKEDITOR.replace('PageContent');
+    </script>
+}
+

@@ -1,0 +1,153 @@
+﻿@{
+    ViewData["Title"] = "Become A Player";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="/images/bg-breadcrumbs-1-1920x726.jpg">
+    <div class="material-parallax parallax"><img src="/images/bg-breadcrumbs-1-1920x726.jpg" alt="" style="transform: translate3d(-50%, 1px, 0px);"></div>
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h3 class="breadcrumbs-custom-title">Become a Player</h3>
+        </div>
+    </div>
+</section>
+
+<section class="section section-variant-1 bg-gray-100">
+    <div class="container">
+        <div class="rowresp-mar0">
+            <div class="col-sm-12 custom-bg-gray-100 pb-0 pt-20">
+                <div class="tabs-custom tabs-horizontal tabs-corporate no-border no-shadow">
+                    <div class="tabs-modern" id="tabs-modern">
+                        <ul class="nav nav-tabs">
+                            <li class="nav-item" role="presentation"><a id="_tabl3" class="nav-link custom-nav-link active" href="javascript:void(0)" data-toggle="tab">Player Validation </a></li>
+                            <li class="nav-item" role="presentation"><a id="_tabl1" class="nav-link custom-nav-link" href="javascript:void(0)" data-toggle="tab">Player Type Infomation </a></li>
+                            <li class="nav-item" role="presentation"><a id="_tab2" class="nav-link custom-nav-link" href="javascript:void(0)" data-toggle="tab">Personal Information</a></li>
+                            @*<li class="nav-item" role="presentation"><a class="nav-link custom-nav-link" id="_tab3" href="#tabs-modern-3" data-toggle="tab">Make Payment</a></li>*@
+                        </ul>
+                        <div class="tab-content tab-content-mb mt-0">
+
+                            <div class="tab-pane active show fade" id="tabs-product-3" role="tabpanel">
+                                @{ await Html.RenderPartialAsync("_RestrictPlayer"); }
+                            </div>
+
+                            <div class="tab-pane" id="tabs-product-1" role="tabpanel">
+                                <div class="row row-10 row-narrow">
+                                    <div class="col-md-12">
+                                        <div class="form-wrap">
+                                            <div class="col-md-12 float-left">
+                                                <p id="_errormsg"></p>
+                                                @*Update on 2/1/2020*@
+                                                @*<button class="customButton button-primary mt-0 join-contest-button float-right button-color-light-brown"
+                                                            type="submit" aria-label="Send" data-target="#levelCost" data-toggle="modal">
+                                                        Level Cost
+                                                    </button>*@
+                                            </div>
+                                            <p class="become-player-box _playerTypeNovice" style="display:none"><input class="become-a-player-input" type="radio" name="pType" value="NOVICE PLAYER" checked /> Play4Free</p>
+                                            <p class="become-player-box _playerTypeInter deactive-player-type" style="display:none"><input class="become-a-player-input" type="radio" disabled name="pType" value="INTERMEDIATE PLAYER" /> Top Gun Tour (Coming Soon)</p>
+                                            <p class="become-player-box _playerTypePro deactive-player-type" style="display:none"><input class="become-a-player-input" type="radio" disabled name="pType" value="PRO PLAYER" /> Mega Buck Thunder (Coming Soon)</p>
+                                            <div class="clearfix"></div>
+                                            @*Update on 2/1/2020*@
+                                            @*<p class="col-md-6" style="display:none" id="ddlPlanDiv">
+                                                    <select id="ddlPlan" class="form-control">
+                                                        <option value="yearly">$200 (Yearly Subscription)</option>
+                                                        <option value="quarterly">$55 (Quarterly Subscription)</option>
+                                                    </select>
+                                                </p>*@
+                                        </div>
+                                    </div>
+                                    <br />
+
+                                    <div class="card-form card-form-login pad5">
+                                        <div class="row">
+                                            <div class="col-md-12 nav-item">
+                                                <button class="button button-primary float-left" onclick="ShowValidationPage(this)" type="button" aria-label="Send">Previous</button>
+                                                <button class="button button-primary mt-20 float-right" id="player" onclick="return loadPersonalInfoTab()" type="button">Next</button>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane" id="tabs-product-2" role="tabpanel">
+                                @{ await Html.RenderPartialAsync("_BecomeAPlayer"); }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Bootstrap tabs-->
+        </div>
+    </div>
+</section>
+
+<!--modal-->
+<div id="levelCost" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body ">
+                <div class="col-md-12">
+                    <h3 class="text-center">Cost Of Each Level</h3>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="text-center">
+
+                                <div class="panel-body mt-40">
+                                    <div class="one-sec text-left">
+                                        <ul class="list-statictics">
+                                            <li>
+                                                <a href="#">Novice Player</a>
+                                                <span class="list-statictics-counter">$25 per year subscription</span>
+                                            </li>
+                                            <li>
+                                                <a href="#">Intermediate Player</a>
+                                                <span class="list-statictics-counter">$200 per year subscription</span>
+                                            </li>
+                                            <li>
+                                                <a href="#">Pro Player</a>
+                                                <span class="list-statictics-counter">$50 minimum initial deposit to account</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12 text-right">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MODAL -->
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <link href="~/css/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <script src="~/js/bootbox.min.js"></script>
+    @*Update on 2/1/2020*@
+    @*<script>
+            $(document).ready(function () {
+                $('input[name=pType]').change(function () {
+                    if ($(this).is(":checked")) {
+                        if ($(this).val() == "TEAM MANAGER")
+                            $("#ddlPlanDiv").show();
+                        else {
+                            $("#ddlPlanDiv").hide();
+                        }
+                    }
+                });
+            });
+        </script>*@
+}

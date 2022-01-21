@@ -1,0 +1,23 @@
+﻿@model RR.Dto.EventDto
+@{
+    string time = Model != null ? Model.PerfTime.ToString("dd MMM yyyy HH:ss") : "";
+}
+@if (Model != null && !string.IsNullOrEmpty(Model.Title))
+{
+    <article class="post-inline">
+        <div class="promo-classic-countdown post-inline-time">
+            <div class="countdown countdown-classic countdown-classic-sm" data-type="until" data-time="@time" data-format="dhms" data-style="short"></div>
+        </div>
+        @*<a href="/event/contest/@Model.Title.Replace(" ", "-")/@Model.Id" class="post-inline-title">@(!string.IsNullOrEmpty(Model.Title) ? Model.Title.Length > 15 ? Model.Title.Substring(0, 13) + "..." : Model.Title : "")</a>*@
+        <a href="@Url.Action("GetContestOfEvent", "Contest", new { eventId = Model.Id })">@(!string.IsNullOrEmpty(Model.Title) ? Model.Title.Length > 15 ? Model.Title.Substring(0, 13) + "..." : Model.Title : "")</a>
+    </article>
+}
+else
+{
+    <article class="post-inline">
+        <div class="promo-classic-countdown post-inline-time">
+            <div class="countdown countdown-classic countdown-classic-sm" data-type="until" data-time="" data-format="dhms" data-style="short"></div>
+        </div>
+        <a href="javascript:void(0)" class="post-inline-title">No Event Available</a>
+    </article>
+}

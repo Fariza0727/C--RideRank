@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "Chatroom";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var eventId = ViewBag.EventId;
+    var eventName = ViewBag.EventName;
+    var contestId = ViewBag.ContestId;
+    var eventStatus = ViewBag.EventStatus;
+}
+
+<div class="ChatRooms" id="chatroom_@contestId">
+
+    @await Component.InvokeAsync("ChatUsersComponent", new RR.Dto.ChatUserInvokeRequestDto { ContestId = contestId, EventId = eventId, EventName = eventName })
+
+</div>
+
+@section scripts{
+    <script>
+        joinChatRoom(@contestId,'@ViewBag.userId')
+    </script>
+}

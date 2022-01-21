@@ -1,0 +1,20 @@
+﻿@model Tuple<int, int>
+
+<div class="card card-stats">
+    <div class="card-header card-header-success card-header-icon">
+        <div class="card-icon">
+            <i class="material-icons">emoji_events</i>
+        </div>
+        <p class="card-category">Events</p>
+        <h3 class="card-title">
+            @Model.Item1
+            <br> <small>@Model.Item2 Active</small>
+        </h3>
+    </div>
+    <div class="card-footer">
+        <div class="stats">
+            <i class="material-icons text-danger">link</i>
+            <a target="_blank" href="@Url.Action("Index","Event")">See all events</a>
+        </div>
+    </div>
+</div>

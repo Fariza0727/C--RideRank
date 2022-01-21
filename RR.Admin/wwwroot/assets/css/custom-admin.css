@@ -1,0 +1,6 @@
+﻿.active {
+    font-weight: bold;
+}
+span.field-validation-error {
+    color: red;
+}

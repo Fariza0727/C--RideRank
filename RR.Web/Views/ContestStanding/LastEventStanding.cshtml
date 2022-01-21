@@ -1,0 +1,192 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+}
+
+@section Styles{
+    <link href="~/css/newdesign.css" rel="stylesheet" />
+    <style>
+        ._dtTable thead {
+            display: none;
+        }
+
+        ._dtTable td {
+            padding: 0px 0px;
+            border: none;
+        }
+    </style>
+}
+<div class="rank-header">
+    <div class="rank-header-back" id="page_head_bg">
+        <img src="/images/home/rank-header-bg.jpg">
+    </div>
+    <span class="rank-header-title" id="page_head_title">Event Standings</span>
+</div>
+
+<section class="section section-md custom-bg-gray-100">
+    <div class="container">
+        <div class="row row-50">
+            <div class="col-sm-12 custom-bg-gray-100 pb-0 pt-20">
+
+                <div class="tabs-custom tabs-horizontal tabs-corporate no-border no-shadow">
+                    <div class="tabs-modern" id="tabs-modern">
+                        <ul class="nav nav-tabs eventsListing-tab-box">
+                            <li class="nav-item" role="presentation"><a class="nav-link custom-nav-link active" href="#tabs-modern-1" data-toggle="tab">Last Event Standings</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link custom-nav-link" href="#tabs-modern-2" data-toggle="tab">Top <span>Reffered</span> Customers</a></li>
+                        </ul>
+                        <div class="tab-content custom-tab-content-pad custom-float-width mt-0">
+                            <div class="tab-pane custom-float-width fade active show" id="tabs-modern-1">
+                                <div class="custom-float-width mt-3 text-center">
+                                    <span class="et_detail_title">@ViewBag.EventTitle</span>
+                                </div>
+                                <div class="">
+                                    <table class="table _dtTable dt-responsive nowrap" id="lastEventTable">
+                                        <thead class="theme-dark-th">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+
+                            <div class="tab-pane custom-float-width fade" id="tabs-modern-2">
+                                <div class="">
+                                    <table class="table _dtTable dt-responsive nowrap" id="topReferred">
+                                        <thead class="theme-dark-th">
+                                            <tr>
+                                                <th></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+<partial name="../Shared/_Sponsors.cshtml" />
+@await Component.InvokeAsync("SubscibeNewsLetterComponent")
+
+@section Scripts{
+    <script>
+        $(function () {
+            $("#lastEventTable").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                    "url": '/ajaxlasteventusers/',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "item1", "name": "item1", "autoWidth": false,
+                        "render": function (value, type, row) {
+
+                            var rowHtml = "<div class='row'>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item1);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item2);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item3);
+                            rowHtml += "</div>";
+                            rowHtml += "</div>";
+                            return rowHtml;
+                        }
+                    }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 15
+
+            });
+            function getOneCard(item) {
+                if (item == null) {
+                    return "";
+                }
+                var rowHtml = "<div class='card rank-card' >";
+                rowHtml += "<div class='row'>";
+                rowHtml += "<div class='col-2 px-1'>";
+
+                rowHtml += '<img src="' + item.userPic + '" style="width:50px; height:50px;" onerror=this.onerror=null; this.src="images/home/team_icon.png"  />';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-8 px-1'>";
+                rowHtml += '<span class="rank-name">' + item.userName + '</span><br>';
+                rowHtml += '<span class="rank-owner mt-3">Team</span>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-1 px-1 text-right'>";
+
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                rowHtml += "<div class='row pt-4'>";
+                rowHtml += "<div class='col-4 px-1'>";
+                rowHtml += '<span class="rank-info-title">Rank:</span><br>';
+                rowHtml += '<span class="rank-info-value">' + item.rank + '</span>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-4 px-1'>";
+                rowHtml += '<span class="rank-info-title">Number of Contest:</span><br>';
+                rowHtml += '<span class="rank-info-value">' + item.numberOfContests + '</span>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-4 px-1'>";
+                rowHtml += '<span class="rank-info-title">Team Point:</span><br>';
+                rowHtml += '<span class="rank-info-value">' + item.teamPoint + '</span>';
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                return rowHtml;
+            }
+            $("#topReferred").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "ajax": {
+                    "url": '/topreferredajax',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+                    {
+                        "data": "item1", "name": "item1", "autoWidth": false,
+                        "render": function (value, type, row) {
+
+                            var rowHtml = "<div class='row'>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item1);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item2);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item3);
+                            rowHtml += "</div>";
+                            rowHtml += "</div>";
+                            return rowHtml;
+                        }
+                    }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 15
+
+            });
+        });
+
+    </script>
+}

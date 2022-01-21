@@ -1,0 +1,206 @@
+﻿@model Tuple<List <RR.Dto.PlayStandingLiteDto>, List <RR.Dto.PlayStandingLiteDto>>
+@{
+        ViewData["Title"] = "Index";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        List<RR.Dto.PlayStandingLiteDto> data = new List<RR.Dto.PlayStandingLiteDto>();
+    }
+
+<!-- Section Breadcrumbs-->
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="/images/bg-breadcrumbs-1-1920x726.jpg">
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h3 class="breadcrumbs-custom-title">Event Standings</h3>
+        </div>
+    </div>
+</section>
+
+<section class="section section-md custom-bg-gray-100">
+    <div class="container">
+        <div class="row row-50">
+            <div class="col-sm-12 custom-bg-gray-100 pb-0 pt-20">
+
+                <div class="tabs-custom tabs-horizontal tabs-corporate no-border no-shadow">
+                    <div class="tabs-modern" id="tabs-modern">
+                        <ul class="nav nav-tabs eventsListing-tab-box">
+                            <li class="nav-item" role="presentation"><a class="nav-link custom-nav-link active" href="#tabs-modern-1" data-toggle="tab">Last Event Standings</a></li>
+                            <li class="nav-item" role="presentation"><a class="nav-link custom-nav-link" href="#tabs-modern-2" data-toggle="tab">Top Reffered Customers</a></li>
+                        </ul>
+                        <div class="tab-content custom-tab-content-pad custom-float-width mt-0">
+                            <div class="tab-pane custom-float-width fade active show" id="tabs-modern-1">
+
+                                @if (Model.Item1 != null && Model.Item1.Count > 0)
+                                {
+                                    foreach (var item1 in Model.Item1)
+                                    {
+                                        if (!data.Any(x => x.ContestId == item1.ContestId))
+                                        {
+                                            <div class="main-component pt-4">
+                                                <!-- Heading Component-->
+                                                <article class="heading-component">
+                                                    <div class="heading-component-inner">
+                                                        <h5 class="heading-component-title">
+                                                            @Model.Item1.FirstOrDefault(x => x.ContestId == item1.ContestId).ContestTitle
+                                                        </h5>
+                                                    </div>
+                                                </article>
+                                                <table class="table-custom table-standings table-classic table-dark dataTable no-footer table"
+                                                       role="grid" aria-describedby="userDataTable_info" id="lastEventTable">
+                                                    <thead class="card-standing-caption">
+
+                                                        <tr role="row">
+
+                                                            <th class="sorting" tabindex="0" aria-controls="userDataTable" rowspan="1" colspan="1" style="width: 257px;">Team</th>
+                                                            <th class="sorting" tabindex="0" aria-controls="userDataTable" rowspan="1" colspan="1" style="width: 150px;">Points</th>
+                                                            <th class="sorting" tabindex="0" aria-controls="userDataTable" rowspan="1" colspan="1" style="width: 61px;">Rank</th>
+
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach (var item in Model.Item1.Where(x => x.ContestId == item1.ContestId).ToList())
+                                                        {
+
+                                                            <tr role="row" class="odd">
+
+                                                                <td class="card-standing-team-name sorting_1 table-team-name" style="width: 257px;">
+                                                                    <span>
+                                                                        @if (!string.IsNullOrEmpty(item.UserPic))
+                                                                        {
+
+                                                                            if (item.UserPic.ToLower().Contains("/images/"))
+                                                                            {
+                                                                                <img width="46" height="36" src="@item.UserPic" onerror="this.onerror=null;this.src='images/team-rogers-46x36.png';">
+                                                                            }
+                                                                            else
+                                                                            {
+                                                                                <img width="46" height="36" src="/images/profilePicture/@item.UserPic" onerror="this.onerror=null;this.src='images/team-rogers-46x36.png';">
+                                                                            }
+                                                                        }
+                                                                        else
+                                                                        {
+                                                                            <img width="46" height="36" src="images/team-rogers-46x36.png" onerror="this.onerror=null;this.src='images/team-rogers-46x36.png';">
+                                                                        }
+
+
+
+                                                                        @item.UserName
+
+                                                                    </span>
+                                                                </td>
+                                                                <td class="card-standing-team sorting_1">@item.TeamPoint</td>
+                                                                <td class="card-standing-number">@item.Rank</td>
+                                                            </tr>
+
+                                                        }
+                                                    </tbody>
+                                                    @{var res = Model.Item1.Where(x => x.ContestId == item1.ContestId).ToList();
+                                                        data.AddRange(res);
+                                                    }
+                                                </table>
+                                            </div>
+
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="main-component">No Record Found!!</div>
+                                }
+                                <!-- CODE HERE -->
+                            </div>
+
+                            <div class="tab-pane custom-float-width fade" id="tabs-modern-2">
+
+                                @if (Model != null && Model.Item2.Count > 0)
+                                {
+                                    <div class="main-component">
+                                        <table class="table-custom table-standings table-classic table-dark dataTable no-footer table"
+                                                role="grid" aria-describedby="userDataTable_info" id="topReferred">
+                                            <thead class="card-standing-caption">
+
+                                                <tr role="row">
+
+                                                    <th class="sorting" tabindex="0" aria-controls="userDataTable" rowspan="1" colspan="1" style="width: 257px;">Team</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="userDataTable" rowspan="1" colspan="1" style="width: 150px;">Points</th>
+                                                    <th class="sorting" tabindex="0" aria-controls="userDataTable" rowspan="1" colspan="1" style="width: 61px;">Rank</th>
+
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var item in Model.Item2)
+                                                {
+
+                                                    <tr role="row" class="odd">
+
+                                                        <td class="card-standing-team-name sorting_1 table-team-name" style="width: 257px;">
+                                                            <span>
+                                                                @if (!string.IsNullOrEmpty(item.UserPic))
+                                                                {
+
+                                                                    if (item.UserPic.ToLower().Contains("/images/"))
+                                                                    {
+                                                                        <img width="46" height="36" src="@item.UserPic" onerror="this.onerror=null;this.src='images/team-rogers-46x36.png';">
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <img width="46" height="36" src="/images/profilePicture/@item.UserPic" onerror="this.onerror=null;this.src='images/team-rogers-46x36.png';">
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    <img width="46" height="36" src="images/team-rogers-46x36.png" onerror="this.onerror=null;this.src='images/team-rogers-46x36.png';">
+                                                                }
+
+
+
+                                                                @item.UserName
+
+                                                            </span>
+                                                        </td>
+                                                        <td class="card-standing-team sorting_1">@item.TeamPoint</td>
+                                                        <td class="card-standing-number">@item.Rank</td>
+                                                    </tr>
+
+                                                }
+                                            </tbody>
+                                                
+                                        </table>
+                                    </div>
+
+                                }
+                                else
+                                {
+                                    <div class="main-component">No Record Found!!</div>
+                                }
+                                <!-- CODE HERE -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+@section Scripts{
+    <script>
+        $(function () {
+            $("#lastEventTable").DataTable({
+                "paging": true,
+                "filter": false, // this is for disable filter (search box)
+                "pageLength": 10,
+                "lengthChange": false,
+                "dom": "Bfrtip",
+            });
+        });
+
+        $(function () {
+            $("#topReferred").DataTable({
+                "paging": true,
+                "filter": false, // this is for disable filter (search box)
+                "pageLength": 10,
+                "lengthChange": false,
+                "dom": "Bfrtip",
+            });
+        });
+    </script>
+}

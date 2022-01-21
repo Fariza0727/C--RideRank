@@ -1,0 +1,43 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+@section Styles{
+    <link href="~/css/newdesign.css" rel="stylesheet" />
+}
+
+<section class="section section-variant-1 custom-bg-gray-100 custom-float-width">
+    <div class="container">
+        <div class="col-lg-12 text-center">
+            <span class="rank-bread-title">LogIn</span>
+        </div>
+        <div class="custom-float-width bg_login mt-3">
+            <div class="row row-50 justify-content-center">
+                <div class="col-md-10 col-lg-8 col-xl-6">
+                    <div class="card-login-register" id="card-l-r">
+                        <div class="card-form card-form-login">
+                            <partial name="_Login" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</section>
+
+<!--modal-->
+<div id="pwdModal" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body ">
+                <partial name="_ForgetPassword" />
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MODAL -->

@@ -1,0 +1,294 @@
+﻿@model RR.Dto.SearchDto
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string basePath = ViewBag.NewsPicPath;
+    string adminPath = ViewBag.picpath;
+    @inject RR.Service.IBullRiderPicturesService _picmanager;
+}
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="/images/bg-breadcrumbs-1-1920x726.jpg">
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h3 class="breadcrumbs-custom-title">Search Results</h3>
+        </div>
+    </div>
+</section>
+@if (Model != null && Model.BullsList.Count() > 0 || Model.EventsList.Count() > 0 || Model.RidersList.Count() > 0)
+{
+    <section class="section-md bg-gray-100">
+        <div class="container">
+            <div class="row">
+                <section class="col-xs-12 col-sm-6 col-md-12" id="_searchdata">
+
+                    @if (Model.BullsList != null && Model.BullsList.Count() > 0)
+                    {
+                        foreach (var item in Model.BullsList)
+                        {
+                            <article class="search-result">
+                                <div class="row">
+                                    <div class="col-xs-12 col-sm-12 col-md-2">
+                                        <div class="searchBull-img">
+                                           
+                                                <img src=" @(_picmanager.GetBullPic(item.Id,adminPath).Result)" onError="this.onerror=null;this.src='/images/RR/New-logo.png'" />
+
+                                           
+                                        </div>
+                                    </div>
+                                    <div class="col-xs-12 col-sm-12 col-md-10">
+                                        <div class="searchResults-bull-content">
+                                            <div class="searchBull-name">
+                                                <h5><a href="/bull/detail/@item.BullId" title="">@item.Name</a></h5>
+                                            </div>
+
+                                            <div class="events-listing-inner">
+                                                <div class="row">
+                                                    <div class="col-12">
+
+
+                                                        <div class="eventDetails-block">
+                                                            <ul>
+                                                                <li> <span><b> Owner Name</b> </span> <span>@item.Owner</span></li>
+                                                                <li> <span><b> Average Bull Score</b></span> <span>@item.AverageMark</span></li>
+                                                                <li> <span><b> Buckoff Streak </b></span> <span>@item.BuckOffStreak</span></li>
+                                                                <li> <span><b> Power Rating (Career)</b></span> <span>@item.PowerRating</span></li>
+                                                                <li> <span><b> Buckoff % (Career)</b></span> <span>@item.BuckOffPerc</span></li>
+                                                                @*<li> <span> <b>Power Rating (Career)</b>  </span> <span>@Model.PowerRating</span></li>*@
+                                                                <li> <span> <b>Event</b> </span> <span>-</span></li>
+                                                                <li> <span> <b>Outs</b> </span> <span>-</span></li>
+                                                                @*<li> <span> <b>Streak</b> </span> <span>@Model.BuckOffStreak</span></li>
+                        <li>
+                            <span> <b>Bukcoff%</b> </span> <span>
+                                @Model.BuckOffPerc
+                            </span>
+                        </li>*@
+                                                                <li> <span> <b>Avg Buckoff time</b> </span> <span>-</span></li>
+                                                                
+
+                                                                <li> <span> <b>Avg Rider Score Earned</b> </span> <span>-</span></li>
+                                                                <li> <span> <b>45 Pt Rides</b> </span> <span>-</span></li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @*<div class="col-xs-12 col-sm-12 col-md-8 excerpet">
+
+                                            <table>
+                                                <tbody>
+                                                    <tr>
+                                                        <th>Age</th>
+                                                        <td>@item.Age</td>
+                                                        <th style="width: 20%;"></th>
+                                                        <td></td>
+                                                        <th>Owner Name </th>
+                                                        <td>@item.Owner</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Average Bull Score</th>
+                                                        <td>@item.AverageMark</td>
+                                                        <th></th>
+                                                        <td></td>
+                                                        <th>Power Rating (Career)</th>
+                                                        <td>@item.PowerRating</td>
+                                                    </tr>
+                                                    <tr>
+                                                        <th>Buckoff Streak</th>
+                                                        <td>@item.BuckOffStreak</td>
+                                                        <th></th>
+                                                        <td></td>
+                                                        <th>Buckoff % (Career)</th>
+                                                        <td>@item.BuckOffPerc</td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <span class="plus"><a href="#" title="Lorem ipsum"><i class="glyphicon glyphicon-plus"></i></a></span>
+                                        </div>*@
+                                    <span class="clearfix borda"></span>
+                                </div>
+                            </article>
+                        }
+                    }
+                    @if (Model.EventsList != null && Model.EventsList.Count() > 0)
+                    {
+                        foreach (var item in Model.EventsList)
+                        {
+                            <article class="search-result row">
+                                <div class="col-xs-12 col-sm-12 col-md-2">
+                                    <a href="#" title="@item.Title" class="thumbnail"><img src="~/images/blog-element-1-94x94 (1).jpg" alt="@item.Title"></a>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-2">
+                                    <ul class="meta-search">
+                                        <li><i class="glyphicon glyphicon-calendar"></i> <span>@item.StartDate</span></li>
+                                        <li><i class="glyphicon glyphicon-time"></i> <span>4:28 pm</span></li>
+                                        <li><i class="glyphicon glyphicon-tags"></i> <span>People</span></li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 excerpet">
+                                    <h5><a href="#" title="">@item.Title</a></h5>
+                                    <table>
+                                        <tbody>
+                                            <tr>
+                                                <th>EventID</th>
+                                                <td>@item.EventId</td>
+                                                <th style="width: 20%;"></th>
+                                                <td></td>
+                                                <th>Location</th>
+                                                <td>@item.Location</td>
+                                            </tr>
+                                            <tr>
+                                                <th>City</th>
+                                                <td>@item.City</td>
+                                                <th></th>
+                                                <td></td>
+                                                <th>Average</th>
+                                                <td>@item.Average</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <span class="plus"><a href="#" title="Lorem ipsum"><i class="glyphicon glyphicon-plus"></i></a></span>
+                                </div>
+                                <span class="clearfix borda"></span>
+                            </article>
+                        }
+                    }
+                    @if (Model.RidersList != null && Model.RidersList.Count() > 0)
+                    {
+                        foreach (var item in Model.RidersList)
+                        {
+                           
+                            <article class="search-result row">
+                                <div class="col-xs-12 col-sm-12 col-md-2">
+                                    <img  src=" @(_picmanager.GetRiderPic(item.RiderId,adminPath).Result)" onError="this.onerror=null;this.src='/images/RR/New-logo.png'" />
+
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-10">
+                                    <div class="searchBull-name">
+                                        <h5><a href="/rider/detail/@item.Id" title="">@item.Name</a></h5>
+                                    </div>
+                                    <div class="events-listing-block">
+                                        <div class="events-listing-inner">
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="eventDetails-block">
+
+                                                        <ul>
+                                                            <li> <span><b>World Standing</b></span> <span>@item.CWRP</span></li>
+                                                            <li> <span><b> Outs </b></span> <span>@item.Streak</span></li>
+                                                            <li> <span><b> Ride Streak</b></span> <span>@item.Streak</span></li>
+                                                            <li><span><b> Rider % (12 Months)</b></span> <span>@item.RidePrecCurent</span></li>
+                                                            <li> <span><b>Rider % (Career)</b></span> <span>@item.RidePerc</span></li>
+                                                            <li> <span> <b>Rank</b>  </span> <span>@item.CWRP</span></li>
+                                                            <li> <span> <b>Points</b> </span> <span id="totalPoints"></span></li>
+                                                            <li> <span><b>90 Points Rides</b>  </span> <span>N/A</span></li>
+                                                            
+                                                            <li> <span> <b>Rides </b> </span> <span>-</span></li>
+                                                            @*<li> <span> <b>Ride % </b> </span> <span>@Model.RidePrecCurent</span></li>
+                                <li> <span> <b>Streak</b>  </span> <span>@Model.Streak</span></li>*@
+                                                            <li> <span> <b>Money Earned</b> </span> <span>N/A</span></li>
+                                                            <li> <span> <b>Event Wins</b> </span> <span>N/A</span></li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="clearfix borda"></span>
+                            </article>
+                        }
+                    }
+                    @if (Model.NewsList != null && Model.NewsList.Count() > 0)
+                    {
+                        foreach (var item in Model.NewsList)
+                        {
+                            string path = basePath + "/" + item.PicPath;
+                            string url = "/news/" + item.Title.Replace(" ", "-").ToLower() + "/" + item.Id;
+                            <article class="search-result row">
+                                <div class="col-xs-12 col-sm-12 col-md-2">
+                                    <img title="@path" class="custom-rider-picture" src="/images/RR/New-logo.png" alt="@path">
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-2">
+                                    <ul class="meta-search">
+                                        <li><i class="glyphicon glyphicon-calendar"></i> <span>@item.CreatedDate</span></li>
+                                        <li><i class="glyphicon glyphicon-time"></i> <span>4:28 pm</span></li>
+                                        <li><i class="glyphicon glyphicon-tags"></i> <span>People</span></li>
+                                    </ul>
+                                </div>
+                                <div class="col-xs-12 col-sm-12 col-md-8 excerpet">
+                                    <h5><a href="@url" title="">@item.Title</a></h5>
+                                    @Html.Raw(item.NewsContent.Length > 150 ? item.NewsContent.Substring(0, 150) : item.NewsContent)
+                                    <span class="plus"><a href="#" title="Lorem ipsum"><i class="glyphicon glyphicon-plus"></i></a></span>
+                                </div>
+                                <span class="clearfix borda"></span>
+                            </article>
+                        }
+                    }
+                    <div class="dataTables_info" id="_searchdatatable_info" role="status" aria-live="polite">
+                        Showing @Model.PageNumber to @(Model.PageCount < 15 ? Model.PageCount : Model.PageNumber * 15)  of @Model.PageCount entries
+                    </div>
+                    <div class="dataTables_paginate paging_simple_numbers" id="_searchdatatable_paginate">
+                        <ul class="pagination">
+                            @if (Model.EventsList.Count() > 0 || Model.BullsList.Count() > 0 || Model.RidersList.Count() > 0)
+                            {
+                                <li class="paginate_button previous disabled" id="userDataTable_previous">
+                                    <a href="/search/index?keyword=@Model.Keyword&&page=@(Model.PageNumber - 1)" aria-controls="_searchdatatable" data-dt-idx="0" tabindex="0">Previous</a>
+                                </li>
+                            }
+
+                            @for (int i = 1; i <= (Model.PageCount / 15); i++)
+                            {
+                                if (i <= 5)
+                                {
+                                    <li class="paginate_button">
+                                        <a href="/search/index?keyword=@Model.Keyword&&page=@i" aria-controls="_searchdatatable" data-dt-idx="@i" tabindex="0">@i</a>
+                                    </li>
+                                }
+                                else if (i == 6)
+                                {
+                                    <li class="paginate_button disabled" id="_searchdatatable_ellipsis">
+                                        <a href="/search/index?keyword=@Model.Keyword&&page=@i" aria-controls="_searchdatatable" data-dt-idx="6" tabindex="0">…</a>
+                                    </li>
+                                    break;
+                                }
+                            }
+                            @if ((Model.PageCount / 15) > 6)
+                            {
+                                <li class="paginate_button">
+                                    <a href="/search/index?keyword=@Model.Keyword&&page=@(Model.PageCount / 15)" aria-controls="_searchdatatable" data-dt-idx="@(Model.PageCount / 15)" tabindex="0">@(Model.PageCount / 15)</a>
+                                </li>
+                            }
+                            @if (Model.EventsList.Count() > 0 || Model.BullsList.Count() > 0 || Model.RidersList.Count() > 0)
+                            {
+                                <li class="paginate_button next" id="_searchdatatable_next">
+                                    <a href="/search/index?keyword=@Model.Keyword&&page=@(Model.PageNumber + 1)" aria-controls="_searchdatatable" data-dt-idx="@Model.PageCount" tabindex="0">Next</a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </section>
+}
+
+else if (Model.BullsList.Count() == 0 && Model.EventsList.Count() == 0 && Model.RidersList.Count() == 0)
+{
+    <section class="section section-variant-1 bg-gray-100 custom-float-width contest_pg">
+        <div class="container">
+            <div>
+                <article class="heading-component mt-20">
+                    <div class="heading-component-inner1">
+                        <h5 style="text-align:center">
+                            No Search Result Found Please try with something other keyword!!
+                        </h5>
+
+                    </div>
+                </article>
+            </div>
+        </div>
+    </section>
+}
+

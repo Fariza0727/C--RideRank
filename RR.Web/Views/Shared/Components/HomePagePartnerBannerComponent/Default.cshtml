@@ -1,0 +1,36 @@
+﻿@*@model List<RR.Dto.BannerDto>
+    @if (Model.Count > 5)
+    {
+        <div class="partners-logo-slide-wrapper">
+            <div class=" partners-logo-slider">
+                @foreach (var item in Model)
+                {
+                    string URL = "http://172.24.32.170/home/image?name=" + item.PicPath;
+                    <div class="slick-item">
+                        <img src="@URL" class="m-auto d-block img-fluid" alt="@item.Title" />
+                    </div>
+                }
+            </div>
+        </div>
+    }*@
+
+
+@model List<RR.Dto.SponsorDto>
+@inject Microsoft.Extensions.Options.IOptions<RR.Core.AppSettings> settings;
+
+<div class="partners-logo-slide-wrapper">
+    <div class="partners-logo-slider">
+        @foreach (var item in Model)
+        {
+            //string URL = string.Concat(settings.Value.AdminSiteURL, "assets/SponsorLogo/" + item.SponsorLogo);
+            string URL = string.Concat(settings.Value.MainSiteURL, "/images/sponsors/" + item.SponsorLogo);
+            <div class="slick-item">
+                <a href="@item.WebUrl" target="_blank">
+                    <img src="@URL" class="partnerImg" alt="@item.SponsorName" />
+                </a>
+            </div>
+
+        }
+    </div>
+</div>
+

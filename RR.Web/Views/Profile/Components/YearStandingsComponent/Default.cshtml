@@ -1,0 +1,40 @@
+﻿@model List<RR.Dto.StandingDto>
+
+<section class="section section-variant-1 custom-bg-gray-100 custom-float-width pt-1">
+    <div class="container">
+        <div class="row mt-0 mb-2">
+            <div class="col-12 text-center">
+                <span class="rank-bread-title">@DateTime.Now.Year LEADER BOARD</span>
+            </div>
+        </div>
+        <div class="row mt-2">
+            <div class="col-12">
+                @if (Model.Count > 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <div class="card year_end_card w-100">
+                            <div class="row">
+                                <div class="col-lg-1 col-md-1 col-2 px-1">
+                                    <img width="46" height="36" src="@item.Avtar" />
+                                </div>
+                                <div class="col-lg-9 col-md-7 col-5 px-1">
+                                    <span class="rank-name" style="display: block;">@ViewBag.TeamName</span>
+                                    <span class="rank-owner" style="display:block;">Team</span>
+                                </div>
+                                <div class="col-lg-1 col-md-2 col-2 px-1">
+                                    <span class="rank-info-title" style="display:block;">Rank</span>
+                                    <span class="rank-info-value" style="display:block;">@item.Rank</span>
+                                </div>
+                                <div class="col-lg-1 col-md-2 col-3 px-1">
+                                    <span class="rank-info-title" style="display:block;">Team Point</span>
+                                    <span class="rank-info-value" style="display:block;">@item.TeamPoint</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</section>

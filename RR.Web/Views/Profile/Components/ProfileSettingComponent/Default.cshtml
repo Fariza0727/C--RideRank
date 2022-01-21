@@ -1,0 +1,179 @@
+﻿@model RR.Dto.UserDetailDto
+@{
+    string dobStr = Model.DOB.HasValue ? Model.DOB.Value.ToString("yyyy-MM-dd") : "";
+    @inject Microsoft.Extensions.Options.IOptions<RR.Core.AppSettings> appSettings;
+}
+@section Styles{
+    <link href="~/css/newdesign.css" rel="stylesheet" />
+}
+<section class="section section-variant-1 custom-bg-gray-100 custom-float-width pt-1">
+    <div class="container">
+        <div class="row mt-1">
+            <div class="col-md-12 bg_login pb-0 pt-2">
+                <form id="frmEditInfo" asp-action="EditInformation" asp-controller="Profile" method="POST" data-ajax="true" data-ajax-update="" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+                      data-ajax-failure="onFailed" data-ajax-success="onProfileEditSuccess" enctype="multipart/form-data">
+                    <div id="response"></div>
+                    <div class="row mt-0">
+                        <div class="col-md-4">
+                            <div class="form-wrap" style="margin-top: 11px;display:flex;">
+                                <div class="uploadProfile">
+                                    <img class="avatar_img" src="@Model.Avtar" alt="" width="153" height="153">
+
+                                    <input onchange="onChangeImag(event)" class="file-upload" id="file_upload" name="file" type="file" accept="image/*">
+                                </div>
+                                <label id="btn_upload" class="btn_upload" for="file_upload">Edit Photo</label>
+                            </div>
+                            <div class="form-wrap">
+                                @Html.LabelFor(x => x.Email, "Email")
+                                @Html.TextBoxFor(x => x.Email, new { @class = "form-input", placeholder = "Email", autocomplete = "off", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(x => x.Email)
+                            </div>
+                            <div class="form-wrap">
+                                @Html.LabelFor(x => x.UserName, "Username")
+                                @Html.TextBoxFor(x => x.UserName, new { @class = "form-input", placeholder = "UserName", autocomplete = "off", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(x => x.UserName)
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-wrap">
+                                @Html.LabelFor(x => x.FirstName, "First Name")
+                                @Html.TextBoxFor(x => x.FirstName, new { @class = "form-input", placeholder = "First Name", autocomplete = "off" })
+                                @Html.ValidationMessageFor(x => x.FirstName)
+                            </div>
+                            <div class="form-wrap">
+                                @Html.LabelFor(x => x.LastName, "Last Name")
+                                @Html.TextBoxFor(x => x.LastName, new { @class = "form-input", placeholder = "Last Name", autocomplete = "off" })
+                                @Html.ValidationMessageFor(x => x.LastName)
+                            </div>
+                            <div class="form-wrap" style="margin-top: 11px;">
+                                @Html.LabelFor(x => x.PhoneNumber, "Phone Number")
+                                @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-input", placeholder = "Phone Number", autocomplete = "off" })
+                                @Html.ValidationMessageFor(x => x.PhoneNumber)
+                            </div>
+                            <div class="form-wrap">
+                                @Html.LabelFor(x => x.DOB, "Date of birth")
+                                @Html.TextBoxFor(x => x.DOB, dobStr, new { 
+                                    @type = "date", 
+                                    @class = "form-input", 
+                                    placeholder = "Date of birth", autocomplete = "off",
+                                    max = DateTime.Now.AddYears(-12).ToString("yyyy-MM-dd"),
+                                    min = DateTime.Now.AddYears(-120).ToString("yyyy-MM-dd")
+                                })
+                                @Html.ValidationMessageFor(x => x.DOB)
+                            </div>
+
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-wrap">
+                                @Html.LabelFor(x => x.Address1, "Address")
+                                @Html.TextBoxFor(x => x.Address1, new { @class = "form-input", placeholder = "Addess", autocomplete = "off" })
+                                @Html.ValidationMessageFor(x => x.Address1)
+                            </div>
+                            <div class="form-wrap">
+                                @Html.LabelFor(x => x.ZipCode, "Zip Code")
+                                @Html.TextBoxFor(x => x.ZipCode, new { @class = "form-input", placeholder = "Zip Code", autocomplete = "off", maxlength = "5", @onkeypress = "return isNumber(event)" })
+                                @Html.ValidationMessageFor(x => x.ZipCode)
+                            </div>
+                            <div class="form-wrap" style="margin-top: 11px;">
+                                @Html.LabelFor(x => x.TeamName, "Team Name")
+                                @Html.TextBoxFor(x => x.TeamName, new { @class = "form-input", placeholder = "Team Name", autocomplete = "off" })
+                                @Html.ValidationMessageFor(x => x.TeamName)
+                            </div>
+                            <div class="form-wrap">
+                                @Html.LabelFor(x => x.ReferralCode, "Referral Code")
+                                @Html.TextBoxFor(x => x.ReferralCode, new { @class = "form-input", placeholder = "Referral Code", autocomplete = "off", @readonly = "readonly" })
+                                @Html.ValidationMessageFor(x => x.ReferralCode)
+                            </div>
+                            <div class="form-wrap">
+                                <label class="checkbox-inline custom-inline-checkbox-top checkbox-inline-lg checkbox-light">
+                                    @Html.CheckBoxFor(x => x.IsNotifySms)Allow SMS Notification
+                                </label>
+                            </div>
+                            <div class="form-wrap">
+                                <label class="checkbox-inline custom-inline-checkbox-top checkbox-inline-lg checkbox-light">
+                                    @Html.CheckBoxFor(x => x.IsNotifyEmail)Allow Email Notification
+                                </label>
+                            </div>
+                            <div class="form-wrap">
+                                @Html.HiddenFor(x => x.UserId)
+                                @Html.HiddenFor(x => x.WalletToken)
+                                @Html.HiddenFor(x => x.IsActive)
+                                @Html.HiddenFor(x => x.IsBlock)
+                                @Html.HiddenFor(x => x.IsDelete)
+                                @Html.HiddenFor(x => x.PlayerType)
+                                @Html.HiddenFor(x => x.PlayerTypeId)
+                                <input type="hidden" value="@dobStr" id="hdnDOB" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4">
+                            <button class="button button-lg button-dark button-block custom-login-btn" type="submit">Save</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="newPassword" role="dialog">
+    <div class="modal-dialog" style="top:20%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div id="fpRespone"></div>
+            <div id="fpBody">
+                <div class="modal-header">
+                    <h4>Change Password</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                </div>
+                <div class="modal-body _body">
+                    <form id="fpForm" asp-action="ChangePassword" asp-controller="Account" method="POST" data-ajax="true" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+                          data-ajax-failure="onFailed" data-ajax-success="onChangePasswordSuccess" data-ajax-update="fpRespone">
+                        <div class="form-wrap">
+                            @Html.HiddenFor(x => x.Email)
+                            @Html.HiddenFor(x => x.ZipCode)
+                            @Html.PasswordFor(x => x.Password, new { @class = "form-input", autocomplete = "off", placeholder = "New Password" })
+                            @Html.ValidationMessageFor(x => x.Password)
+                        </div>
+                        <div class="form-wrap">
+                            @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-input", autocomplete = "off", placeholder = "Confirm Password" })
+                            @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                        </div>
+                        <div class="modal-footer border-0">
+                            <div class="text-center">
+                                <button class="btn button button-xs button-gray-outline float-right modal-golden-btn" type="submit">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function onChangeImag(e) {
+
+        if (e.target.files.length > 0) {
+            var file = e.target.files[0];
+            $('.avatar_img').attr('src', URL.createObjectURL(file))
+        }
+    }
+</script>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var val = $("#hdnDOB").val();
+            $("#DOB").val(val);
+        });
+
+        
+    </script>
+}

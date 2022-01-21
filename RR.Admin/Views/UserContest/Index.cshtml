@@ -1,0 +1,371 @@
+﻿@model RR.Dto.EventSearchDto
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section styles{
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">
+                        User Contests List
+
+                    </h4>
+                </div>
+
+
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            @Html.DropDownListFor(x => x.EventId, Model.EventList, "Select Events", new { @onchange = "GetcontestsDropdown(this)", @class = "form-control" })
+                        </div>
+                        <div class="col-md-4">
+                            @Html.DropDownListFor(x => x.ContestId, new List<SelectListItem> {
+                          new SelectListItem{ Text="Select Contest"},
+                       }, new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-2">
+                            <input type="submit" id="Search" onclick="GetcontestTable()" value="Search" />
+                        </div>
+                    </div>
+                    <br />
+                    <div class="row" id="contests" style="display:none;">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <h4>Contest</h4>
+                                <table class="table table-striped table-bordered" width="100%" id="contestsDataTable">
+                                    <thead class=" text-primary">
+                                        <tr>
+                                            <th style="font-size:13px;"> Title          </th>
+                                            <th style="font-size:13px;"> Joining Fee    </th>
+                                            <th style="font-size:13px;"> No Of Winners   </th>
+                                            <th style="font-size:13px;"> Winning Title   </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <br />
+
+                    <div class="row" id="users" style="display:none;">
+                        <div class="col-md-12">
+                            <div class="table-responsive">
+                                <h4>Joined Users</h4>
+                                <table class="table table-striped table-bordered" width="100%" id="usersDataTable">
+                                    <thead class=" text-primary">
+                                        <tr>
+                                            <th style="font-size:13px;">Name</th>
+                                            <th style="font-size:13px;">Email</th>
+                                            <th style="font-size:13px;">PhoneNumber</th>
+                                            <th style="font-size:13px;">Address</th>
+                                            <th style="font-size:13px;">Rank</th>
+                                            <th style="font-size:13px;">Status</th>
+                                            @*<th style="font-size:13px;">Action</th>*@
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog" style="top:20%">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" style="float:left">Player Detail</h4>
+                <span style="float:right">
+                    <i class="material-icons" data-dismiss="modal">
+                        close
+                    </i>
+                </span>
+            </div>
+            <div class="modal-body">
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td class="pdetail">
+                                <b>First Name: </b><span id="fname"></span>
+                            </td>
+                            <td class="pdetail">
+                                <b>SurName: </b><span id="sname"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pdetail">
+                                <b style="font-weight: 800;">UserName: </b><span id="name"></span>
+                            </td>
+                            <td class="pdetail">
+                                <b>Email: </b><span id="email"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pdetail">
+                                <b>Password: </b><span>*********</span>
+                            </td>
+                            <td class="pdetail">
+                                <b>PhoneNumber: </b><span id="phnumber"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pdetail">
+                                <b>Address: </b><span id="address"></span>
+                            </td>
+                            <td class="pdetail">
+                                <b>City: </b><span id="city"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pdetail">
+                                <b>ZipCode: </b><span id="zipcode"></span>
+                            </td>
+                            <td class="pdetail">
+                                <b>State/Provice: </b><span id="state"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pdetail">
+                                <b>Country: </b><span id="country"></span>
+                            </td>
+                            <td class="pdetail">
+                                <b>Registered On: </b><span id="regdate"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pdetail">
+                                <b>Wallet Cowboy Coins: </b><span id="token"></span>
+                            </td>
+                            <td class="pdetail">
+                                <b>Player Type: </b><span id="pType"></span>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="pdetail">
+                                <b>League Notification: </b><span id="league"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MODAL -->
+
+@section Scripts
+    {
+    <script>
+        function GetcontestsDropdown(th) {
+
+            var x = $(th).children("option:selected").val();
+            $.ajax({
+                type: "Get",
+                url: "/contestdropdown",
+                data: { eventId: x },
+                success: function (result) {
+                    $("#ContestId").empty().append("<option >Select Contest</option>");
+                    if (result != null && result.length > 0) {
+                        $.each(result, function (data, value) {
+                            $("#ContestId").append($("<option ></option>").val(value.value).html(value.text));
+                        })
+                    }
+                },
+                error: function () {
+
+                }
+            });
+        }
+
+        function GetcontestTable() {
+
+            var contestId = $("#ContestId").children("option:selected").val();
+            if (contestId === "Select Contest") {
+                swal("Please Select Contest First!", {
+                    icon: "warning",
+                });
+
+                return false;
+            }
+
+            $("#contests").show();
+            $("#users").show();
+
+            $.ajax({
+                type: "Post",
+                url: "/contests",
+                data: { contestId: contestId },
+                success: function (data) {
+
+                    if (data != null) {
+
+                        $.each(data, function (index, value) {
+                            $("#contestsDataTable").find("tr:gt(0)").remove();
+                            $("#contestsDataTable").append(`<tr>
+                                               <td>`+ value.title + `</td >
+                                               <td>` + value.joiningFeeDisplay + `</td >
+                                               <td>` + value.winners + `</td >
+                                               <td>` + value.winnerTitle + `</td >
+                                               </tr >`);
+
+                        })
+                        GetusersTable();
+                    }
+                },
+                error: function () {
+                }
+            });
+        }
+
+        function GetusersTable() {
+
+
+            var contestId = $("#ContestId").children("option:selected").val();
+            $('.dataTables_filter input').attr('placeholder', 'Search...').hide();
+            //datatable
+
+            var table = $("#usersDataTable").DataTable({
+
+                "paging": true,
+                "bDestroy": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "columnDefs": [
+                    { "targets": [5], "orderable": false }
+                ],
+                "ajax": {
+                    "url": '/usercontests/allusercontests/' + parseInt(contestId) + '',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+
+                    //{
+                    //    "data": "userId", "name": "userId", "autoWidth": false
+                    //},
+                    {
+                        "data": function (row, type, set) {
+                            return '<a id="userdetail" class="showpointer" onclick="getuserDetail(this)" data-token="' + row.userId + '" \
+                                    title="View Detail of Player">'+ row.name + '</a>'
+                        }
+                    },
+                    //{ "data": "email", "name": "email", "autoWidth": false },
+                    {
+                        "data": function (row, type, set) {
+                            return '<a id="userdetail" class="showpointer" onclick="getuserDetail(this)" data-token="' + row.userId + '" \
+                                    title="View Detail of Player">'+ row.email + '</a>'
+                        } },
+                    { "data": "phoneNumber", "name": "phoneNumber", "autoWidth": false },
+                    { "data": "address", "name": "address", "autoWidth": false },
+                    { "data": "rank", "name": "rank", "autoWidth": false },
+                    {
+                        "data": "isActive", "name": "isActive", "autoWidth": false,
+                        "render": function (value) {
+                            if (value)
+                                return '<a href="#"><span class="label label-success" onclick="updateStatus(this)">Active</span></a>';
+                            else
+                                return '<a href="#"><span class="label label-danger" onclick="updateStatus(this)">DeActive</span></a>';
+                        }
+                    }
+                    //{
+                    //    "data": "userId", "name": "userId", "render": function (value) {
+                    //        return '<a id="userdetail" onclick="getuserDetail(this)" data-token="' + value + '" \
+                    //                title="View Detail of Player"><i class="fa fa-eye"></i></a>'
+                    //    }, "autoWidth": true
+                    //}
+                ],
+                dom: "Bfrtip",
+                "pageLength": 100
+            });
+        }
+
+        $(document).ready(function () {
+
+            var urlContestId = window.location.pathname.split("/")[2];
+
+            if (urlContestId > 0) {
+
+                $.ajax({
+                    type: "Post",
+                    url: "/contests",
+                    data: { contestId: urlContestId },
+                    success: function (Responce) {
+                        if (Responce != null) {
+
+                            $('#EventId')
+                                .val(Responce.data.eventId)
+                                .trigger('change')
+
+                            setTimeout(function () { $('#ContestId').val(urlContestId) }, 500)
+                            setTimeout(function () { $("#Search").trigger("click") }, 500)
+                        }
+                    },
+                    error: function () {
+                    }
+                })
+            }
+        });
+
+         function getuserDetail(th) {
+            var x = $(th);
+            var modal = $("#myModal");
+            $.ajax({
+                url: "@Url.Action("getuserdetail", "usermanagement")",
+                data: { id: x.attr("data-token") },
+                type:"POST",
+                success: function (result) {
+                    if (result != null) {
+                        $("#close").off().on("click", function () {
+                            modal.modal('hide');
+                        });
+                        modal.find("#fname").text(result.firstName);
+                        modal.find("#sname").text(result.lastName);
+                        modal.find("#name").text(result.userName);
+                        modal.find("#email").text(result.email);
+                        modal.find("#phnumber").text(result.phoneNumber);
+                        modal.find("#address").text(result.address1, (result.address2 !== "N/A" ? result.address2:""));
+                        modal.find("#state").text(result.stateName);
+                        modal.find("#country").text(result.countryName);
+                        modal.find("#city").text(result.city);
+                        //modal.find("#banking").text(result.banking);
+                        modal.find("#league").text((result.leagueNotification ? "Yes" : "No"));
+                        modal.find("#token").text(result.walletToken);
+                        modal.find("#regdate").text(result.registeredOn);
+                        modal.find("#pType").text(result.playerType);
+                        modal.find("#zipcode").text(result.zipCode);
+                        modal.modal('show');
+                    }
+                },
+                error: function () {
+                    swal("Something Went Wrong!!", {
+                        icon: "warning",
+                    });
+                }
+            });
+        }
+
+    </script>
+}

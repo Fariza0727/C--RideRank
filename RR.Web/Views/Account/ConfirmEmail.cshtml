@@ -1,0 +1,47 @@
+﻿
+@{
+    ViewData["Title"] = "Confirm Email";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string Message = ViewBag.Message;
+}
+
+<section class="section section-variant-1 bg-gray-100 pt-50 text-center">
+    <div class="container">
+        <div class="row row-30 justify-content-center">
+            @if (Message.Contains("Thank"))
+            {
+                <div class="col-xl-10">
+                    <img class="thankyou-img" height="150" src="~/images/check.png">
+                    <h2><span class="text-primary">Thank</span> You</h2>
+                    <p class="big text-gray-800"> @Message</p>
+                    <a class="button button-lg button-primary" href="/login">Go to Login page</a>
+                </div>
+            }
+            else
+            {
+                <div class='alert alert-danger alert-dismissible' role='alert' style="width: 100%;padding: 20px;">
+                    <strong>Oops!!!</strong> @Message
+                </div>
+            }
+
+        </div>
+    </div>
+</section>
+@*<section class="section section-variant-1 bg-gray-100">
+    <div class="container">
+        <div class="row row-50 justify-content-center">
+            @if (Message.Contains("Thank"))
+            {
+                <div class='alert alert-success alert-dismissible' role='alert' style="width: 100%;padding: 20px;">
+                    <strong>Congrats!!!</strong> @Message
+                </div>
+            }
+            else
+            {
+                <div class='alert alert-danger alert-dismissible' role='alert' style="width: 100%;padding: 20px;">
+                    <strong>Oops!!!</strong> @Message
+                </div>
+            }
+        </div>
+    </div>
+</section>*@

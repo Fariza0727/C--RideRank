@@ -1,0 +1,143 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net5.0</TargetFramework>
+		<AspNetCoreHostingModel>OutOfProcess</AspNetCoreHostingModel>
+		<ApplicationIcon />
+		<Win32Resource />
+		<UserSecretsId>91c84703-cb7c-4955-a291-c352be7931f3</UserSecretsId>
+		<AssemblyName>RR.Web</AssemblyName>
+		<LangVersion>7.2</LangVersion>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Compile Remove="Templates\**" />
+		<Compile Remove="Views\Shared\Components\NewFolder\**" />
+		<Compile Remove="wwwroot\images\news\**" />
+		<Content Remove="Templates\**" />
+		<Content Remove="Views\Shared\Components\NewFolder\**" />
+		<Content Remove="wwwroot\images\news\**" />
+		<EmbeddedResource Remove="Templates\**" />
+		<EmbeddedResource Remove="Views\Shared\Components\NewFolder\**" />
+		<EmbeddedResource Remove="wwwroot\images\news\**" />
+		<None Remove="Templates\**" />
+		<None Remove="Views\Shared\Components\NewFolder\**" />
+		<None Remove="wwwroot\images\news\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Remove="Views\Shared\Components\SubscibeNewsLetterComponent\Default - Copy.cshtml" />
+		<Content Remove="wwwroot\Templates\Template.xml" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Controllers\HomeController.cs~RFcad55b6c.TMP" />
+	  <None Remove="Views\Calcutta\SimplePickTeam.cshtml~RF34d25878.TMP" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<_ContentIncludedByDefault Remove="wwwroot\signalr\signalr.js.map" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNet.SignalR" Version="2.4.1" />
+		<PackageReference Include="Microsoft.AspNetCore" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.App" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.6" />
+		<PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.2.0" PrivateAssets="All" />
+		<PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.1.0" />
+		<PackageReference Include="Microsoft.AspNetCore.StaticFiles" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="2.2.0" />
+		<PackageReference Include="Microsoft.Extensions.Options" Version="2.2.0" />
+		<PackageReference Include="Microsoft.jQuery.Unobtrusive.Ajax" Version="3.2.6" />
+		<PackageReference Include="Microsoft.Owin.Cors" Version="4.1.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="2.2.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.2.3" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="5.0.0" />
+		<PackageReference Include="System.Net.Http" Version="4.3.4" />
+		<PackageReference Include="Voucherify" Version="7.7.3" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<ProjectReference Include="..\RR.AdminData\RR.AdminData.csproj" />
+		<ProjectReference Include="..\RR.Core\RR.Core.csproj" />
+		<ProjectReference Include="..\RR.Data\RR.Data.csproj" />
+		<ProjectReference Include="..\RR.Repo\RR.Repo.csproj" />
+		<ProjectReference Include="..\RR.Service\RR.Service.csproj" />
+		<ProjectReference Include="..\RR.StaticData\RR.StaticData.csproj" />
+		<ProjectReference Include="..\RR.StaticService\RR.StaticService.csproj" />
+		<ProjectReference Include="..\RR.ThirdParty\RR.ThirdParty.csproj" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<Folder Include="wwwroot\images\email\" />
+		<Folder Include="wwwroot\images\profilePicture\" />
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<None Include="wwwroot\Templates\Template.xml">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
+
+
+	<ItemGroup>
+		<Content Update="wwwroot\images\banner\banner1.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\images\banner\banner2.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\images\banner\banner3.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\images\banner\banner4.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\images\loading.gif">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\images\loading_old.gif">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\images\logo-default-131x102.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\images\team-img.png">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\images\team-rogers-46x36.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\images\team-rogers-86x67.png">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\js\CustomFunction.js">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\js\Team - Copy.js">
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\js\Team.js">
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</Content>
+		<Content Update="wwwroot\signalr\signalr.js">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Update="wwwroot\signalr\signalr.min.js">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+		<Content Update="wwwroot\signalr\signalr.min.js.map">
+			<CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+		</Content>
+	</ItemGroup>
+
+</Project>

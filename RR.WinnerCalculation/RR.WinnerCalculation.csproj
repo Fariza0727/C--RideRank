@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.7.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\RR.AdminData\RR.AdminData.csproj" />
+    <ProjectReference Include="..\RR.AdminService\RR.AdminService.csproj" />
+    <ProjectReference Include="..\RR.Core\RR.Core.csproj" />
+    <ProjectReference Include="..\RR.Data\RR.Data.csproj" />
+    <ProjectReference Include="..\RR.Dto\RR.Dto.csproj" />
+    <ProjectReference Include="..\RR.Repo\RR.Repo.csproj" />
+    <ProjectReference Include="..\RR.Service\RR.Service.csproj" />
+    <ProjectReference Include="..\RR.StaticData\RR.StaticData.csproj" />
+    <ProjectReference Include="..\RR.StaticService\RR.StaticService.csproj" />
+  </ItemGroup>
+
+</Project>

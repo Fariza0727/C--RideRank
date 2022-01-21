@@ -1,0 +1,97 @@
+﻿@model RR.Dto.UserConversationDto
+@{
+    DateTime chateSession = DateTime.Now;
+}
+
+<div class="chat-with">
+    <input type="hidden" value="@Model.UserInfo.ContestId" id="chatcontestId" />
+    <input type="hidden" value="@Model.UserInfo.AspUserId" id="connectedUserId" />
+    <input type="hidden" value="@Model.UserInfo.Avatar" id="connectedUserAvatar" />
+    <input type="hidden" value="@Model.UserInfo.Username" id="connectedUserName" />
+    <div class="chat-user-img"><img id="connectedUserAvatar" src="@Url.Content(Model.UserInfo.Avatar)" alt="img"></div>
+    <div class="groupMsg-title">
+        <h4>@Model.UserInfo.Username</h4>
+    </div>
+
+</div>
+<div class="chat-block mCustomScrollbar" id="chatmessagesContainer">
+    @foreach (var chat in Model.Chats)
+    {
+        if (chateSession.Day != chat.CreatedDate.Day)
+        {
+            chateSession = chat.CreatedDate;
+            @if (chateSession.Date == DateTime.Now.Date)
+            {
+
+                <div class="chat-date">
+                    Today
+                </div>
+            }
+            else
+            {
+                <div class="chat-date">
+                    @chat.CreatedDate.ToString("MMM dd yyyy")
+                </div>
+            }
+
+        }
+
+        if (chat.IsConnectedUser)
+        {
+            <div class="chat recived-message skypeui">
+                <div class="chat-user-message">
+                    <div class="message">
+                        <div class="message-head">
+                            <span class="chatUser-img">
+                                <img src="@Url.Content(chat.Avatar)" />
+                            </span>
+                            @if (chat.ContestId > 0)
+                            {
+                                <span class="chatUser-name color-5"> @chat.Username, </span>
+                            }
+
+                            <span class="message-time"> @chat.CreatedDate.ToString("h:mm tt") </span>
+                        </div>
+                        <span class="text-msg">@Html.Raw(chat.Message)</span>
+                    </div>
+                </div>
+            </div>
+        }
+        else
+        {
+            <div class="chat sent-message skypeui">
+                <div class="chat-user-message">
+                    <div class="message">
+                        <div class="message-head">
+
+                            <span class="message-time"> @chat.CreatedDate.ToString("h:mm tt") </span>
+                        </div>
+                        <span class="text-msg">
+                            @Html.Raw(chat.Message)
+                            @*@if (chat.isReveived == true)
+                                {
+                                    if (chat.isSeen == true)
+                                    {
+                                        <i class="zmdi zmdi-check-all seened"></i>
+                                    }
+                                    else
+                                    {
+                                        <i class="zmdi zmdi-check-all"></i>
+                                    }
+                                }
+                                else
+                                {
+                                    <i class="zmdi zmdi-check"></i>
+                                }*@
+
+
+                        </span>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+    }
+
+</div>

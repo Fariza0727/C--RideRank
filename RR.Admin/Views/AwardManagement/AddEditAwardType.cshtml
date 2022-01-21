@@ -1,0 +1,36 @@
+﻿@model RR.Dto.AwardType.AwardTypeDto
+@{
+    string Title = Model.Id == 0 ? "Add Award Type" : "Edit Award Type";
+}
+<div class="modal-dialog" style="top:30px;">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">
+                @Title
+            </h4>
+            <span class="pull-right">
+                <i class="material-icons" data-dismiss="modal">close</i>
+            </span>
+
+        </div>
+        <div class="modal-body">
+
+            <form id="formAwardType" asp-action="AddEditAwardType" asp-controller="AwardManagement" method="POST" data-ajax="true" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+                  data-ajax-failure="onFailed" data-ajax-success="onAwardTypeSuccess" data-ajax-update="response">
+
+                <div class="form-wrap">
+                    @Html.HiddenFor(x => x.Id)
+                    @Html.TextBoxFor(x => x.Name, new { @class = "form-control", autocomplete = "off", placeholder = "Name" })
+                    @Html.ValidationMessageFor(x => x.Name)
+                </div>
+                <button class="btn btn-primary" type="submit">Save</button>
+            </form>
+
+        </div>
+    </div>
+</div>
+@*@section Scripts
+    {
+<partial name="_ValidationScriptsPartial" />
+}*@

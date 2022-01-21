@@ -1,0 +1,29 @@
+﻿<div class="rankRide-content-page">
+    @model RR.Dto.CmsDto
+
+    @{
+        //ViewData["Title"] = "Page Action";
+        Layout = "~/Views/Shared/_Layout.cshtml";
+        var PageUrl = Context.Request.Path.Value;
+    }
+
+    
+    <div class="dynamicPagesContent">
+        <section class="section section-variant-1 pt-50 text-center scoringTable">
+            <div class="container">
+                <div class="row row-30 justify-content-center">
+                    <div class="col-xl-10">
+                        @if (PageUrl.ToLower() == "/page/rules-scoring" || PageUrl.ToLower().Contains("/rules-scoring"))
+                        {
+
+                            @await Component.InvokeAsync("PointTableComponent")
+                        }
+                    </div>
+                </div>
+                </div>
+                    </section>
+                    @Html.Raw(Model.PageContent)
+                </div>
+
+            </div>
+

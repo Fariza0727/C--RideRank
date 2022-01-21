@@ -1,0 +1,116 @@
+﻿
+@{
+    ViewData["Title"] = "Index";
+}
+
+@section styles{
+    <link href="~/css/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">News Subscribers</h4>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-striped table-bordered" width="100%" id="userDataTable">
+                            <thead class=" text-primary">
+                                <tr>
+                                    <th>Id</th>
+                                    <th>News Subscribers</th>
+                                    <th>Last CreatedOn</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+
+        $(function () {
+            
+            $('.dataTables_filter input').attr('placeholder', 'Search...').hide();
+            var table = $("#userDataTable").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                "columnDefs": [
+                    { "targets": [3], "orderable": false }
+                ],
+                "ajax": {
+                    "url": '/newsletter/getallnewslettersubscriber',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+
+                    { "data": "id", "name": "id", "autoWidth": false },
+                    { "data": "email", "name": "email", "autoWidth": false },
+                    { "data": "createdOn", "name": "createdOn", "autoWidth": false },
+                    {
+                        "data": "id", "name": "id", "render": function (value) {
+                            return '<a title="Delete" style="cursor:pointer;" onclick="DeleteRecord(' + value + ')" tooltip="Delete"  data-original-title="Delete Task"><i class="material-icons">delete_forever</i></a>'
+                    }, "autoWidth": true
+                    }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 10
+
+            });
+
+            $('.search-input').on('keyup change', function () {
+                var index = $(this).attr('data-column'),
+                    val = $(this).val();
+                table.columns(index).search(val.trim()).draw();
+            });
+        });
+
+        function DeleteRecord(id) {
+          swal({
+                title: "Are you sure?",
+                text: "You Want Delete Of This NewsSubscriber!",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+                .then((willDelete) => {
+                    if (willDelete) {
+                          $.ajax({
+                    type: "Delete",
+                    url: "@Url.Action("deletenewslettersubscriber", "newsletter")",
+                              data: { newsletterId: id },
+                   success: function (result) {
+                        if (result != null) {
+                              swal("NewsSubscriber is Successfully Deleted!", {
+                            icon: "success"
+                              });
+                            location.reload();
+                        }
+                    },
+                    error: function () {
+                     alert("error");
+                    }
+                });
+                    }
+                     else {
+                        swal("The NewsSubscriber is not deleted!");
+                    }
+                });
+        }
+
+    </script>
+}
+

@@ -1,0 +1,88 @@
+﻿@model RR.Dto.ContactDto
+@{
+    ViewData["Title"] = "Contact Us";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<!--Start Breadcrumbs-->
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="/images/bg-breadcrumbs-1-1920x726.jpg">
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h3 class="breadcrumbs-custom-title">Contact us</h3>
+        </div>
+    </div>
+</section>
+<!--End Breadcrumbs-->
+<!-- Section Contact-->
+<section class="section section-variant-1 bg-gray-100">
+    <div class="container">
+        <div class="row row-50">
+            <div class="col-lg-7 col-xl-8 custom-bg-gray-100 custom-box-white-pad">
+                <!-- Heading Component-->
+                <article class="heading-component mob-pt-20">
+                    <div class="heading-component-inner">
+                        <h5 class="heading-component-title">Get in touch</h5>
+                    </div>
+                </article>
+                <form id="cuForm" asp-action="Contactus" asp-controller="Home" method="POST" data-ajax="true" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+                      data-ajax-failure="onFailed" data-ajax-success="onSentSuccess" data-ajax-update="response">
+                    <div id="response"></div>
+                    <div class="row row-10 row-narrow">
+                        <div class="col-md-6">
+                            <div class="form-wrap">
+                                @Html.TextBoxFor(x => x.Name, new { @class = "form-input", autocomplete = "off", placeholder = "Name" })
+                                @Html.ValidationMessageFor(x => x.Name)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-wrap">
+                                @Html.TextBoxFor(x => x.Phone, new { @class = "form-input", autocomplete = "off", placeholder = "Phone", onkeypress = "return isNumber(event)", maxlength = 10, minlength = 10 })
+                                @Html.ValidationMessageFor(x => x.Phone)
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <div class="form-wrap">
+                                @Html.TextBoxFor(x => x.Message, new { @class = "form-input", autocomplete = "off", placeholder = "Message" })
+                                @Html.ValidationMessageFor(x => x.Message)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-wrap">
+                                @Html.TextBoxFor(x => x.Email, new { @class = "form-input", autocomplete = "off", placeholder = "Email" })
+                                @Html.ValidationMessageFor(x => x.Email)
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <button class="button button-lg button-primary button-block height60" type="submit">Send message</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-lg-5 col-xl-4 custom-bg-gray-100 custom-box-white-pad">
+                <!-- Heading Component-->
+                <article class="heading-component mob-pt-20">
+                    <div class="heading-component-inner">
+                        <h5 class="heading-component-title">Contact Details</h5>
+                    </div>
+                </article>
+                <div class="contact-list">
+                    <dl>
+                        <dt>E-mail</dt>
+                        <dd><i class="fa fa-envelope"></i> <a class="link link-mar" href="mailto:info@rankridefantasy.com"><span class="__cf_email__">info@rankridefantasy.com</span></a></dd>
+                    </dl>
+                    @*<dl>
+                        <dt>Address</dt>
+                        <dd><i class="fa fa-address-book"></i> <a class="link link-mar" href="#">00 New Avenue Chevy Chase, US 00000</a></dd>
+                    </dl>
+                    <dl>
+                        <dt>Phone</dt>
+                        <dd><i class="fa fa-phone"></i> <a class="link link-md link-mar" href="callto:#">+99 99 999 99 99</a></dd>
+                    </dl>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

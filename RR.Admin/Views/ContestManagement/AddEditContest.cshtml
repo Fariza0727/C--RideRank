@@ -1,0 +1,123 @@
+﻿@model RR.Dto.ContestDto
+@{
+    string Title = Model.Id == 0 ? "Add Contest" : "Edit Contest";
+}
+
+<div class="modal-dialog" style="top:100px;">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">
+                @Title
+            </h4>
+            <span class="pull-right">
+                <i class="material-icons" data-dismiss="modal">close</i>
+            </span>
+
+        </div>
+        <div class="modal-body">
+
+            <form id="formContest" asp-action="addeditcontest" asp-controller="ContestManagement" method="POST"
+                  data-ajax="true" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+                  data-ajax-failure="onFailed" data-ajax-success="onContestSuccess"
+                  data-ajax-update="response" enctype="multipart/form-data">
+                @Html.HiddenFor(x => x.OldTitle) 
+                @Html.HiddenFor(x => x.Id)
+                <div class="row">
+                    <div class="col-md-6">
+
+                        <div class="form-wrap is-focused">
+                            <label class="bmd-label-floating">Title <b>*</b></label>
+                            @Html.TextBoxFor(x => x.Title, new { @class = "form-control", autocomplete = "off", placeholder = "For Internal Purpose" })
+                            @Html.ValidationMessageFor(x => x.Title)
+
+                        </div>
+
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-wrap is-focused">
+                            <label class="bmd-label-floating">Event <b>*</b></label>
+                            @Html.DropDownListFor(x => x.EventId, Model.Events, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.EventId)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-wrap is-focused">
+                            <label class="bmd-label-floating">Winning Title <b>*</b></label>
+                            @Html.TextBoxFor(x => x.WinnerTitle, new { @class = "form-control", autocomplete = "off", placeholder = "Winners Title." })
+                            @Html.ValidationMessageFor(x => x.WinnerTitle)
+                        </div>
+                    </div>
+                    @*<div class="col-md-6">
+                        <div class="form-wrap is-focused">
+                            <label class="bmd-label-floating">Entry Fee Type <b>*</b></label>
+                            @Html.DropDownListFor(x=>x.EntryFeeType , new List<SelectListItem>
+                            {
+                                new SelectListItem{ Text="Cash", Value = "1"} ,
+                                new SelectListItem{ Text="CowBoy Coins", Value = "2" },
+                            },new {@class="form-control" })
+                        </div>
+                    </div>*@
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-wrap is-focused">
+                            <label class="bmd-label-floating">No of winners <b>*</b></label>
+                            @Html.TextBoxFor(x => x.Winners, new { @class = "form-control", autocomplete = "off", placeholder = "No of winners." })
+                            @Html.ValidationMessageFor(x => x.Winners)
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-wrap is-focused">
+                            <label class="bmd-label-floating">Joining Fee <b>*</b></label>
+                            @Html.TextBoxFor(x => x.JoiningFee, new { @class = "form-control", autocomplete = "off", placeholder = "Joining Fee" })
+                            @Html.ValidationMessageFor(x => x.JoiningFee)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-wrap is-focused">
+                            <label class="bmd-label-floating">Total Winning Price</label>
+                            @Html.TextBoxFor(x => x.WinningPrice, new { @class = "form-control", placeholder = "Winning Price", type="number", autocomplete = "off" })
+                           
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-wrap is-focused">
+                            <label class="bmd-label-floating">Total Winning CowBoy Coins</label>
+                            @Html.TextBoxFor(x => x.WinningToken, new { @class = "form-control", placeholder = "Winning CowBoy Coins", type = "number", autocomplete = "off" })
+                            
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-wrap is-focused">
+                            <label class="bmd-label-floating">Contest Type <b>*</b></label>
+                            @Html.DropDownListFor(x => x.ContestCategoryId, Model.ContestCategories, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.ContestCategoryId)
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-wrap is-focused">
+                            <label class="bmd-label-floating"></label>
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    @Html.CheckBoxFor(x => x.IsActive, new { @class = "form-check-input" })
+
+                                    <span class="form-check-sign">
+                                        <span class="check"></span>
+                                    </span>
+                                    IsActive
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-primary" type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+</div>

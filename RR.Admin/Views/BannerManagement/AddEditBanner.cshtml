@@ -1,0 +1,74 @@
+﻿@model RR.Dto.BannerDto
+@{
+    ViewData["Title"] = "AddEditBanner";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary">
+                    <h4 class="card-title ">Banner Management </h4>
+                </div>
+                <div class="card-body">
+                    @using (Html.BeginForm("AddEditBanner", "BannerManagement", FormMethod.Post, new { enctype = "multipart/form-data", @id = "submitForm" }))
+                    {
+                        @Html.HiddenFor(x => x.Id)
+                        @Html.HiddenFor(x => x.PicPath)
+                        @Html.AntiForgeryToken();
+                        <div class="row">
+                            <div class="col-md-6">
+                                <img id="ShowImage" src="@Model.ShowImage" alt="No Image" width="100" height="100" /><input style="margin-left:15px;" type="button" onclick="removeImage()" value="Delete" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                @Html.TextBoxFor(x => x.Image, null, new { @class = "form-control", type = "file", onchange = "document.getElementById('ShowImage').src = window.URL.createObjectURL(this.files[0])" })
+                                @Html.ValidationMessageFor(x => x.Image)
+                            </div>
+                        </div>
+                        <br />
+                        @*<div class="row">
+                            <div class="col-md-4">
+                                <div class="">
+                                    <label class="bmd-label-floating">Banner Title</label>
+                                    @Html.TextAreaFor(x => x.Title, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Title)
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="">
+                                    <label class="bmd-label-floating">Page Url</label>
+                                    @Html.TextAreaFor(x => x.Url, new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(x => x.Url)
+                                </div>
+                            </div>
+                        </div>*@
+                        <a href="/banner" class="btn btn-primary pull-right">Close</a>
+                        if (Model.Id > 0)
+                        {
+                            <button type="submit" class="btn btn-primary pull-right">Update</button>
+                        }
+                        else
+                        {
+                            <button type="submit" class="btn btn-primary pull-right">Submit</button>
+                        }
+                        <div class="clearfix"></div>
+
+                    }
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+@section Scripts {
+    <script>
+        function removeImage() {
+            $('#ShowImage').attr("src", "#");
+            $('#Image').val(null);
+        }
+    </script>
+}
+
+

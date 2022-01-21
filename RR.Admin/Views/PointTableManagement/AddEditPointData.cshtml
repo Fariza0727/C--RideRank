@@ -1,0 +1,57 @@
+﻿@model RR.Dto.PointTableDto
+@{
+    string Title = Model.Id == 0 ? "Add Point Table Data" : "Edit Point Table Data";
+}
+
+<div class="modal-dialog" style="top:100px;">
+    <!-- Modal content-->
+    <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">
+                @Title
+            </h4>
+            <span class="pull-right">
+                <i class="material-icons showpointer" data-dismiss="modal">close</i>
+            </span>
+
+        </div>
+        <div class="modal-body">
+
+            <form id="formContest" asp-action="AddEditPointData" asp-controller="PointTableManagement" method="POST"
+                  data-ajax="true" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+                  data-ajax-failure="onFailed" data-ajax-success="onDataSuccess" enctype="multipart/form-data"
+                  data-ajax-update="response">
+        
+                @Html.HiddenFor(x => x.Id)
+               
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-wrap is-focused">
+                            <label class="bmd-label-floating">Point For <b>*</b></label>
+                            @Html.DropDownListFor(x => x.PointFor, Model.PointType, new { @class = "form-control" })
+                            @Html.ValidationMessageFor(x => x.PointFor)
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-wrap is-focused">
+                            <label class="bmd-label-floating">Key <b>*</b></label>
+                            @Html.TextBoxFor(x => x.Key, new { @class = "form-control", autocomplete = "off", placeholder = "Topic" })
+                            @Html.ValidationMessageFor(x => x.Key)
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-wrap is-focused">
+                            <label class="bmd-label-floating">Value <b>*</b></label>
+                            @Html.TextAreaFor(x => x.Value, new { @class = "form-control", autocomplete = "off", placeholder = "Topic Value" })
+                            @Html.ValidationMessageFor(x => x.Value)
+                        </div>
+                    </div>
+                </div>
+                
+                <button class="btn btn-primary" type="submit">Save</button>
+            </form>
+        </div>
+    </div>
+</div>

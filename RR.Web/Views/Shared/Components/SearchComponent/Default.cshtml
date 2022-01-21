@@ -1,0 +1,14 @@
+﻿@model RR.Dto.SearchDto
+<form id="formContest" asp-action="index" asp-controller="search" method="POST" class="rd-search"
+      data-search-live="rd-search-results-live">
+    <div class="form-wrap">
+        <div class="form-input-wrap has-error">
+
+            @Html.TextBoxFor(x => x.Keyword, new { @class = "form-input form-control-has-validation", @id = "footer-form-email", @autocomplete = "off", @placeholder = "Search" })
+            @Html.ValidationMessageFor(x => x.Keyword, "", new { @class = "form-validation" })
+            <div class="rd-search-results-live cleared" id="rd-search-results-live"></div>
+        </div>
+        <button class="rd-search-form-submit fl-budicons-launch-search81" type="submit"></button>
+    </div>
+</form>
+

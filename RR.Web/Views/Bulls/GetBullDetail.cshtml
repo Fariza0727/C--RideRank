@@ -1,0 +1,155 @@
+﻿@model RR.Dto.BullDto
+@{
+    ViewData["Title"] = "Bull Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string adminPath = ViewBag.picpath;
+}
+@section Styles{
+    <link href="~/css/newdesign.css" rel="stylesheet" />
+}
+<div class="rank-header">
+    <div class="rank-header-back">
+        <img src="/images/home/rank-header-bg.jpg">
+    </div>
+    <span class="rank-header-title">Bulls</span>
+</div>
+<section class="section section-variant-1 custom-bg-gray-100 custom-float-width contest_pg">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <b class="btn rank-btn-back" onclick="history.back();"><i class="fa fa-chevron-left" aria-hidden="true"></i></b><span class="rank-back-span">Bulls</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-6">
+                <img class="rank-detail-img" src="@adminPath/@Model.Avatar" onError="this.onerror=null;this.src='/images/home/Bull-logo.png'" />
+            </div>
+            <div class="col-lg-6">
+                <div class='card rank-detail-card'>
+                    <div class="row">
+                        <div class="col-10">
+                            <span class="rank-detail-title">@Model.Name</span>
+                        </div>
+                        <div class="col-2">
+                            @if (!@Model.IsAddedFavorite)
+                            {
+                                <span class="rank-bookmark"><i class="fa fa-bookmark-o" title="Add as favorite rider" onclick="addFavorite(@Model.BullId)"></i></span>
+                            }
+                            else
+                            {
+                                <span class="rank-bookmark"><i class="fa fa-bookmark" title="Already added as favorite"></i></span>
+                            }
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6" style="display: flex;">
+                            <span class="rank-detail-order">@Model.AverageMark</span>
+                            <div style="padding-top:19px; padding-left:6px;">
+                                <div class="rank-detail-val">Average</div>
+                                <div class="rank-detail-val">Bull Score</div>
+                            </div>
+
+                        </div>
+                        <div class="col-6" style="display: flex;">
+                            <span class="rank-detail-order">@Model.PowerRating</span>
+                            <div style="padding-top:19px; padding-left:6px;">
+                                <div class="rank-detail-val">Power</div>
+                                <div class="rank-detail-val">Rating</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-7">
+                            <span class="rank-detail-info">Average Bull Score</span>
+                        </div>
+                        <div class="col-5">
+                            <span class="rank-detail-val float-right">@Model.AverageMark</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-7">
+                            <span class="rank-detail-info">Power Rating</span>
+                        </div>
+                        <div class="col-5">
+                            <span class="rank-detail-val float-right">@Model.PowerRating</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-5">
+                            <span class="rank-detail-info">Owner Name</span>
+                        </div>
+                        <div class="col-7">
+                            <span class="rank-detail-val float-right">@Model.Owner</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <span class="rank-detail-info">Number Of Outs</span>
+                        </div>
+                        <div class="col-4">
+                            <span class="rank-detail-val float-right">-</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <span class="rank-detail-info">Number Of Qualified Rides</span>
+                        </div>
+                        <div class="col-4">
+                            <span class="rank-detail-val float-right">-</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-8">
+                            <span class="rank-detail-info">Buckoff %</span>
+                        </div>
+                        <div class="col-4">
+                            <span class="rank-detail-val float-right">@Model.BuckOffPerc%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <div class="custom-bg-gray-100 custom-float-width">
+
+        </div>
+    </div>
+</section>
+
+<partial name="../Shared/_Sponsors.cshtml" />
+@await Component.InvokeAsync("SubscibeNewsLetterComponent")
+@section scripts{
+
+    <script>
+        $(function () {
+            addFavorite = function(id) {
+                if (typeof id != "undefined" && parseInt(id) > 0) {
+                    $.post("@Url.Action("AddFavorite", "Bulls")", { bullId: id }, function (result) {
+                        if (result.status) {
+
+                            swal(result.message, {
+                                icon: "success",
+                                className: "notify-alert",
+                                button: false,
+                                timer: 3000,
+                            });
+                            table.ajax.reload(false);
+                        }
+                        else {
+                            swal(result.message, {
+                                icon: "warning",
+                                className: "notify-alert",
+                                button: false,
+                                timer: 5000,
+                            });
+                        }
+                    })
+                }
+            }
+
+        });
+    </script>
+}

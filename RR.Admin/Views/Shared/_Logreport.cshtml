@@ -1,0 +1,30 @@
+﻿@model RR.Admin.Models.LogResponse
+
+
+
+
+@*<link href="~/css/dataTables.bootstrap.min.css" rel="stylesheet" />*@
+<div class="logdetail">
+    <p class="card-category">Report on @Model.Timestamp.ToLongDateString()</p>
+
+    <div class="logrow">
+        <label>User</label>
+        <span>@Model.Properties?.UserName</span>
+    </div>
+
+    <div class="logrow">
+        <label>Date</label>
+        <span>@Model.Timestamp.ToString("dd MMM yyyy hh:mm:ss tt")</span>
+    </div>
+    <div class="logrow">
+        <label>Level</label>
+        <span class="loglevel">@Model.Level</span>
+    </div>
+    <div class="logrow">
+        <label>Message</label>
+        <span>@Model.MessageTemplate</span>
+    </div>
+    @Html.Raw(LogManagers.GetLogDetails(Model.Properties))
+    
+</div>
+

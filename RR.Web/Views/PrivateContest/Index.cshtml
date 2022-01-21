@@ -1,0 +1,131 @@
+﻿@model RR.Dto.PrivateContestDto
+@{
+    ViewData["Title"] = "Create Private Contest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<!-- Section Breadcrumbs-->
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="/images/bg-breadcrumbs-1-1920x726.jpg">
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h3 class="breadcrumbs-custom-title">Private Contest</h3>
+        </div>
+    </div>
+</section>
+<section class="section section-variant-1 bg-gray-100 my_account">
+    <div class="container">
+        <div class="rowresp-mar0">
+            <div class="col-md-12 custom-bg-gray-100 pb-0 pt-20">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <form id="frmEditInfo" asp-action="Create" asp-controller="PrivateContest" method="POST">
+                            @Html.HiddenFor(x => x.CreatedBy)
+                            @Html.HiddenFor(x => x.EventId)
+                            <div class="row row-10 row-narrow">
+                                <div class="col-md-6">
+                                    <div class="form-wrap">
+                                        <div class="form-group bmd-form-group is-focused">
+                                            <input type="hidden" name="ContestCategoryId" id="ContestCategoryId" value="1" />
+                                            <label class="bmd-label-floating">Title</label>
+                                            @Html.TextBoxFor(x => x.WinnerTitle, new { @class = "form-control", placeholder = "Title", autocomplete = "off" })
+                                            @Html.ValidationMessageFor(x => x.WinnerTitle)
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group is-focused">
+                                        <label class="bmd-label-floating">No. Of Members</label>
+                                        @Html.TextBoxFor(x => x.Members, new { @class = "form-control", placeholder = "No. Of Members", autocomplete = "off", onkeypress = "return isNumber(event)" })
+                                        @Html.ValidationMessageFor(x => x.Members)
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group is-focused">
+                                        <label class="bmd-label-floating">No. of Winners</label>
+                                        @Html.TextBoxFor(x => x.Winners, new { @class = "form-control", placeholder = "No. of Winners", autocomplete = "off", onkeypress = "return isNumber(event)" })
+                                        @Html.ValidationMessageFor(x => x.Winners)
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group bmd-form-group is-focused">
+                                        <label class="bmd-label-floating">Joining Fee</label>
+                                        @Html.TextBoxFor(x => x.JoiningFee, new { @class = "form-control", placeholder = "Joining Fee", autocomplete = "off", onkeypress = "return isNumber(event)" })
+                                        @Html.ValidationMessageFor(x => x.JoiningFee)
+                                    </div>
+                                </div>
+                                <div>
+                                    <a title="Add New Contest Winner Row" id="addButton" href="#" class="btn pull-right"><i class="fa fa-plus"></i></a>
+                                </div>
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-bordered" width="100%" id="contestWinnerDT">
+                                            <thead class=" text-primary">
+                                                <tr>
+                                                    <th style="font-size: 13px;"><label class="control-label">Rank From <span style="color:red">*</span></label></th>
+                                                    <th style="font-size: 13px;"><label class="control-label">Rank To <span style="color:red">*</span></label></th>
+                                                    <th style="font-size: 13px;"><label class="control-label">Percentage <span style="color:red">*</span></label></th>
+                                                    <th style="font-size: 13px;">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr class="trclone" style="display:none">
+                                                    <td>
+                                                        <input autocomplete="off" class="form-control" data-val="true" data-val-range="From rank can't be less than one and greater than ten" data-val-range-max="10" data-val-range-min="1" data-val-required="Please enter Rank From." id="RankFrom" maxlength="2" name="RankFrom" onkeypress="return isNumber(event)" placeholder="Rank From" type="text" value="" required />
+                                                        <span class="field-validation-valid" data-valmsg-for="RankFrom" data-valmsg-replace="true"></span>
+                                                    </td>
+                                                    <td>
+                                                        <input autocomplete="off" class="form-control" data-val="true" data-val-range="To rank can't be less than one and greater than ten" data-val-range-max="10" data-val-range-min="1" data-val-required="Please enter Rank To." id="RankTo" maxlength="2" name="RankTo" onkeypress="return isNumber(event)" placeholder="Rank To" type="text" value="" required />
+                                                        <span class="field-validation-valid" data-valmsg-for="RankTo" data-valmsg-replace="true"></span>
+                                                    </td>
+                                                    <td>
+                                                        <input autocomplete="off" class="form-control" data-val="true" data-val-range="Value can't be less than one and greater than one hundrad" data-val-range-max="100" data-val-range-min="1" data-val-required="Please enter Value Of Winner." id="Value" maxlength="3" name="Value" onkeypress="return isNumber(event)" placeholder="Precentage" type="text" value="" required />
+                                                        <span class="field-validation-valid" data-valmsg-for="Value" data-valmsg-replace="true"></span>
+                                                    </td>
+                                                    <td>
+                                                        <a onclick="return delThisRow(this)" href="#"><i class="fa fa-minus"></i></a>
+                                                    </td>
+                                                </tr>
+                                                <tr class="trnewrow">
+                                                    <td>
+                                                        @Html.TextBoxFor(x => x.RankFrom, new { autocomplete = "off", placeholder = "Rank From", @class = "form-control", onkeypress = "return isNumber(event)", maxlength = "2" })
+                                                        @Html.ValidationMessageFor(x => x.RankFrom)
+                                                        @*<input type="text" name="RankFrom" id="RankFrom" autocomplete="off" placeholder="Rank From" class="form-control" onkeypress="return isNumber(event)" />*@
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(x => x.RankTo, new { autocomplete = "off", placeholder = "Rank To", @class = "form-control", onkeypress = "return isNumber(event)", maxlength = "2" })
+                                                        @Html.ValidationMessageFor(x => x.RankTo)
+                                                        @*<input type="text" name="RankTo" id="RankTo" autocomplete="off" placeholder="Rank To" class="form-control" onkeypress="return isNumber(event)" />*@
+                                                    </td>
+                                                    <td>
+                                                        @Html.TextBoxFor(x => x.Value, new { autocomplete = "off", placeholder = "Precentage", @class = "form-control", onkeypress = "return isNumber(event)", maxlength = "3" })
+                                                        @Html.ValidationMessageFor(x => x.Value)
+                                                        @*<input type="text" name="Value" id="Value" autocomplete="off" placeholder="Percentage" class="form-control" onkeypress="return isNumber(event)" />*@
+                                                    </td>
+                                                    <td>
+                                                        @*<a onclick="return delThisRow(this)" href="#"><i class="fa fa-minus"></i></a>*@
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                            @*<tfoot>
+                                                    <tr>
+                                                        <td colspan="4">
+                                                            <input type="submit" value="Save" class="btn btn-primary" onclick="return fncvalidate();" />
+                                                        </td>
+                                                    </tr>
+                                                </tfoot>*@
+                                        </table>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 text-right">
+                                    <button class="btn button button-xs button-gray-outline" type="submit">Create</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

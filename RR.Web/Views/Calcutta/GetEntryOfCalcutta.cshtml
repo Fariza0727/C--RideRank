@@ -1,0 +1,495 @@
+﻿@using RR.Core;
+@model RR.Dto.Calcutta.CalcuttaDetailDto
+@{
+    ViewData["Title"] = "Entry Of Calcutta Event";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string time = Model != null ? Model.ContestUTCLockTime.ToString("yyyy'-'MM'-'dd'T'HH':'mm':'ss'.'fff'Z'") : "";
+}
+@section Styles{
+    <link href="~/css/newstatic.css" rel="stylesheet" />
+    <link href="~/css/newdesign.css" rel="stylesheet" />
+
+    <style>
+        ._dtTable thead {
+            display: none;
+        }
+
+        ._dtTable td {
+            padding: 0px 0px;
+            border: none;
+        }
+
+        .dataTables_wrapper {
+            margin-top: 5px;
+        }
+    </style>
+}
+<div class="rank-header">
+    @if (Model != null && Model.IsFinished)
+    {
+        <div class="rank-header-back-completed" id="page_head_bg">
+            <img src="/images/home/rank-header-bg-completed.png">
+        </div>
+        <span class="rank-header-title" id="page_head_title">Completed Events</span>
+    }
+    else
+    {
+        <div class="rank-header-back" id="page_head_bg">
+            <img src="/images/home/rank-header-bg.jpg">
+        </div>
+        <span class="rank-header-title" id="page_head_title">Upcoming Events</span>
+    }
+
+</div>
+
+@if (Model != null && (Model.EntryList.Count() >= 0 || Model.ResultList.Count() > 0) && Model.ContestStatus != "pending" )
+{
+    if (!Model.IsFinished)
+    {
+        <section class="section section-variant-1 custom-bg-gray-100 custom-float-width contest_pg pb-1">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-1">
+                        <b class="btn rank-btn-back" onclick="history.back();">
+                            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                        </b>
+                        <span class="rank-back-span">Events</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-11 text-lg-center">
+                        <span class="et_detail_title">@Model.Title</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        @if (Model.ContestUTCLockTime > DateTime.UtcNow)
+                        {
+                            <div class="promo-classic-countdown post-inline-time et_count_down">
+                                <div class="countdown countdown-classic countdown-classic-sm" data-type="until" data-time="@time" data-format="dhms" data-style="short"></div>
+                            </div>
+                        }
+                        else
+                        {
+                            <span class="et_completed_days">Started <span style="font-size:24px; line-height: 29px;">@((DateTime.Now - Model.ContestUTCLockTime).Days)</span> Days ago </span>
+                        }
+
+
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    }
+    else
+    {
+        <section class="section section-variant-1 custom-bg-gray-100 custom-float-width contest_pg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-2 col-md-2 col-sm-1">
+                        <b class="btn rank-btn-back" onclick="history.back();">
+                            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+                        </b>
+                        <span class="rank-back-span">Events</span>
+                    </div>
+                    <div class="col-lg-8 col-md-8 col-sm-11 text-lg-center">
+                        <span class="et_detail_title">@Model.Title</span>
+                    </div>
+                    <div class="col-lg-2 col-md-2">
+
+                    </div>
+                </div>
+                <div class="row mt-3">
+                    <div class="col-12 text-center">
+                        <span class="et_completed_days">Completed <span style="font-size:24px; line-height: 29px;">@((DateTime.Now - Model.ContestUTCLockTime).Days)</span> Days ago </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    }
+    @if (Model.EntryList.Count > 0 || Model.ResultList.Count() > 0)
+    {
+        <section class="section custom-float-width">
+            <div class="container">
+                <div class="rule-card my-3">
+                    <div class="row">
+                        <div class="col-12 text-center px-0 py-2 mx-2">
+                            <span class="comp-class-title">RULES</span>
+                            <i class="far fa-angle-right ml-2 arr_collapse_rule" style="font-style: normal; color: #DF6A2E; cursor: pointer; "></i>
+                        </div>
+                    </div>
+                    <div class="div_collapse_rule p-3" style="display: none;">
+                        <p class="rule-desc">* Each class listed is a separate contest.</p>
+                        <p class="rule-desc">* If you buy a bull in a class, you are eligible for the payout in that class.</p>
+                        <p class="rule-desc">* You can buy multiple bulls in the same class - no limit. </p>
+                        <p class="rule-desc">* Payout amount is dependent on how many bulls are sold in a given class.</p>
+                        <p class="rule-desc">* Classes that feature two go-rounds are two separate payouts here. If you buy a bull in round 1, you are in the payout for round 1 only. If you want to buy the same bull in both rounds you can.</p>
+                        <p class="rule-desc">* We will pay 1 place for every five entries.</p>
+                        <p class="rule-desc">* 80% payback for every class.</p>
+                        <p class="rule-desc">* If winning bull from each class dose not get sold Rank Ride wins round automatically.</p>
+                    </div>
+                </div>
+                @if (!Model.IsFinished)
+                {
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <span class="comp-mode">CALCUTTA</span>
+                        </div>
+                        <div class="col-6 text-right">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <div class="comp-btn-go-cart">
+                                    <a href="/event/bullcomp/checkout/@Model.Id">
+                                        <span class=cart-badge>
+                                            <i class="fa fa-shopping-cart" style="font-size: 2.5rem" aria-hidden="true"></i>
+                                            <span id="cart_count" class="cart-count">@Model.CheckOutedCount</span>
+                                        </span>
+                                        <span>GO TO CART</span>
+                                    </a>
+                                </div>
+                            }
+
+                        </div>
+                    </div>
+                }
+
+                @foreach (var classTemp in Model.ClassList.OrderBy(x => x.ClassUTCLockTime).ThenBy(x => x.EventId))
+                {
+                    <div class="row mt-2">
+                        <div class="w-100 text-center px-0 py-2 mx-2" style="background: #EEEEEE;">
+                            <span class="comp-class-title">@classTemp.EventClass @classTemp.EventType @classTemp.EventLabel</span>
+                            <i class="far fa-angle-down ml-2 arr_collapse" data-id="@classTemp.Id" style="font-style: normal; color: #DF6A2E; cursor: pointer; "></i>
+                        </div>
+                    </div>
+
+                    @if (classTemp.IsCompleted)
+                    {
+                        // result
+                        <div class="row mt-2 div_collapse" data-id="@classTemp.Id" style="display: none;">
+                            @foreach (var temp in Model.ResultList.Where(x => x.EventId == classTemp.EventId).OrderByDescending(x => x.IsSolded).ThenBy(x => x.RealPlace))
+                            {
+                                <div class="col-lg-4 px-2">
+                                    <div class="card cal_ent_detail_card w-100">
+                                        <div class="row">
+                                            <div class="col-3 px-1">
+                                                <img src="@(Model.ContestType == "bullcomp" ? "/images/home/Bull-logo.png": "/images/home/Rider-logo.png")" width="80" height="80" />
+                                            </div>
+                                            <div class="col-7 px-1">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <span class="comp-name">
+                                                            @temp.CompetitorName
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <span class="comp-money">
+                                                            Points: @temp.Score
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <span class="comp-string">
+                                                            User:
+                                                            @if (temp.IsSolded == 1)
+                                                            {
+                                                                <span>@temp.UserName</span>
+                                                            }
+                                                            else
+                                                            {
+                                                                <span style="font-style: italic;">UNSOLD</span>
+                                                            }
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <span class="comp-string">
+                                                            Base Price: $@temp.CalcuttaPrice
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                @if (@temp.EarnMoney > 0)
+                                                {
+                                                    <div class="row">
+                                                        <div class="col-12">
+                                                            <span class="comp-prize-string">
+                                                                PRIZE:
+                                                            </span>
+                                                            <span class="comp-prize-money">
+                                                                $@temp.EarnMoney.ToString("0.00")
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                }
+                                            </div>
+                                            <div class="col-2 px-1 text-center">
+                                                <div class='@(temp.EarnMoney > 0 ? "comp-rounded-rank" : "")'>
+                                                    @if (@temp.EarnRealPlace > 0)
+                                                    {
+                                                        <span class='comp-rounded-rank-num'>@temp.EarnRealPlace</span>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else
+                    {
+                        // entry
+                        <div class="row mt-2 div_collapse" data-id="@classTemp.Id" style="display: none;">
+                            @foreach (var temp in Model.EntryList.Where(x => x.EventId == classTemp.EventId).OrderByDescending(x => x.CalcuttaPrice).ThenBy(x => x.CompetitorName))
+                            {
+                                <div class="col-lg-4 px-2">
+                                    <div class="card cal_ent_detail_card w-100 @(temp.IsSolded ? "card-sold" : "")">
+                                        <div class="row">
+                                            <div class="col-3 px-1">
+                                                <img src="@(Model.ContestType == "bullcomp" ? "/images/home/Bull-logo.png": "/images/home/Rider-logo.png")" width="80" height="80" />
+                                            </div>
+                                            <div class="col-9 px-1">
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <span class="comp-name">
+                                                            @temp.CompetitorName
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        <span class="comp-money">
+                                                            Total Money Won: $@temp.TotalWon
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                                <div class="row mt-1 mb-0">
+                                                    <div class="col-5 pr-0">
+                                                        <span class="comp-price">
+                                                            $@temp.CalcuttaPrice
+                                                        </span>
+                                                    </div>
+                                                    <div class="col-7 pl-0 text-right">
+                                                        <b class="@(temp.IsSolded ? "comp_btn_sold" : temp.IsCheckOuted ? "comp_btn_view_cart" : "comp_btn_add_cart")" data-entid="@temp.Id" data-parentid="@temp.ParentEventId" data-eventid="@temp.EventId" data-entryid="@temp.EntryId" data-price="@temp.CalcuttaPrice">
+                                                            @(temp.IsSolded ? "Sold" : temp.IsCheckOuted ? "View In Cart" : "Add To Cart")
+                                                        </b>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-12">
+                                                        @if (temp.IsSolded == false && (temp.CheckOutUsers > 0 || temp.IsCheckOuted))
+                                                        {
+                                                            <span class="comp-users">
+                                                                @if (temp.CheckOutUsers > 0 && temp.IsCheckOuted)
+                                                                {
+                                                                    <span>In my cart, @temp.CheckOutUsers other player's carts</span>
+                                                                }
+                                                                else if (temp.IsCheckOuted)
+                                                                {
+                                                                    <span>In my cart</span>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <span>In @temp.CheckOutUsers other player's carts</span>
+                                                                }
+                                                            </span>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    }
+
+                }
+            </div>
+        </section>
+    }
+    else
+    {
+        <section class="section section-variant-1 bg-gray-100 custom-float-width contest_pg">
+            <div class="container">
+                <div class="text-center">
+                    <article class="heading-component mt-20">
+                        <div class="heading-component-inner1">
+                            <h5 style="text-align:center">
+                                draw coming soon
+                            </h5>
+
+                        </div>
+                    </article>
+                    <a href="/events" class='button button-primary mt-20' type="button" aria-label="Send">Back</a>
+                </div>
+            </div>
+        </section>
+    }
+    <partial name="../Shared/_Sponsors.cshtml" />
+    @await Component.InvokeAsync("SubscibeNewsLetterComponent")
+}
+else
+{
+    <section class="section section-variant-1 bg-gray-100 custom-float-width contest_pg">
+        <div class="container">
+            <div class="text-center">
+                <article class="heading-component mt-20">
+                    <div class="heading-component-inner1">
+                        <h5 style="text-align:center">
+                            Contest has not opened yet
+                        </h5>
+
+                    </div>
+                </article>
+                <a href="/events" class='button button-primary mt-20' type="button" aria-label="Send">Back</a>
+            </div>
+        </div>
+    </section>
+}
+
+
+@section Scripts{
+    <script src="~/js/jquery-ui.min.js"></script>
+    <script src="~/js/PagingSheet.js"></script>
+    <script src="~/js/bootbox.min.js"></script>
+
+
+    <script>
+
+        $(document).ready(function () {
+            var status = '@ViewBag.Status';
+            var amount = '@ViewBag.Amount';
+            if (status.toLowerCase() === 'true' && parseFloat(amount) > 0) {
+                swal(`You paid $${amount} successfully!`, {
+                    icon: "success",
+                    className: "notify-alert",
+                    button: false,
+                    timer: 5000,
+                });
+
+            }
+            var isLoginedUser = '@(User.Identity.IsAuthenticated)';
+            $(document).on('click', ".comp_btn_add_cart", function () {
+                if (isLoginedUser.toLowerCase() === 'false') {
+                    swal("You should login at first", {
+                        icon: "warning",
+                        className: "notify-alert",
+                        button: false,
+                        timer: 5000,
+                    });
+
+                    setTimeout(function () {
+                        window.location.href = "/Login";
+                    }, 5300);
+                    return false;
+                }
+                var item = {};
+                item.EntId = $(this).attr('data-entid');
+                item.ParentEventId = $(this).attr('data-parentid');
+                item.EventId = $(this).attr('data-eventid');
+                item.EntryId = $(this).attr('data-entryid');
+                item.CalcuttaPrice = $(this).attr('data-price');
+                var thisElem = $(this);
+                $.ajax({
+                    url: '@Url.Action("AddCart", "Calcutta")',
+                    data: {
+                        cartData: JSON.stringify(item)
+                    },
+                    type: "POST",
+                    success: function (result) {
+                        if (result != null) {
+                            if (result.success) {
+                                swal("Added cart succesffully!", {
+                                    icon: "success",
+                                    className: "notify-alert",
+                                    button: false,
+                                    timer: 3000,
+                                });
+                                thisElem.removeClass('comp_btn_add_cart');
+                                thisElem.addClass('comp_btn_view_cart');
+                                thisElem.html("View In Cart");
+                                var cart_count = parseInt($("#cart_count").html());
+                                $("#cart_count").html(cart_count + 1);
+                            }
+                            else {
+                                swal("Already added cart ! ", {
+                                    icon: "warning",
+                                    className: "notify-alert",
+                                    button: false,
+                                    timer: 3000,
+                                });
+                                thisElem.removeClass('comp_btn_add_cart');
+                                thisElem.addClass('comp_btn_view_cart');
+                                thisElem.html("View In Cart");
+                            }
+
+                        }
+                        else {
+                            swal("You may First Login!!", {
+                                icon: "info",
+                                className: "notify-alert",
+                                button: false,
+                                timer: 5000,
+                            });
+                            setTimeout(function () {
+                                window.location.href ="/Login";
+                            }, 5300);
+                        }
+                    },
+                    error: function (error) {
+                        swal(error, {
+                            icon: "error",
+                            className: "notify-alert",
+                            button: false,
+                            timer: 5000,
+                        });
+                    }
+                });
+
+            });
+
+            $(document).on("click", ".comp_btn_view_cart", function () {
+                window.location.href = "/event/bullcomp/checkout/@Model.Id";
+            })
+            $(".arr_collapse").on("click", function () {
+                var id = $(this).attr('data-id');
+                $(".div_collapse[data-id='" + id + "']").toggle();
+                var arr_elem = $(this);
+
+                if (arr_elem.hasClass('fa-angle-right')) {
+                    arr_elem.removeClass('fa-angle-right');
+                    arr_elem.addClass('fa-angle-down');
+                } else {
+                    arr_elem.removeClass('fa-angle-down');
+                    arr_elem.addClass('fa-angle-right');
+                }
+            });
+            $(".arr_collapse_rule").on("click", function () {
+                
+                $(".div_collapse_rule").toggle();
+                var arr_elem = $(this);
+
+                if (arr_elem.hasClass('fa-angle-right')) {
+                    arr_elem.removeClass('fa-angle-right');
+                    arr_elem.addClass('fa-angle-down');
+                } else {
+                    arr_elem.removeClass('fa-angle-down');
+                    arr_elem.addClass('fa-angle-right');
+                }
+            });
+
+        });
+
+
+    </script>
+}
+

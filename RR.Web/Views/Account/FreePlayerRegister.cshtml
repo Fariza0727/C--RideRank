@@ -1,0 +1,218 @@
+﻿
+@model RR.Dto.BecomeAPlayerDto
+
+@{
+    ViewData["Title"] = "Become A Player";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@section Styles{
+    <link href="~/css/newdesign.css" rel="stylesheet" />
+}
+<link href="~/css/jquery.datetimepicker.min.css" rel="stylesheet" />
+
+<style>
+    .field-validation-error {
+        display: block;
+    }
+
+    .field-validation-valid {
+        display: none;
+    }
+</style>
+
+@*<div class="container">
+    <div class="row mt-lg-3 mt-sm-0">
+        <img src="/images/RR_signuppageBannerAd_desktop.png" />
+    </div>
+</div>*@
+
+<section class="section section-variant-1 custom-bg-gray-100">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center">
+                <span class="rank-bread-title">Sign Up / Register</span>
+            </div>
+        </div>
+        <div class="row mt-1">
+            
+            <div class="col-md-12 bg_login pb-0 pt-2">
+                @*Update on 2/1/2020*@
+                <form id="formRegister" asp-action="FreePlayerRegister" asp-controller="Account" method="POST" data-ajax="true" data-ajax-update="response" data-ajax-begin="onBegin" data-ajax-complete="onComplete"
+                        data-ajax-failure="onFailed" data-ajax-success="onFreePlayerRegisterSuccess" enctype="multipart/form-data">
+                    <div id="response"></div>
+                    <input class="become-a-player-input hideinp" type="radio" name="pType" value="NOVICE PLAYER" checked />
+                    @Html.Hidden("PlayerType", "NOVICE PLAYER")
+                    <div class="row mt-0">
+                        <div class="col-md-4 offset-md-2">
+                            <div class="form-wrap" style="margin-top: 11px;">
+                                @Html.LabelFor(x => x.Email, "Email")
+                                @Html.TextBoxFor(x => x.Email, new { @class = "form-input form-control-has-validation form-control-last-child", @type = "email", placeholder = "Email", autocomplete = "off" })
+                                @Html.ValidationMessageFor(x => x.Email)
+                            </div>
+                            @*<div class="form-wrap">
+                                @Html.LabelFor(x => x.UserName, "Username")
+                                @Html.TextBoxFor(x => x.UserName, new { @class = "form-input form-control-has-validation form-control-last-child", placeholder = "UserName", autocomplete = "off" })
+                                @Html.ValidationMessageFor(x => x.UserName)
+                            </div>*@
+                            <div class="form-wrap">
+                                @Html.LabelFor(x => x.Password, "Password")
+                                @Html.PasswordFor(x => x.Password, new { @class = "form-input form-control-has-validation form-control-last-child", placeholder = "Password", autocomplete = "off" })
+                                @Html.ValidationMessageFor(x => x.Password)
+                            </div>
+                            <div class="form-wrap">
+                                @Html.LabelFor(x => x.ConfirmPassword, "Confirm Password")
+                                @Html.PasswordFor(x => x.ConfirmPassword, new { @class = "form-input form-control-has-validation form-control-last-child", placeholder = "Confirm Password", autocomplete = "off" })
+                                @Html.ValidationMessageFor(x => x.ConfirmPassword)
+                            </div>
+                            <div class="form-wrap">
+                                @Html.LabelFor(x => x.TeamName, "Team Name")
+                                @Html.TextBoxFor(x => x.TeamName, new { @class = "form-input form-control-has-validation form-control-last-child", placeholder = "Team Name", autocomplete = "off" })
+                                @Html.ValidationMessageFor(x => x.TeamName)
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="form-wrap" style="margin-top: 11px;">
+                                @Html.LabelFor(x => x.DateOfBirth, "Date of Birth (dd/mm/yyyy)")
+                                @Html.TextBoxFor(x => x.DateOfBirth, new
+                               {
+                                   @type = "date",
+                                   @class = "form-input form-control-has-validation form-control-last-child",
+                                   placeholder = "Date of birth",
+                                   autocomplete = "off",
+                                   max = DateTime.Now.AddYears(-12).ToString("yyyy-MM-dd"),
+                                   min = DateTime.Now.AddYears(-120).ToString("yyyy-MM-dd")
+                               })
+                                @Html.ValidationMessageFor(x => x.DateOfBirth)
+                            </div>
+                            @*<div class="form-wrap" style="margin-top: 11px;">
+                                <input type="hidden" id="hdnAccept" name="hdnAccept" value="" />
+                                @Html.LabelFor(x => x.FirstName, "First Name")
+                                @Html.TextBoxFor(x => x.FirstName, new { @class = "form-input form-control-has-validation form-control-last-child", placeholder = "First Name", autocomplete = "off" })
+                                @Html.ValidationMessageFor(x => x.FirstName)
+                            </div>
+                            <div class="form-wrap">
+                                @Html.LabelFor(x => x.SurName, "Last Name")
+                                @Html.TextBoxFor(x => x.SurName, new { @class = "form-input form-control-has-validation form-control-last-child", placeholder = "Last Name", autocomplete = "off" })
+                                @Html.ValidationMessageFor(x => x.SurName)
+                            </div>*@
+                            <div class="form-wrap">
+                                @Html.LabelFor(x => x.PhoneNumber, "Phone Number")
+                                @Html.TextBoxFor(x => x.PhoneNumber, new { @class = "form-input form-control-has-validation form-control-last-child", placeholder = "Phone Number", autocomplete = "off", onkeypress = "return isNumber(event)" })
+                                @Html.ValidationMessageFor(x => x.PhoneNumber)
+                            </div>
+                            <div class="form-wrap">
+                                @Html.LabelFor(x => x.ReferralCode, "Referral Code")
+                                @Html.TextBoxFor(x => x.ReferralCode, new { @class = "form-input form-control-has-validation form-control-last-child", placeholder = "Referral Code", autocomplete = "off" })
+                                @Html.ValidationMessageFor(x => x.ReferralCode)
+                            </div>
+                            <div class="form-wrap">
+                                <label class="checkbox-inline checkbox-inline-lg checkbox-light">
+                                    @Html.CheckBoxFor(x => x.IsSmsNotify, new { autocomplete = "off" }) Allow SMS Notification
+                                </label>
+                            </div>
+                            <div class="form-wrap">
+                                <label class="checkbox-inline checkbox-inline-lg checkbox-light">
+                                    @Html.CheckBoxFor(x => x.IsEmailNotify, new { autocomplete = "off" }) Allow Email Notification
+                                </label>
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-4 offset-md-2">
+                            <button class="button button-lg button-dark button-block custom-login-btn" type="submit">Sign Up</button>
+                        </div>
+                        <div class="col-md-4">
+                            <p class="txt_hint">Be Sure to check for your confirmation email in your inbox or spam</p>
+                        </div>
+                    </div>
+                    <div class="row mt-4">
+                        <div class="col-md-8 offset-md-2">
+                            <p class="txt_hint">
+                            Reffereal codes only apply once you have signed up to earn rewards points towards year end giveaway PBR FINALS VACATION by inviting your friends! Once you have signed up When you look in your account settings at your profile you will have a special code that you can give to any of your friends to place here when they sign up and earn the rewards points!
+                            </p>
+                        </div>
+                    </div>
+                </form>
+                <!-- Modal -->
+                <div class="modal fade" id="myModal" role="dialog">
+                    <div class="modal-dialog" style="top:20%">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title" style="float:left">Player Detail</h4>
+                                <span style="float:right">
+                                    <i class="material-icons" data-dismiss="modal">
+                                        close
+                                    </i>
+                                </span>
+                            </div>
+                            <div class="modal-body">
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- END MODAL -->
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<!--modal-->
+<div id="levelCost" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            </div>
+            <div class="modal-body ">
+                <div class="col-md-12">
+                    <h3 class="text-center">Cost Of Each Level</h3>
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <div class="text-center">
+
+                                <div class="panel-body mt-40">
+                                    <div class="one-sec text-left">
+                                        <ul class="list-statictics">
+                                            <li>
+                                                <a href="#">Novice Player</a>
+                                                <span class="list-statictics-counter">$25 per year subscription</span>
+                                            </li>
+                                            <li>
+                                                <a href="#">Intermediate Player</a>
+                                                <span class="list-statictics-counter">$200 per year subscription</span>
+                                            </li>
+                                            <li>
+                                                <a href="#">Pro Player</a>
+                                                <span class="list-statictics-counter">$50 minimum initial deposit to account</span>
+                                            </li>
+                                        </ul>
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="col-md-12 text-right">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- END MODAL -->
+
+
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+
+    <link href="~/css/jquery.datetimepicker.min.css" rel="stylesheet" />
+    <script src="~/js/bootbox.min.js"></script>
+}

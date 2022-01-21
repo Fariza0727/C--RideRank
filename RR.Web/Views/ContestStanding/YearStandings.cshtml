@@ -1,0 +1,78 @@
+﻿@model List<RR.Dto.StandingDto>
+@{
+    ViewData["Title"] = "YearStandings";
+}
+
+<section class="section parallax-container breadcrumbs-wrap" data-parallax-img="/images/bg-breadcrumbs-1-1920x726.jpg">
+    <div class="parallax-content breadcrumbs-custom context-dark">
+        <div class="container">
+            <h3 class="breadcrumbs-custom-title">@DateTime.Now.Year LEADER BOARD</h3>
+        </div>
+    </div>
+</section>
+<section class="section custom-bg-gray-100">
+    <div class="container">
+        <div class="row row-50">
+            <div class="col-lg-12">
+                <table class="table table-striped table-bordered dt-responsive nowrap table-custom table-standings table-classic table-dark" id="yearStanding_filter">
+                    <thead class="card-standing-caption">
+
+                        <tr>
+
+                            <th>Rank<i class="fa fa-sort"></i></th>
+                            <th>Team<i class="fa fa-sort"></i></th>
+                            <th>Contest Joined<i class="fa fa-sort"></i></th>
+                            <th>Team Points<i class="fa fa-sort"></i></th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+                <!-- CODE HERE -->
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script>
+        $(function () {
+            $('.dataTables_filter input').attr('placeholder', 'Search...').hide();
+            var table = $("#yearStanding_filter").DataTable({
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": true, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+                //"columnDefs": [
+                //    { "targets": [2], "orderable": false }
+                //],
+                "ajax": {
+                    "url": '/yearstanding',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+
+                    { "data": "rank", "name": "rank", "autoWidth": false },
+                    {
+                        "data": "userName", "name": "userName", "autoWidth": false,
+                        "render": function (value, type, row) {
+                            return '<img width="46" height="36" src="'+row.avtar+'" onerror=this.onerror=null; this.src="images/team-rogers-46x36.png">'+row.userName
+                        }
+                    },
+                    { "data": "numberOfContest", "name": "numberOfContest", "autoWidth": false },
+                    { "data": "teamPoint", "name": "teamPoint", "autoWidth": false }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 10
+
+            });
+
+            $('.search-input').on('keyup change', function () {
+                var index = $(this).attr('data-column'),
+                    val = $(this).val();
+                table.columns(index).search(val.trim()).draw();
+            });
+        });
+    </script>
+}

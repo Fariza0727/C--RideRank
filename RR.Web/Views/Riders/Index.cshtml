@@ -1,0 +1,200 @@
+﻿@model IEnumerable<RR.Dto.RiderDto>
+@inject Microsoft.Extensions.Options.IOptions<RR.Core.AppSettings> appsetting;
+@inject RR.Service.IBullRiderPicturesService _picmanager;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var appSettings = appsetting.Value;
+}
+@section Styles{
+    <link href="~/css/newdesign.css" rel="stylesheet" />
+    <style>
+        #_dtRiders thead {
+            display: none;
+        }
+
+        #_dtRiders td {
+            padding: 0px 0px;
+            border: none;
+        }
+
+        #_dtRiders_wrapper {
+            margin-top: 0px !important;
+        }
+    </style>
+}
+
+<div class="rank-header">
+    <div class="rank-header-back">
+        <img src="/images/home/rank-header-bg.jpg">
+    </div>
+    <span class="rank-header-title">Riders</span>
+</div>
+
+<section class="section section-variant-1 custom-bg-gray-100 custom-float-width">
+    <div class="container">
+        <div class="custom-float-width">
+            <table class="table dt-responsive nowrap" id="_dtRiders">
+                <thead class="card-standing-caption">
+                    <tr>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<partial name="../Shared/_Sponsors.cshtml" />
+@await Component.InvokeAsync("SubscibeNewsLetterComponent")
+
+@section Scripts{
+    <script>
+        $(function () {
+            $('.dataTables_filter input').attr('placeholder', 'Search...').hide();
+
+            var responsiveColumnTrigger = {};
+            if (window.innerWidth < 400) {
+                responsiveColumnTrigger = {
+                    className: 'control',
+                    targets: 1
+                }
+            }
+
+            var table = $("#_dtRiders").DataTable({
+
+                "paging": true,
+                "processing": true, // for show progress bar
+                "serverSide": true, // for process server side
+                "filter": false, // this is for disable filter (search box)
+                "orderMulti": false, // for disable multiple column at once
+
+                "ajax": {
+                    "url": '/Riders/GetAllRiders',
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columns": [
+
+                    {
+                        "data": "item1", "name": "item1", "autoWidth": false,
+                        "render": function (value, type, row) {
+
+                            var rowHtml = "<div class='row'>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item1);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item2);
+                            rowHtml += "</div>";
+                            rowHtml += "<div class='col-lg-4'>";
+                            rowHtml += getOneCard(row.item3);
+                            rowHtml += "</div>";
+                            rowHtml += "</div>";
+                            return rowHtml;
+                        }
+                    }
+                ],
+                dom: "Bfrtip",
+                "pageLength": 9,
+
+            });
+
+            function getOneCard(item) {
+                if (item == null) {
+                    return "";
+                }
+                var rowHtml = "<div class='card rank-card' >";
+                rowHtml += "<div class='row'>";
+                rowHtml += "<div class='col-3 px-1'>";
+                if (item.isAddedInLongTermTeam) {
+                    rowHtml += '<img src="' + item.ltTeamIcon + '" alt="" width="80" height="80">';
+                } else {
+                    rowHtml += '<img src="" width="80" height="80" onerror="getRiderPic(this,' + item.riderid + ')"  />';
+                }
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-8 px-1'>";
+                rowHtml += '<span class="rank-name"><a href="/rider/detail/' + item.guyid + '" data-token=' + item.riderid + ' data-toggle="tooltip" title="View Detail of this Rider">' + item.rider_name + '</a></span>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-1 px-1 text-right'>";
+                if (!item.isAddedFavorite) {
+                    rowHtml += '<span class="rank-bookmark"><i class="fa fa-bookmark-o" title="Add as favorite rider" onclick="addFavorite(' + item.riderid + ')"></i></span>';
+                } else {
+                    rowHtml += '<span class="rank-bookmark"><i class="fa fa-bookmark" title="Already added as favorite"></i></span>';
+                }
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                rowHtml += "<div class='row pt-4'>";
+                rowHtml += "<div class='col-4 px-1'>";
+                rowHtml += '<span class="rank-info-title">Rank Ride Total</span><br>';
+                rowHtml += '<span class="rank-info-value">' + item.rrTotalpoint + '</span>';
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-4 px-1'>";
+                rowHtml += '<span class="rank-info-title">World Ranking</span><br>';
+                if (parseFloat(item.worldRanking) > 0 && parseFloat(item.worldRanking) < 9999) {
+                    rowHtml += '<span class="rank-info-value">' + item.worldRanking + '</span>';
+                } else {
+                    rowHtml += '<span class="rank-info-value">' + 'unranked' + '</span>';
+                }
+
+
+                rowHtml += "</div>";
+                rowHtml += "<div class='col-4 px-1'>";
+                rowHtml += '<span class="rank-info-title">Rider Rating</span><br>';
+                if (parseFloat(item.riderpower) > 0) {
+                    rowHtml += '<span class="rank-info-value">' + item.riderpower + '</span>';
+                } else {
+                    rowHtml += '<span class="rank-info-unranked">' + 'unranked' + '</span>';
+                }
+
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                rowHtml += "</div>";
+                return rowHtml;
+            }
+
+            $('.search-input').on('keyup change', function () {
+                var index = $(this).attr('data-column'),
+                    val = $(this).val();
+                table.columns(index).search(val.trim()).draw();
+            });
+
+            addFavorite = function(id) {
+                if (typeof id != "undefined" && parseInt(id) > 0) {
+                    $.post("@Url.Action("AddFavorite", "Riders")", { riderId: id }, function (result) {
+                        if (result.status) {
+
+                            swal(result.message, {
+                                icon: "success",
+                                className: "notify-alert",
+                                button: false,
+                                timer: 3000,
+                            });
+                            table.ajax.reload(false);
+                        }
+                        else {
+                            swal(result.message, {
+                                icon: "warning",
+                                className: "notify-alert",
+                                button: false,
+                                timer: 5000,
+                            });
+                        }
+                    })
+                }
+            }
+
+            getRiderPic = function (elm,id) {
+                $.get("rider/getpic/" + id, function (data)
+                {
+                    $(elm).attr('src', data);
+
+                })
+            }
+        });
+
+
+    </script>
+}

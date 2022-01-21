@@ -1,0 +1,31 @@
+﻿@model IEnumerable<RR.Dto.UserRequestsDto>
+
+<div class="row">
+    <ul class="requestsList">
+        @foreach (var item in Model)
+        {
+        <li class="@Html.Raw(item.IsApproved ? "Approved ":"UnderReviewed")">
+            <h3>Request Token:  @item.RequestNo </h3>
+
+            @if (item.IsApproved)
+            {
+                <span class="label label-success">
+                    Make a payment
+                </span>
+                
+            }
+            else
+            {
+                <span class="text-warning"> Under-reviewed </span>
+                
+            }
+            <p>@Html.Raw(item.Message)</p>
+
+
+        </li>
+        }
+
+    </ul>
+</div>
+
+
